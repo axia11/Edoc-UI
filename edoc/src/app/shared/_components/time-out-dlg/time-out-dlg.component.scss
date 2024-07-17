@@ -1,0 +1,41 @@
+$light-gray: #666161;
+$orange: #ff7600;
+$white: #ffff;
+.mat-typography {
+    min-height: 84px;
+}
+
+.mat-dialog-title {
+    font-size: 1.8rem;
+    color: $light-gray;
+    display: flex;
+    justify-content: center;
+}
+
+.timer {
+    font-size: 3rem;
+    color: $light-gray;
+}
+
+.timer-msg {
+    color: #787878;
+}
+
+.time-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 0 0 57px;
+    .timer-count-down {
+        font-size: 3rem;
+    }
+}
+
+.logout-btn {
+    color: $orange;
+}
+
+.stay-login-btn {
+    color: $white;
+    background-color: $orange;
+}

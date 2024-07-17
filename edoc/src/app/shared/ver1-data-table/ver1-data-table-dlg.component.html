@@ -1,0 +1,8 @@
+<mat-toolbar color="primary">Confirm Delete</mat-toolbar>
+<div mat-dialog-content>
+  <div style="padding-left: 10px;">Are you sure you want to delete this record ?</div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button [mat-dialog-close]="false" tabindex="-1">Cancel</button>
+  <button appRoleAccess [permissionData]="['items', 'CREATE']" color="cancel" mat-raised-button (click)="delRecord()">Yes, delete it!</button>
+</div>

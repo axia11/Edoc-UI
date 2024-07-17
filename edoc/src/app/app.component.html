@@ -1,0 +1,28 @@
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+<section class="body-content">
+  <app-title-bar (openSideNav)="toggleSideNav($event)" [sidenavStatus]="sidenav">
+  </app-title-bar>
+  <mat-sidenav-container autosize [hasBackdrop]="false">
+
+    <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="mac-screen">
+      <!-- <app-menu></app-menu> -->
+    </mat-sidenav>
+    <mat-sidenav-content #scrollContainer (scroll)="onActivate($event)" autosize>
+      <div>
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+
+  </mat-sidenav-container>
+</section>
+
+<!-- <app-spinner-file></app-spinner-file> -->
+
+<!-- <div class="footer" *ngIf="showTopBar">
+    <div class="navigate-icons">
+    </div>
+    <span class="brand-info">
+        &copy; {{sysDate | date: 'yyyy'}} Blunet Ventures | All rights reserved
+    </span>
+</div> -->
+<!-- <app-spinner></app-spinner> -->

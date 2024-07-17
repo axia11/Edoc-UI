@@ -1,0 +1,426 @@
+// To add this file to the app's style.scss "@import 'libs/material/src/sass/styles.scss';"
+// @import "https://fonts.googleapis.com/icon?family=Material+Icons&display=block";
+@import "../../../../src/styles/color-variables";
+@import "~@angular/material/theming";
+@import "~angular-calendar/css/angular-calendar.css";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons";
+@import "../../../../src/styles/base-style";
+@import "~@angular/material/prebuilt-themes/deeppurple-amber.css";
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// **Be sure that you only ever include this mixin once!**
+@include mat-core();
+
+// Define the default theme (same as the example above).
+$candy-app-primary: mat-palette($mat-indigo);
+$candy-app-accent: mat-palette($mat-pink, A200, A100, A400);
+$candy-app-theme: mat-light-theme($candy-app-primary, $candy-app-accent);
+
+$axia-app-primary: mat-palette($mat-blue, A800);
+$axia-app-accent: mat-palette($mat-blue, 700);
+// $tenr-app-warn: mat-palette($mat-grey, A100);
+$axia-app-theme: mat-light-theme($axia-app-primary, $axia-app-accent);
+
+// Include the default theme styles.
+@include angular-material-theme($axia-app-theme);
+
+// Define an alternate dark theme.
+$dark-primary: mat-palette($mat-blue-grey);
+$dark-accent: mat-palette($mat-amber, A200, A100, A400);
+$dark-warn: mat-palette($mat-deep-orange);
+$dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
+
+// Include the alternative theme styles inside of a block with a CSS class. You can make this
+// CSS class whatever you want. In this example, any component inside of an element with
+// `.unicorn-dark-theme` will be affected by this alternate dark theme instead of the default theme.
+.unicorn-dark-theme {
+  @include angular-material-theme($dark-theme);
+}
+
+// Global styles
+@media screen and (max-width: 1367px) {
+//  {
+//   zoom:85%;
+//  }
+
+
+  html{
+    zoom: 85%;
+    // height: 100vh;
+    display: block;
+  }
+    .plm-circle{
+      width: 30%;
+      // margin-left: 5px;
+    // margin-top: 20px;
+    }
+  // .body-content{
+  //   height: calc(100vh + 17px) !important;
+  // }
+//   .container{
+//      @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
+//     %responsive-container-#{$breakpoint} {
+//       max-width: 1366px;
+//     }
+//   }
+//  }
+}
+
+.conta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+}
+body {
+  background: #f7f7f7 !important;
+  overflow: hidden;
+  display: grid;
+  align-items: center;
+
+}
+
+h1 {
+  font-size: 1.8rem;
+}
+
+h2 {
+  font-size: 1.6rem;
+}
+
+h3 {
+  font-size: 1.4rem;
+}
+
+h4 {
+  font-size: 1.2rem;
+}
+
+h5 {
+  font-size: 0.9rem;
+}
+
+h6 {
+  font-size: 0.8rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
+  // -webkit-text-fill-color: #fff !important;
+}
+
+input:focus,
+input:active {
+  border: none;
+  outline: none;
+}
+
+// Global utilities
+.w-100 {
+  width: 100%;
+}
+
+.cur-p {
+  cursor: pointer;
+}
+
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.mat-form-field-label {
+  font-size: 14px !important;
+  .mat-label {
+    font-size: 14px !important;
+  }
+}
+
+// Grid
+
+.m-flex {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: inherit;
+  margin: 1px 0 0 0;
+  // place-content: space-between;
+  // font-size: 1rem;
+  mat-form-field {
+    width: 100%;
+    // font-size: inherit;
+    // font-size: 14px;
+  }
+
+  .m-flex-item {
+    padding: 0 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    display: flex;
+  }
+}
+
+.m-flex-2,
+.m-flex-3,
+.m-flex-4,
+.m-flex-5,
+.m-flex-6 {
+  .m-flex-item {
+    @media screen and (min-width: 431px) {
+      // width: calc(50% - 20px);
+      width: calc(50% - 0px);
+    }
+  }
+}
+
+.m-flex-3,
+.m-flex-4,
+.m-flex-5,
+.m-flex-6 {
+  .m-flex-item {
+    @media screen and (min-width: 721px) {
+      // width: calc(33.33% - 20px);
+      width: calc(33.33% - 0px);
+    }
+  }
+}
+
+.m-flex-4,
+.m-flex-5,
+.m-flex-6 {
+  .m-flex-item {
+    @media screen and (min-width: 1001px) {
+      // width: calc(25% - 20px);
+      width: calc(25% - 0px);
+    }
+  }
+}
+
+.m-flex-5,
+.m-flex-6 {
+  .m-flex-item {
+    @media screen and (min-width: 1201px) {
+      // width: calc(20% - 20px);
+      width: calc(20% - 0px);
+    }
+  }
+}
+
+.m-flex-6 {
+  .m-flex-item {
+    @media screen and (min-width: 1501px) {
+      // width: calc(16.66% - 20px);
+      width: calc(16.66% - 0px);
+    }
+  }
+}
+
+.m-flex-item {
+  font-size: $mat-form-field-size;
+}
+
+.row-detail-body {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.mat-tab-label {
+  height: 32px !important;
+  font-size: 17px !important;
+  height: 32px !important;
+    font-size: 17px !important;
+    padding: 0px 15px;
+    cursor: pointer;
+    border-bottom: 2px solid #c4c4c4;
+    margin: 0px 4px;
+}
+
+.mat-sort-header-arrow {
+  color: #444444;
+}
+
+///grn -receiving tab
+.flex-item-grc {
+  border-bottom: 1px solid blue;
+  padding: 10px 10px -6px 0;
+  display: flex;
+  justify-content: space-around;
+  max-height: 55px;
+
+  label {
+    width: 100%;
+    font-weight: 600;
+    align-self: center;
+  }
+}
+
+.timepicker-overlay{
+  z-index: 1001 !important;
+}
+
+.mat-dialog-container {
+  padding: 0px !important;
+  overflow: hidden !important;
+  /* background: rgba(0, 0, 0, 0.65); */
+  border: 2px solid #c4c4c4;
+  border-radius: 8px !important;
+
+  .mat-toolbar {
+    // margin-top: -24px;
+    // margin-left: -24px;
+    // margin-bottom: 15px;
+    // width: calc(100% + 48px);
+    // font-size: 1.3em;
+    height: 35px;
+  }
+  .mat-toolbar.mat-primary {
+    background: #fafbfc;
+    color: #282c33;
+}
+}
+
+.mat-calendar-body-today.mat-calendar-body-selected {
+  box-shadow: inset 0 0 0 1px $white !important;
+  color: $white;
+}
+
+.mat-calendar-body-selected {
+  box-shadow: inset 0 0 0 1px $white !important;
+  color: $white !important;
+}
+
+.cdk-overlay-pane {
+  // margin-left: 15px;
+  // margin-right: 15px;
+  max-width: 100% !important;
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+  padding: 10px !important;
+  margin-bottom: 0 !important;
+  min-height: initial !important;
+}
+
+.form-action-btns {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0px 6px 0px 0 !important;
+  margin: -12px 0px -26px 0px;
+}
+
+.form-action-btns > button {
+  margin: 5px;
+}
+
+.mat-dialog-content {
+  max-height: calc(100vh - 125px) !important;
+  // padding: 0 6px !important;
+}
+
+/* Angular Material Overrides */
+
+.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0px !important;
+}
+
+// .mat-select-disabled .mat-select-value,
+// .mat-input-element:disabled {
+//   color: #1a73e8;
+// }
+
+// .mat-form-field-appearance-outline .mat-form-field-infix {
+//   /* Original top/bottom value was 1em. */
+//   // padding: 0.7em 0;
+// }
+// /*placeholder styles can be defined here as per the need*/
+// .mat-form-field-type-mat-select .mat-form-field-label {
+//   font-size: 1.02rem;
+// }
+// .mat-form-field-label,
+// .mat-input-element {
+//   position: relative;
+//   // top: -4px;
+//   /* Adjust accordingly to keep placeholder/input text vertically centered. */
+// }
+
+// /* Adjust accordingly to keep <mat-label> text vertically centered. */
+// .mat-form-field-label-wrapper {
+//   // top: -15px;
+// }
+
+.mat-form-field-appearance-outline {
+  &.mat-form-field-label {
+    // top: 28px;
+    margin-top: -5px;
+  }
+
+  // &.mat-focused .mat-form-field-outline-thick {
+  //   color: #1a73e8 !important;
+  // }
+
+  &.mat-form-field-disabled .mat-form-field-outline {
+    color: #00000061 !important;
+    background-color: #f0f3f5;
+  }
+
+  &.mat-form-field-wrapper {
+    margin: 0px !important;
+  }
+
+  &.mat-focused .mat-form-field-label {
+    color: #1a73e8 !important;
+  }
+
+  &.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    color: #444444;
+    font-weight: initial;
+  }
+}
+
+// set text color for disabled field
+.mat-input-element:disabled,
+.mat-form-field-type-mat-native-select.mat-form-field-disabled .mat-form-field-infix::after {
+  color: rgb(0, 0, 0);
+}
+
+// set text color for disabled dropdown box
+.mat-select-disabled .mat-select-value {
+  color: rgb(0, 0, 0);
+}
+
+// .mat-form-field-label:not(.mat-empty):not(.mat-form-field-empty) {
+//   mat-label {
+//     color: black;
+//     display: inline-block;
+//     border: 1px solid gray;
+//     border-radius: 3px;
+//     font-size: 0.9876rem;
+//     padding: 5px 4px;
+//     background: white;
+//     font-weight: 600;
+//     padding: 3px 6px 3px 6px;
+//     background: rgb(232, 232, 232);
+//     background: linear-gradient(0deg, rgba(232, 232, 232, 1) 68%, rgba(255, 255, 255, 1) 68%);
+//     min-width: 100px;
+//   }
+// }
+
+
+//Media Queries

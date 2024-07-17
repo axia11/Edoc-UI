@@ -1,0 +1,79 @@
+:host {
+    display: inline-block;
+    font-size: 14px;
+    color: #646464;
+    max-width: 155px;
+    border: 1px solid rgba(0,0,0, .2);
+    padding: 5px 15px !important;
+    margin-bottom: 10px;
+    margin-right: 10px;
+}
+
+:host:after {
+    clear: both;
+    content: "\0A0";
+    display: block;
+    height: 0;
+    line-height: 0;
+    visibility: hidden;
+    zoom: 1;
+}
+
+file-upload-icon {
+    float: left;
+    width: 30px;
+    height: 36px;
+    margin: 0 10px 0 0;
+    border: none;
+}
+
+.file-info{
+    float: left;
+    margin-top: 5px;
+    width: calc(100% - 40px);
+    .file-name{
+        width: 100%;
+        display: inline-block;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+}
+
+.filesize{
+    font-size: .75rem;
+    opacity: .75;
+}
+
+.file-buttons{
+    clear: both;
+    margin-top: 10px;
+    padding-top: 6px;
+    border-top: 1px solid rgba(0,0,0, .2);
+    display: flex;
+    justify-content: space-between;
+    & > span{
+        cursor: pointer;
+    }
+}
+
+.remove-btn {
+    font-size: 12px;
+}
+
+.remove-btn svg {
+    display: inline-block;
+    vertical-align: -20%;
+    height: 18px;
+    width: 18px;
+}
+
+.remove-btn .text-err{
+    color: #f86c6b;
+}
+
+.file-buttons span.disabled{
+  pointer-events: none;
+  opacity: .6;
+}
+

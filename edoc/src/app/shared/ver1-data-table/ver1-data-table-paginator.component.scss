@@ -1,0 +1,45 @@
+.cm-paginator {
+  display: flex;
+  justify-content: flex-end;
+  // line-height: 1.5;
+  height: 50px;
+  margin-right: 15px;
+  padding-top: 10px;
+  font-size: 15px;
+  @media screen and (max-width:1366px) and (min-width: 1024px) {
+    font-size: 1rem;
+  }
+
+  @media screen and (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  .cm-paginator-select {
+    width: 60px;
+  }
+
+  .cm-paginator-page-size-label {
+    margin: 6px 12px;
+    // margin: 15px;
+  }
+  .cm-paginator-range-label {
+    margin: 6px 5px;
+  }
+
+  button .mat-icon {
+    cursor: default !important;
+    margin-bottom: 15px;
+    // font-size: 20px;
+  }
+  .mat-icon-button {
+    width: 22px;
+  }
+}
+.cm-paginator-select {
+  .mat-form-field{
+    display: inline;
+    position: relative;
+    text-align: left;
+    bottom: 11px;
+  }
+}

@@ -1,0 +1,51 @@
+<!-- <mat-toolbar color="warn">
+    <span class="fs-6">Forgot login page, user name or password?</span>
+</mat-toolbar>
+
+<div class="alert alert-success alert-dismissible fade show" *ngIf="successFlag" role="alert">
+    Captcha Verified Successfully!
+    <button type="button" class="btn-close" (click)="successFlag = false"></button>
+</div>
+<div class="alert alert-danger alert-dismissible fade show" *ngIf="errorFlag" role="alert">
+    Invalid Captcha!
+    <button type="button" class="btn-close" (click)="errorFlag = false"></button>
+</div>
+
+<form [formGroup]="captchaForm" (ngSubmit)="submitForm()">
+    <div>
+        <div class="m-flex m-flex-1">
+            <div class="m-flex-item">
+                <div class="captcha">
+                    <div class="captcha-text"  >
+                        {{captchaForm.get('captchaInput').value}}
+                    </div>
+                </div>
+            </div>
+            <div class="m-flex-item">
+                <mat-form-field>
+                    <input matInput formControlName="verifyCaptcha" placeholder="Input Captcha" required />
+                </mat-form-field>
+            </div>
+            <div class="m-flex-item justify-content-center ">
+                <i title="refresh" class="fas fa-sync-alt mr-1rem align-self-center fs-5 text-primary cur-p"
+                    (click)="generateCaptcha();"></i>
+                <button (click)="CheckValidCaptcha();" type="button" class="btn btn-primary btn-sm">Verify</button>
+            </div>
+            <div class="m-flex-item">
+                <mat-form-field>
+                    <input matInput placeholder="Your Email" formControlName="email" required />
+                    <mat-error *ngIf="captchaForm.controls.email.errors?.required">
+                        Email Id is required!
+                    </mat-error>
+                    <mat-error *ngIf="captchaForm.controls.email.errors?.invalidEmail">
+                        Invalid Email Id
+                    </mat-error>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <button color="cancel" mat-raised-button tabindex="-1" mat-dialog-close (click)="closeDialog()">Cancel</button>
+        <button type="submit" color="save" mat-raised-button [disabled]="isValidCaptcha">Send</button>
+    </div>
+</form> -->

@@ -1,0 +1,27 @@
+<div class="cm-paginator">
+  <div class="cm-paginator-page-size-label">Items per page:</div>
+  <div class="cm-paginator-select">
+    <mat-form-field>
+      <mat-select [value]="options?.pageSize" (selectionChange)="pageSizeChanges($event)">
+        <mat-option *ngFor="let option of options?.pageSizeOptions" [value]="option">{{ option }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="cm-paginator-range-label"> {{ pageRangeLabel }} </div>
+  <div>
+    <!-- <button mat-icon-button (click)="pageChanges(1)" [disabled]="options?.pageIndex == 1">
+      <mat-icon>first_page</mat-icon>
+    </button> -->
+    <button mat-icon-button (click)="pageChanges(options?.pageIndex - 1)" title="Prev" [disabled]="options?.pageIndex == 1">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button mat-icon-button (click)="pageChanges(options?.pageIndex + 1)" title="Next"
+      [disabled]="options?.pageIndex == lastPage || options?.length <= options?.pageSize">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+    <!-- <button mat-icon-button (click)="pageChanges(lastPage)"
+      [disabled]="(options?.pageIndex == lastPage) ||  (options?.length <= options?.pageSize)">
+      <mat-icon>last_page</mat-icon>
+    </button> -->
+  </div>
+</div>

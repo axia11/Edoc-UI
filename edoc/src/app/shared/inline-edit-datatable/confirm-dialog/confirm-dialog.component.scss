@@ -1,0 +1,10 @@
+.mat-dialog-actions{
+    display: flex;
+    justify-content: flex-end;
+    button {
+        min-width: 7.5rem;
+    }
+    .cancel {
+        border: 1px solid black;
+    }
+}

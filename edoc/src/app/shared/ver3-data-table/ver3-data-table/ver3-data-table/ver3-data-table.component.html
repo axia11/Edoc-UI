@@ -1,0 +1,692 @@
+<div class="table-container" [class.table-spacer]="dtOptions?.tableSpacer" [class.no-border]="dtOptions?.noBorder">
+    <ng-content select=".table-title"></ng-content>
+    <ng-content select=".tab-group"></ng-content>
+    <div [class.no-border-shadow]="dtOptions?.noBorderShadow">
+        <!-- mb-3 -->
+        <div class="table-header d-flex flex-wrap" *ngIf="!dtOptions?.hideTableHeader">
+            <ng-container>
+                <div class="table-header-page table-header-item" *ngIf="!dtOptions?.hideHeaderTitle">
+                    <div class="table-header-title">
+                        <ng-content select=".page-header"></ng-content>
+                    </div>
+                    <div class="table-header-buttons">
+                        <ng-content select=".btn-groupl"></ng-content>
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="dtOptions?.length">
+                <div class="table-search table-header-item" *ngIf="!dtOptions?.hideSearch">
+                    <div class="search-section">
+                        <input #tableSearch type="text" [value]="searchValue" placeholder="Search this list"
+                            (keyup.enter)="onSearch(tableSearch.value)">
+                        <mat-icon matPrefix mat-icon-button aria-label="Clear" *ngIf="tableSearch.value"
+                            (click)="tableSearch.value = '';reset()" class="clear-icon">clear</mat-icon>
+                        <mat-icon matSuffix (click)="onSearch(tableSearch.value)">search</mat-icon>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div class="new-row-container">
+            <div #newDetailContainer></div>
+        </div>
+        <div class="table-body mat-elevation-z8">
+            <div class="table-content" #tableContent [ngStyle]="dtOptions?.tableStyle"
+                [ngClass]="{'mh-i': dtOptions?.hidePagination || dtOptions?.maxHeightInitial}"
+                (scroll)="onTableScroll($event)">
+
+                <table mat-table (matSortChange)="sortTable($event, false)" [dataSource]="dataSource"
+                    [multiTemplateDataRows]="dtOptions?.enableGroupHeader || dtOptions?.expandable" sticky="true"
+                    matSort>
+
+                    <ng-container *ngFor="let dtCol of dtOptions?.columns" [matColumnDef]="dtCol.data">
+                        <ng-template
+                            [ngIf]="dtCol.data && !dtCol.data.fileUpload && dtCol.data != 'srNo' && dtCol.data != 'radBtn' && dtCol.data != 'radExpandBtn' && !dtCol.nodata && dtCol.data != 'checkbox' && dtCol.data !='rightStatusColumn' && dtCol.data !='leftStatusColumn'">
+                            <!-- mat-sort-header -->
+                            <th mat-header-cell [attr.data-keyValue]="dtCol.data" *matHeaderCellDef
+                                [attr.colspan]="dtCol?.colSpan || 1" [attr.rowspan]="dtCol?.rowSpan || 1"
+                                [disabled]="dtOptions?.disableSort || dtCol.disableSort"
+                                [ngClass]="{'ta-l': dataSource?.data?.length && dtCol.class && dtCol.class.taL}"
+                                [attr.title]="dtCol.attrTitleHeader ? dtCol.titleName : ''"
+                                [ngStyle]="dtCol.headingStyles">
+                                <div class="table-header-data" [ngStyle]="dtCol.headerStyles">
+                                    <ng-container *ngIf="dtCol.display === 'efficiency_1'">
+                                        <img src="../../../../../assets/svg/efficiency_1.svg" class="tag-img" />
+                                    </ng-container>
+                                    <ng-container *ngIf="dtCol.display === 'efficiency_2'">
+                                        <img src="../../../../../assets/svg/efficiency_2.svg" class="tag-img" />
+                                    </ng-container>
+                                    <!-- Add more ng-containers for other images as needed -->
+
+                                    <ng-container
+                                        *ngIf="dtCol.display !== 'efficiency_1' && dtCol.display !== 'efficiency_2'">
+                                        <span>{{ dtCol.display }}</span>
+                                    </ng-container>
+
+
+                                    <!-- <ng-container>
+                                        <span [innerHTML]="dtCol.display"></span>
+                                    </ng-container>
+                                    <ng-container *ngIf="!dtCol.display.includes('<')">
+                                        <span>{{ dtCol.display }}</span>
+                                    </ng-container> -->
+
+
+                                    <span *ngIf="dtCol.isHeaderTitle" class="dtcol-title">
+                                        {{ dtCol.isHeaderTitleText }}
+                                    </span>
+                                    <span *ngIf="dtCol?.applyFilter || dtOptions?.applyFilter"
+                                        class="material-icons cur-p" [mdePopoverTriggerFor]="appPopover"
+                                        mdePopoverTriggerOn="click" #popoverTrigger="mdePopoverTrigger"
+                                        (click)="selectedFilterIdx = null">
+                                        keyboard_arrow_down
+                                    </span>
+                                    <mde-popover #appPopover="mdePopover" [mdeFocusTrapEnabled]="false"
+                                        mdePopoverArrowWidth="0px" [mdePopoverOverlapTrigger]="false"
+                                        mdePopoverCloseOnClick="true">
+                                        <mat-divider></mat-divider>
+                                        <div class="filter-item-container">
+                                            <mat-selection-list [multiple]="false">
+                                                <mat-list-option #filter [selected]="false"
+                                                    *ngFor="let filterItem of dtCol.filterType; let i=index"
+                                                    (click)="trigRowGroupBy(filterItem, dtCol.filterType)"
+                                                    (click)="selectedFilterIdx = i" [value]="filterItem.direction">
+                                                    <div>
+                                                        <span class="check_icon_box">
+                                                            <i *ngIf="selectedFilterIdx === i" class="check_icon">
+                                                                <img src="../../../../assets/images/check-mark.png"
+                                                                    alt="" srcset="">
+                                                            </i>
+                                                        </span>
+                                                        <span>Group By {{filterItem.type}}</span>
+                                                    </div>
+                                                </mat-list-option>
+                                            </mat-selection-list>
+                                        </div>
+                                    </mde-popover>
+                                </div>
+
+                            </th>
+                        </ng-template>
+                        <ng-template [ngIf]="!dtCol.data || (dtCol.data == 'srNo' || !!dtCol.nodata)">
+                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="dtCol?.colSpan || 1"
+                                [attr.rowspan]="dtCol?.rowSpan || 1"
+                                [ngClass]="{'action-th': dtCol.display === 'Actions'}" [ngStyle]="dtCol.headingStyles">
+                                {{ dtCol.display }}</th>
+                        </ng-template>
+                        <ng-template [ngIf]="!dtCol.data || dtCol.data === 'checkbox'">
+                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="dtCol?.colSpan || 1"
+                                class="align-master-checkbox" [attr.rowspan]="dtCol?.rowSpan || 1">
+                                <mat-checkbox class="custom-checkbox"
+                                    *ngIf="dataSource?.data?.length > 0 && dtOptions?.enableMasterToggle"
+                                    (change)="$event ? masterToggle() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                </mat-checkbox>
+                                <mat-checkbox class="custom-checkbox"
+                                    *ngIf="dataSource?.data?.length > 0 && dtOptions?.enableMasterTogglePC"
+                                    (change)="$event ? masterTogglePC() : null"
+                                    [checked]="selection.hasValue() && isAllSelected()"
+                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                </mat-checkbox>
+                            </th>
+                        </ng-template>
+                        <ng-template [ngIf]="!dtCol.data || dtCol.data === 'rightStatusColumn'">
+                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="dtCol?.colSpan || 1"
+                                [attr.rowspan]="dtCol?.rowSpan || 1">
+
+                            </th>
+                        </ng-template>
+                        <ng-template [ngIf]="!dtCol.data || dtCol.data === 'leftStatusColumn'">
+                            <th mat-header-cell *matHeaderCellDef [attr.colspan]="dtCol?.colSpan || 1"
+                                [attr.rowspan]="dtCol?.rowSpan || 1">
+
+                            </th>
+                        </ng-template>
+                        <ng-template [ngIf]="!dtCol.data || (dtCol.data == 'radBtn' || dtCol.data == 'expandable')">
+                            <th mat-header-cell mat-header-cell *matHeaderCellDef [attr.colspan]="dtCol?.colSpan || 1"
+                                [attr.rowspan]="dtCol?.rowSpan || 1"></th>
+                        </ng-template>
+                        <ng-template
+                            [ngIf]="!dtCol.data || (dtCol.data == 'radExpandBtn' || dtCol.data == 'expandable')">
+                            <th mat-header-cell mat-header-cell *matHeaderCellDef [attr.colspan]="dtCol?.colSpan || 1"
+                                [attr.rowspan]="dtCol?.rowSpan || 1"></th>
+                        </ng-template>
+                        <td mat-cell [attr.title]="dtCol.attrTitle ? element[dtCol.data] : ''" [ngClass]="dtCol.classes"
+                            [ngStyle]="dtCol?.colouredColumn ? dtCol?.colouredColumnStyle(element) : ''"
+                            *matCellDef="let element; index as i; dataIndex as dI" [ngStyle]="dtCol.styles">
+                            <!-- Added by Daksha for Hyperlink changes -->
+                            <div *ngIf="dtCol.attrUrl" [ngStyle]="dtCol.tSpanDataStyles">
+                                <span>
+                                    <a *ngIf="dtCol.data && dtCol.attrUrl" [routerLink]="dtCol.func(element)">{{
+                                        element[dtCol.data]
+                                        }}
+                                    </a>
+                                </span>
+                            </div>
+                            <div *ngIf="!dtCol.avoidCellClicked && !dtCol.attrUrl" class="if-left-column d-flex"
+                                (click)="trigCell(element, dtCol.data, element, dI)" [ngStyle]="dtCol.tSpanDataStyles">
+                                <!-- <div *ngIf="!dtCol.avoidCellClicked" (click)="trigCell(element, dtCol.data, element, dI)"
+                                [ngStyle]="dtCol.tSpanDataStyles"> -->
+                                <span [mdePopoverTriggerFor]="appPopover"
+                                    [mdePopoverTriggerOn]="dtCol.showPopover ? 'click' : 'none'"
+                                    #popoverTrigger="mdePopoverTrigger"
+                                    *ngIf="!dtCol.nodata && (!!element[dtCol.data] || element[dtCol.data] === 0 ||  element[dtCol.data] === false)"
+                                    [ngStyle]="dtCol?.dataStyles">
+                                    <!-- (click)="getTdData(element,dtCol)" -->
+                                    <!-- [ngStyle]="dtCol?.dataStyles ? dtCol?.dataStyles(element) : ''" -->
+                                    <ng-container *ngIf="dtCol.preElm">
+                                        <mat-checkbox class="custom-checkbox" *ngIf="dtCol.preElm?.cb" color="primary"
+                                            (change)="trigChkBox($event, element)">
+                                        </mat-checkbox>
+                                    </ng-container>
+                                    {{ element[dtCol.data] }}
+                                    {{ element[dtCol.data1] }}
+                                </span>
+                                <!-- popover for table data -->
+                                <mde-popover class="popover" #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false"
+                                    mdePopoverPositionY="above" mdePopoverPositionX="after">
+                                    <mat-card class="popovercard"
+                                        style="width:93%;background-color: rgba(0, 0, 0, 0.66);">
+                                        <mat-card-content>
+                                            <!-- <div style="display: block;" *ngIf="pieChartLabels && pieChartData">
+                                                <canvas baseChart [data]="pieChartData" [labels]="pieChartLabels" [chartType]="pieChartType" [options]="pieChartOptions" [plugins]="pieChartPlugins" [legend]="pieChartLegend" [colors]="pieChartColors">
+                                                </canvas>
+                                            </div> -->
+
+                                        </mat-card-content>
+                                    </mat-card>
+                                </mde-popover>
+
+                                <span
+                                    *ngIf="(!cs.screenPerm?.W && dtCol.icons?.view) || (cs.screenPerm?.W && dtCol.icons?.edit && (dtOptions?.checkIsEditable && !dtOptions?.checkIsEditable(element))) "
+                                    title="View" (click)="trigView(element)">
+                                    <mat-icon class="txt-blue">visibility</mat-icon>
+                                </span>
+                                <!-- added by pabitra -- visible icon button to show row data  -->
+                                <span
+                                    *ngIf="cs.screenPerm?.D && dtCol.icons?.viewdata && !(dtOptions?.checkIsVisible && !dtOptions?.checkIsVisible(element))"
+                                    title="ViewData" (click)="trigVisible(element)">
+                                    <mat-icon class="txt-blue">visibility</mat-icon>
+                                </span>
+                                <!-- added by pabitra -- visible icon button to show row data  -->
+                                <!-- <span
+                                    *ngIf="cs.screenPerm?.D && dtCol.icons?.print && !(dtOptions?.checkIsPrint && !dtOptions?.checkIsPrint(element))"
+                                    title="print" (click)="trigPrint(element)">
+                                    <mat-icon class="txt-blue">print</mat-icon>
+                                </span> -->
+                                <span *ngIf="dtCol.icons?.print && dtOptions?.isPrintable" title="print"
+                                    (click)="trigPrint(element)">
+                                    <mat-icon class="txt-blue" style="padding:0 10px;">print</mat-icon>
+                                </span>
+                                <!-- added by nilam -- add button to show row data  -->
+                                <!-- added by nilam -- list button to show row data  -->
+                                <span
+                                    *ngIf="cs.screenPerm?.D && dtCol.icons?.show && !(dtOptions?.checkIsShow && !dtOptions?.checkIsShow(element))"
+                                    title="showInfo" (click)="trigShow(element)">
+                                    <mat-icon>list</mat-icon>
+                                </span>
+                                <!-- added by nilam -- add button to show row data  -->
+                                <span
+                                    *ngIf="cs.screenPerm?.D && dtCol.icons?.add && !(dtOptions?.checkIsAdd && !dtOptions?.checkIsAdd(element))"
+                                    title="AddData" (click)="trigAddPop(element)">
+                                    <mat-icon class="txt-green">add_box</mat-icon>
+                                </span>
+                                <!-- added by nilam -- remove button to remove Qty  -->
+                                <span
+                                    *ngIf="cs.screenPerm?.D && dtCol.icons?.remove && !(dtOptions?.checkIsRemove && !dtOptions?.checkIsRemove(element))"
+                                    title="RemoveValue" (click)="trigRemove(element)">
+                                    <mat-icon class="txt-danger">remove_circle</mat-icon>
+                                </span>
+                                <span
+                                    *ngIf="dtCol.icons?.edit && !(dtOptions?.checkIsEditable && !dtOptions?.checkIsEditable(element)) && !(dtOptions?.inlineEditable)"
+                                    [ngClass]="{'hide-icon': dtOptions?.checkIsEditable && !dtOptions?.checkIsEditable(element)}"
+                                    title="Edit" (click)="trigEdit(element)">
+                                    <mat-icon class="txt-primary">create</mat-icon>
+                                </span>
+                                <span
+                                    *ngIf="cs.screenPerm?.W && dtCol.icons?.isSave && !(dtOptions?.IscheckIsSave && !dtOptions?.IscheckIsSave(element))"
+                                    [ngClass]="{'hide-icon': dtOptions?.IscheckIsSave && !dtOptions?.IscheckIsSave(element)}"
+                                    title="Save" (click)="isTrigSave(element)">
+                                    <mat-icon class="txt-success">save</mat-icon>
+                                </span>
+                                <!-- <span *ngIf="cs.screenPerm?.W && dtCol.icons?.edit && (dtOptions?.inlineEditable)" [ngClass]="{'hide-icon': dtOptions?.checkIsEditable && !dtOptions?.checkIsEditable(element)}" title="Edit">
+                                        <span (click)="trigInlineEdit($event, element)" [hidden]="element.isEditInline">
+                                            <mat-icon class="txt-primary">create</mat-icon>
+                                        </span>
+                                        <span>
+                                        <span (click)="trigInlineSave($event, element)" [hidden]="!element.isEditInline">
+                                            <mat-icon class="txt-success" title="Save">save</mat-icon>
+                                        </span>
+                                        <span (click)="trigInlineClose(element)" [hidden]="!element.isEditInline">
+                                            <mat-icon class="txt-danger" title="Cancel">close</mat-icon>
+                                        </span>
+                                        </span>
+                                    </span> -->
+                                <data *ngIf="dtCol.icons?.edit && (dtOptions?.inlineEditable)"
+                                    [ngClass]="{'hide-icon': dtOptions?.checkIsEditable && !dtOptions?.checkIsEditable(element)}"
+                                    title="Edit">
+                                    <data (click)="trigInlineEdit($event, element)" [hidden]="element.isEditInline">
+                                        <mat-icon class="txt-edit">create</mat-icon>
+                                    </data>
+                                    <data>
+                                        <data (click)="trigInlineSave($event, element)"
+                                            [hidden]="!element.isEditInline">
+                                            <mat-icon class="txt-success" title="Save">save</mat-icon>
+                                        </data>
+                                        <data (click)="trigInlineClose($event, element)"
+                                            [hidden]="!element.isEditInline">
+                                            <mat-icon class="txt-danger" title="Cancel">close</mat-icon>
+                                        </data>
+                                    </data>
+                                </data>
+
+                                <span
+                                    *ngIf="cs.screenPerm?.W && dtCol.icons?.isEdit && !(dtOptions?.IscheckIsEditable && !dtOptions?.IscheckIsEditable(element))"
+                                    [ngClass]="{'hide-icon': dtOptions?.IscheckIsEditable && !dtOptions?.IscheckIsEditable(element)}"
+                                    title="Edit" (click)="isTrigEdit(element)">
+                                    <mat-icon class="txt-primary">create</mat-icon>
+                                </span>
+                                <span
+                                    *ngIf="dtCol.icons?.delete && !(dtOptions?.checkIsDeletable && !dtOptions?.checkIsDeletable(element))"
+                                    title="Delete" (click)="openDialog(element)">
+                                    <mat-icon class="txt-err">cancel</mat-icon>
+                                </span>
+                                <span *ngIf="dtCol.icons?.reject && element.DUId != null" title="Rejection Reason"
+                                    (click)="trigRej(element)">
+                                    <mat-icon class="txt-err">backspace</mat-icon>
+                                </span>
+                                <!-- added by nilam -- copy button to copy record  -->
+                                <span
+                                    *ngIf="cs.screenPerm?.D && dtCol.icons?.copy && !(dtOptions?.checkIsCopy && !dtOptions?.checkIsCopy(element))"
+                                    title="CopyData" (click)="trigCopy(element)">
+                                    <mat-icon>filter_none</mat-icon>
+                                </span>
+                                <span *ngIf="dtCol.icons?.breakdown && element.DUId != null" title="MachineBreak"
+                                    (click)="trigBreak(element)">
+                                    <mat-icon class="txt-err">call_split</mat-icon>
+                                </span>
+                                <span
+                                    *ngIf="dtCol.icons?.relation && (element.PartCategoryId === 1 || element.PartCategoryId === 2)"
+                                    title="Relation" (click)="trigRelation(element, dI)">
+                                    <mat-icon class="txt-green">call_split</mat-icon>
+                                </span>
+                                <span *ngIf="dtCol.data == 'srNo'">
+                                    {{ (dataSource.pageSize * (dataSource.pageIndex-1)) + ( i + 1 || dI + 1) }}
+                                </span>
+                                <span *ngIf="dtCol.addBtn" (click)="trigAdd(element)"><button mat-raised-button
+                                        color="primary">ADD</button></span>
+
+                                <span *ngIf="dtCol.data == 'radBtn'" (click)="trigRadBtn(element)">
+                                    <mat-radio-button [disabled]="dataSource?.checkRadBtn.disabled"
+                                        [checked]="dataSource?.checkRadBtn.id == element[dataSource?.checkRadBtn.col]">
+                                    </mat-radio-button>
+                                </span>
+
+                                <span *ngIf="dtCol.nodata && !!dtCol.data.match('dtToggle_')">
+                                    <label class="switch">
+                                        <input type="checkbox" [attr.data-permType]="dtCol.id"
+                                            (change)="trigChkBox($event, element)" [checked]="element['hold']">
+                                        <span class="slider round"></span>
+                                    </label>
+                                </span>
+
+                                <span *ngIf="dtCol.nodata && !!dtCol.data.match('dtCb_')">
+                                    <mat-checkbox color="primary" [attr.data-permType]="dtCol.id"
+                                        (change)="trigChkBox($event, element)" [disabled]="!dataSource.enableCb"
+                                        [checked]="element[dtCol.id]"></mat-checkbox>
+                                </span>
+                                <span *ngIf="dtCol.nodata && !!dtCol.data.match('VendorId_')">
+                                    <mat-checkbox class="custom-checkbox" [name]="'cbox_' + (dI)"
+                                        [ngClass]="'checkbox-' + element['RMDtId']" *ngIf="element[dtCol.data]"
+                                        color="primary" [attr.data-vendorId]="element[dtCol.data]"
+                                        (change)="trigVendChkBox($event, element, element[dtCol.data])"
+                                        [disabled]="!element[dtCol.data]">
+                                    </mat-checkbox>
+                                </span>
+                                <span *ngIf="dtCol.nodata && !!(dtCol.data.match('input'))">
+                                    <input [attr.min]="dtCol.attr.min" type="number" [attr.name]="dtCol.data"
+                                        (blur)="dtCol.func($event, element, dtCol.display)">
+                                </span>
+                                <span *ngIf="dtCol.inputElm">
+                                    <input type="number" [ngStyle]="dtCol.elmStyles" [attr.name]="dtCol.data"
+                                        [value]="element[dtCol.data]"
+                                        (keyup.enter)="dtCol.func($event, element, dtCol.display)"
+                                        (blur)="dtCol.func($event, element, dtCol.display)">
+                                </span>
+
+                                <span *ngIf="dtCol.fileUpload">
+                                    <label [hidden]="!element[dtCol.data]">{{element[dtCol.data].name}}</label>
+                                    <label [hidden]="element[dtCol.data]" (click)="FileInput.click()">
+                                        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="upload"
+                                            class="svg-inline--fa fa-upload fa-w-16" role="img"
+                                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" height="20"
+                                            width="20">
+                                            <path fill="currentColor"
+                                                d="M296 384h-80c-13.3 0-24-10.7-24-24V192h-87.7c-17.8 0-26.7-21.5-14.1-34.1L242.3 5.7c7.5-7.5 19.8-7.5 27.3 0l152.2 152.2c12.6 12.6 3.7 34.1-14.1 34.1H320v168c0 13.3-10.7 24-24 24zm216-8v112c0 13.3-10.7 24-24 24H24c-13.3 0-24-10.7-24-24V376c0-13.3 10.7-24 24-24h136v8c0 30.9 25.1 56 56 56h80c30.9 0 56-25.1 56-56v-8h136c13.3 0 24 10.7 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z">
+                                            </path>
+                                        </svg>
+                                    </label>
+                                    <label [hidden]="!element[dtCol.data]"
+                                        (click)="deleteFileName(element, dtCol.data)">
+                                        <mat-icon style="color: red;">delete</mat-icon>
+                                    </label>
+                                    <input style="display: none;" #FileInput type="file"
+                                        (change)="dtCol.func($event, element, dtCol.display)"
+                                        [ngStyle]="dtCol.elmStyles" [attr.name]="dtCol.data">
+                                </span>
+
+                                <!-- For disable input field inside data table -->
+                                <span *ngIf=" dtCol.inputNumbElmDisable">
+                                    <input type="number" maxlength="6" [ngStyle]="dtCol.elmStyles"
+                                        [attr.name]="dtCol.data" [value]="element[dtCol.data]"
+                                        [disabled]="!element.isEditable ? true : false"
+                                        (keyup)="dtCol.func($event, element, dtCol.display)"
+                                        (blur)="dtCol.func($event, element, dtCol.display)" min=0>
+                                </span>
+                                <span *ngIf="dtCol.inputCharElmDisable">
+                                    <input minlength="1" maxlength="40" [ngStyle]="dtCol.elmStyles"
+                                        [attr.name]="dtCol.data" [value]="element[dtCol.data]"
+                                        [disabled]="!element.isEditableChar ? true : false"
+                                        (keyup.enter)="dtCol.func($event, element, dtCol.display)">
+                                </span>
+                                <!-- For disable input with zero data field inside data table -->
+                                <span *ngIf="dtCol.inputElmDisable">
+                                    <input type="number" class="quantity" min="0" style="text-align: center"
+                                        [attr.name]="dtCol.data" [ngStyle]="dtCol.elmStyles"
+                                        [value]="element[dtCol.data] == ''"
+                                        (keyup.enter)="dtCol.func($event, element, dtCol.display)"
+                                        (blur)="dtCol.func($event, element, dtCol.display)">
+                                    <!-- [disabled]="+element[dtCol.data] >= 0 && !element.InputisEditable ? true : false" -->
+                                </span>
+                                <!-- For disable BatchNo. input field inside data table -->
+                                <span *ngIf="dtCol.DisableBatchField">
+                                    <input style="position: relative;left: 9px;" type="text" [ngStyle]="dtCol.elmStyles"
+                                        [attr.name]="dtCol.data" [value]="element[dtCol.data]" [disabled]="true"
+                                        (keyup.enter)="dtCol.func($event, element, dtCol.display)"
+                                        (blur)="dtCol.func($event, element, dtCol.display)">
+                                </span>
+                                <!-- For special Character -->
+                                <span *ngIf="dtCol.tableCharColon">
+                                    <p style="position: relative;left: 11px;">:</p>
+                                </span>
+                                <span *ngIf="dtCol.inputTextElm">
+                                    <input type="text" [ngStyle]="dtCol.elmStyles" [attr.name]="dtCol.data"
+                                        [value]="element[dtCol.data]"
+                                        [disabled]="dtCol.chkDisable ? (dtCol.chkDisableFunc ? dtCol.chkDisableFunc(element) : dtCol.func(element)) : false"
+                                        (keyup.enter)="dtCol.func($event, element, dtCol.display)"
+                                        (blur)="dtCol.func($event, element, dtCol.display)">
+                                </span>
+                                <span *ngIf="dtCol.inputTimeElm">
+                                    <input type="time" [ngStyle]="dtCol.elmStyles" [attr.name]="dtCol.data"
+                                        [value]="element[dtCol.data]"
+                                        [disabled]="dtCol.chkDisable ? (dtCol.chkDisableFunc ? dtCol.chkDisableFunc(element) : dtCol.func(element)) : false"
+                                        (keyup.enter)="dtCol.func($event, element, dtCol.display)"
+                                        (blur)="dtCol.func($event, element, dtCol.display)">
+                                </span>
+                                <span *ngIf="dtCol.inputTimeElmnt">
+                                    <input [value]="element[dtCol.data]" [attr.name]="dtCol.data"
+                                        (focus)="showTimeModal(element, dtCol.data)"
+                                        (keyup.enter)="dtCol.func($event, element, dtCol.display)">
+                                </span>
+
+                                <!-- added by nilam for assembly process Date Picker in listing table -->
+                                <span *ngIf="dtCol.inputDateElm" style="padding-top:0px; padding-bottom: 0px;">
+                                    <mat-form-field style="width: 115px; padding-top:0px; padding-bottom:-4px;">
+                                        <input style="border:none; padding: 2px;" matInput
+                                            [matDatepicker]="dpCurrentDate" appDate [ngStyle]="dtCol.elmStyles"
+                                            [value]="element[dtCol.data]"
+                                            [disabled]="element.isDateEditable ? true : false" [attr.name]="dtCol.data"
+                                            (keyup.enter)="dtCol.func($event, element, dtCol.display)"
+                                            (blur)="dtCol.func($event, element, dtCol.display)">
+                                        <div (click)="dpCurrentDate.open()" class="m-input-click"> </div>
+                                        <mat-datepicker-toggle matSuffix [for]="dpCurrentDate" style="width: 20px;">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #dpCurrentDate></mat-datepicker>
+                                    </mat-form-field>
+                                </span>
+
+                                <span *ngIf="dtCol.fifo">
+                                    <img src="../../../assets/images/hexagon.jpg" alt="" height=30 width=30>
+                                </span>
+                                <span *ngIf="dtCol.qr">
+                                    <img src="../../../assets/images/qr.jpg" alt="" height=30 width=30>
+                                </span>
+
+                                <!-- For disable input field inside data table -->
+                                <span *ngIf="dtCol.inputTextElmDisable">
+                                    <input type="text" [ngStyle]="dtCol.elmStyles" [attr.name]="dtCol.data"
+                                        [value]="element[dtCol.data]" [disabled]="!element.isEditable ? true : false"
+                                        (keyup.enter)="dtCol.func($event, element, dtCol.display)"
+                                        (blur)="dtCol.func($event, element, dtCol.display)">
+                                </span>
+
+                                <span *ngIf="dtCol.data == 'expandable'" (click)="trigSlideBtn(element, dI)"
+                                    class="expandable"
+                                    [class.slide-disabled]="dtOptions.chkDisableExpandable && dtOptions.chkDisableExpandable(element)">
+                                    <mat-icon>chevron_right</mat-icon>
+                                </span>
+                                <span *ngIf="dtCol?.data && !!(dtCol?.data.match('pendulamimg_1'))">
+                                    <img src="../../../../../assets/svg/pendular.svg" class="tag-img" />
+                                </span>
+                                <span *ngIf="dtCol?.data && !!(dtCol?.data.match('file-icon'))">
+                                    <img src="../../../assets/svg/file.svg" class="tag-img" />
+                                </span>
+                                <span *ngIf="dtCol?.data && !!(dtCol?.data.match('mac-stop'))">
+                                    <img src="../../../../../assets/svg/mac-stop.svg" class="tag-img" />
+                                </span>
+                                <span *ngIf="dtCol?.data && !!(dtCol?.data.match('mac-run'))">
+                                    <img src="../../../../../assets/svg/mac-run.svg" class="tag-img" />
+                                </span>
+                                <span *ngIf="dtCol?.data && !!(dtCol?.data.match('taglink'))"[ngStyle]="dtCol.linkicon">
+                                    <img src="../../../assets/svg/taglink.svg" class="tag-link" />
+                                </span>
+                                <span *ngIf="dtCol.data == 'radExpandBtn'" (click)="trigInlineEdit($event, element)"
+                                    (click)="trigRadExpandBtn(element, dI)" class="expandable"
+                                    [class.slide-disabled]="dtOptions.chkDisableExpandable && dtOptions.chkDisableExpandable(element)">
+                                    <mat-radio-button></mat-radio-button>
+                                </span>
+
+                                <span *ngIf="dtCol.data && !!(dtCol.data.match('dispBtn'))">
+                                    <button mat-raised-button class="btn-table" [color]="dtCol.btnColor"
+                                        [ngStyle]="dtCol.btnStyles"
+                                        [disabled]="dtCol.chkDisable ? (dtCol.chkDisableFunc ? dtCol.chkDisableFunc(element) : dtCol.func(element)) : false">
+                                        {{dtCol.btnText ? dtCol.btnText : dtCol.func(element)}}</button>
+                                </span>
+                                <span *ngIf="dtCol.data && !!(dtCol.data.match('dispStatus'))">
+                                    <span [ngStyle]="dtCol.dispStatusStyle ? dtCol?.dispStatusStyle(element) : ''"
+                                        [class.disabled]="dtCol.chkDisable ? (dtCol.chkDisableFunc ? dtCol.chkDisableFunc(element) : dtCol.func(element)) : false">
+                                        {{dtCol.dispStatusText ? dtCol.dispStatusText : dtCol.func(element)}}</span>
+                                </span>
+                                <span *ngIf="dtCol.data && !!(dtCol.data.match('tableIcon'))" class="icon-table">
+                                    <mat-icon mat-raised-button [color]="dtCol.btnColor" [ngStyle]="dtCol.iconStyles">
+                                        <!-- [disabled]="dtCol.chkDisable ? (dtCol.chkDisableFunc ? dtCol.chkDisableFunc(element) : dtCol.func(element)) : false" -->
+                                        {{dtCol.iconName ? dtCol.iconName : dtCol.func(element)}}
+                                    </mat-icon>
+                                    {{dtCol.iconText ?
+                                    dtCol.iconText : dtCol.func(element)}}
+                                </span>
+                                <span *ngIf="dtCol.data && !!(dtCol.data.match('dispWipBtn')) && element.DUId != null">
+                                    <button mat-raised-button class="btn-table" [color]="dtCol.btnColor">{{dtCol.btnText
+                                        ? dtCol.btnText :
+                                        dtCol.func(element)}}</button>
+                                </span>
+                                <!-- <span *ngIf="dtCol.data === 'checkbox'">
+                                    <mat-checkbox color="primary" (click)="$event.stopPropagation()" (change)="selChkboxToggle(element)" [checked]="selection.isSelected(element)"> </mat-checkbox>
+                                </span> -->
+                                <span *ngIf="dtCol.data === 'checkbox'" class="align-child-checkbox">
+                                    <mat-checkbox class="custom-checkbox" (click)="$event.stopPropagation()"
+                                        (change)="$event ? selChkboxToggle(element) : null"
+                                        [checked]="selection.isSelected(element) || dtOptions?.chkDisableCheckbox && dtOptions?.chkDisableCheckbox(element)"
+                                        [style.opacity]="element.show || selection.isSelected(element) ? 100 : ''"
+                                        [class.slide-disabled]="dtOptions.chkDisableCheckbox && dtOptions.chkDisableCheckbox(element)">
+                                    </mat-checkbox>
+                                </span>
+                                <span *ngIf="dtCol.data === 'rightStatusColumn'" matTooltipPosition="after"
+                                    [matTooltip]="dtOptions.rightStatusTooltip ? dtOptions.rightStatusTooltip(element) : ''"
+                                    [ngStyle]="dtOptions.rightStatusColumnStyles ? dtOptions.rightStatusColumnStyles(element) : ''">
+                                    <div style="visibility: hidden">
+                                    </div>
+                                </span>
+                                <span *ngIf="dtCol.data === 'leftStatusColumn'" matTooltipPosition="before"
+                                    [matTooltip]="dtOptions.leftStatusTooltip ? dtOptions.leftStatusTooltip(element) : ''"
+                                    [ngStyle]="dtOptions.leftStatusColumnStyles ? dtOptions.leftStatusColumnStyles(element) : ''">
+                                    <div style="visibility: hidden">
+                                    </div>
+                                </span>
+                                <span *ngIf="dtCol.data && dtCol.data.match('innerHtml_')"
+                                    [innerHTML]="dsr.bypassSecurityTrustHtml(dtCol.func(element))">
+                                </span>
+                                <!-- display data in the form of html content -->
+                                <span class="innerContent inward"
+                                    *ngIf="dtCol.data && dtCol.data.match('innerStyle_') && dtCol.func(element).isInward">
+                                    <ng-container>
+                                        <span class="innerContent"
+                                            [style.backgroundColor]="dtCol.func(element).inwardBgColor"
+                                            [attr.title]="dtCol.isAttrHighlight ? dtCol.titleName : ''"
+                                            [style.color]="dtCol.func(element).inwardTextColor">
+                                            {{dtCol.func(element).dispData}}
+                                        </span>
+                                    </ng-container>
+                                </span>
+                                <span class="innerContent outward"
+                                    *ngIf="dtCol.data && dtCol.data.match('innerStyle_') && dtCol.func(element).isOutward">
+                                    <ng-container>
+                                        <span [attr.title]="dtCol.isAttrHighlight ? dtCol.titleName : ''"
+                                            class="innerContent"
+                                            [style.backgroundColor]="dtCol.func(element).outwardBgColor"
+                                            [style.color]="dtCol.func(element).outardTextColor">
+                                            {{dtCol.func(element).dispData}}
+                                        </span>
+                                    </ng-container>
+                                </span>
+                                <!-- Display data on hover of html in data-table -->
+                                <data *ngIf="dtCol.data && dtCol.data.match('innerStyle_')" class="hide-title">
+                                    <ng-container *ngFor="let hd of dtCol.func(element).highlightData">
+                                        <div class="title-item">
+                                            {{hd.data}}
+                                        </div>
+                                    </ng-container>
+                                </data>
+                            </div>
+                            <div *ngIf="dtCol.avoidCellClicked">
+                                <span *ngIf="dtCol.data && dtCol.data.match('innerHtml_')"
+                                    [innerHTML]="dsr.bypassSecurityTrustHtml(dtCol.func(element))">
+                                </span>
+                                <span *ngIf="dtCol.data && dtCol.data.match('dropDown_')">
+                                    <select [attr.name]="dtCol.ddValue" [disabled]="element.isEditable ? true : false"
+                                        [id]="dtCol.ddName + '_' + element[dtCol.ddName]"
+                                        (change)="dtCol.func($event, element, dtCol.ddValue)"
+                                        [ngStyle]="dtCol.elmStyles">
+                                        <option *ngFor="let ddOpt of dtCol.ddOptions" [value]="ddOpt.key"
+                                            [selected]="element[dtCol.ddValue] == ddOpt.value">
+                                            {{ddOpt.value}}
+                                        </option>
+                                    </select>
+                                </span>
+                            </div>
+                            <!-- <span *ngIf="dtCol.data.match('innerHtml_')">
+                            <span class="active-link">37</span>
+                            </span> -->
+                        </td>
+
+                    </ng-container>
+
+                    <ng-container matColumnDef="expandedDetail" *ngIf="dtOptions?.expandable">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <div class="row-detail-container" #rowDetailContainer></div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="expandedDetail" *ngIf="dtOptions?.radExpandBtn">
+                        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+                            <div class="row-detail-container" #rowDetailContainer></div>
+                        </td>
+                    </ng-container>
+                    <!-- Group header -->
+                    <!-- <ng-container matColumnDef="groupHeader" *ngIf="dtOptions?.enableGroupHeader">
+                        <td mat-cell colspan="999" *matCellDef="let group">
+                            <div class="group-details expandable-group">
+                                <mat-icon matRipple matRippleCentered="true">{{group.expanded ? 'keyboard_arrow_down' :
+                                    'chevron_right' }}</mat-icon>
+                                <strong>{{groupByColumns[group.level-1]}} : {{group[groupByColumns[group.level-1]]}}
+                                    ({{group.totalCounts}})</strong>
+                            </div>
+                        </td>
+                    </ng-container> -->
+                    <ng-container *ngIf="dtOptions?.tableSpan">
+                        <ng-container *ngFor="let tspan of this.displayedColumnsTspan">
+                            <tr mat-header-row *matHeaderRowDef="tspan;" class="span-row-detail"></tr>
+                        </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="!dtOptions?.tableSpan">
+                        <tr mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></tr>
+                    </ng-container>
+                    <!-- (click)="selection.toggle(row)" -->
+                    <!-- (click)="rowHighlight(row)" -->
+                    <tr mat-row *matRowDef="let row; columns: columnsToDisplay;" class="row-hover"
+                        [ngClass]="{'highlighted': row === highlightedRow}" (click)="highlightRows(row)"></tr>
+                    <ng-container *ngIf="dtOptions?.expandable">
+                        <tr mat-row *matRowDef="let row; dataIndex as dI; columns: ['expandedDetail']"
+                            class="row-detail"></tr>
+                    </ng-container>
+                    <ng-container *ngIf="dtOptions?.radExpandBtn">
+                        <tr mat-row *matRowDef="let row; dataIndex as dI; columns: ['expandedDetail']"
+                            class="row-detail"></tr>
+                    </ng-container>
+                    <!-- Group header cells-->
+                    <ng-container matColumnDef="groupHeader">
+                        <td colspan="999" mat-cell *matCellDef="let group">
+                            <div class="grouped-row">
+                                <mat-icon>{{!group.reduced ? 'keyboard_arrow_down' : 'chevron_right'}}</mat-icon>
+                                <strong>{{group.groupName}} ({{group.totalCount}})</strong>
+                            </div>
+                        </td>
+                    </ng-container>
+                    <!-- <ng-container matColumnDef="groupReducer">
+                        <td colspan="1" mat-cell *matCellDef="let group">
+                            <div>
+                                <mat-icon *ngIf="!group.reduced">expand_less</mat-icon>
+                                <mat-icon *ngIf="group.reduced">expand_more</mat-icon>
+                            </div>
+                        </td>
+                    </ng-container> -->
+                    <!-- Group line -->
+                    <tr mat-row class="clickable" *matRowDef="let row; columns: ['groupHeader']; when: isGroup"
+                        (click)="reduceGroup(row)">
+                    </tr>
+                    <!-- <ng-container *ngIf="dtOptions?.enableGroupHeader">
+                        <tr mat-row *matRowDef="let row; dataIndex as dI; columns: ['groupHeader']; when: isGroup"
+                            (click)="groupHeaderClick(row)"> </tr>
+                    </ng-container> -->
+
+                    <ng-container *ngIf="dtOptions?.tableSpan">
+                        <ng-container *ngFor="let thSpan of columnsToDisplayTspan" [matColumnDef]="thSpan.data">
+                            <th mat-header-cell mat-header-cell *matHeaderCellDef [attr.colspan]="thSpan?.colSpan"
+                                [attr.rowspan]="thSpan?.rowSpan || 1"
+                                [ngClass]="{'tSpan-align': dtOptions?.tSpanStyles}">
+                                <!-- style="border-bottom: 1px solid white" -->
+                                <div style="display: flex; justify-content: center">
+                                    <mat-icon matTooltipPosition="left" matTooltip="Previous"
+                                        (click)="trigGoPrev(thSpan)" class="chevron-icon"
+                                        *ngIf="dtOptions?.tSpanStyles">chevron_left
+                                    </mat-icon>
+                                    {{ thSpan.data }}
+                                    <mat-icon matTooltipPosition="right" matTooltip="Next" (click)="trigGoNext(thSpan)"
+                                        class="chevron-icon" *ngIf="dtOptions?.tSpanStyles">chevron_right
+                                    </mat-icon>
+                                </div>
+                            </th>
+                        </ng-container>
+                    </ng-container>
+                </table>
+                <div *ngIf="dataSource?.data?.length == 0 || dataSource?.filteredData?.length == 0" class="no-data">No
+                    Data Found!
+                </div>
+            </div>
+            <!-- <div *ngIf="dataSource?.data?.length" class="table-footer clearfix">
+          <cim-custom-data-table-paginator *ngIf="!dtOptions?.hidePagination" (pageChanged)="pageChanged($event)"
+            (pageSizeChanged)="pageChanged($event)" [options]="dataSource"></cim-custom-data-table-paginator>
+        </div> -->
+        </div>
+    </div>
+</div>

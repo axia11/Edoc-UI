@@ -1,0 +1,106 @@
+<div class="table-container">
+    <div class="tablescroll">
+      <table>
+        <thead>
+          <tr class="header-row">
+            <th *ngIf="dtOptions.expandable">Expand</th>
+            <th *ngFor="let column of dtOptions.columns">{{ column.display }}</th>
+            <th *ngIf="dtOptions.actions && dtOptions.actions.icons">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let row of dtOptions.data">
+            <tr class="data-row">
+              <td class="mat-cell" *ngIf="dtOptions.expandable">
+                <mat-icon (click)="toggleExpand(row)">chevron_right</mat-icon>
+              </td>
+              <ng-container *ngFor="let column of dtOptions.columns">
+                <td class="mat-cell">
+                  <div class="d-flex">
+                    <span>
+                      <ng-container *ngIf="column.inputConfig">
+                        <ng-container [ngSwitch]="column.inputConfig.type">
+                          <input *ngSwitchCase="'text'" type="text" [(ngModel)]="row[column.data]"
+                            [required]="column.required" [attr.disabled]="!column.inputConfig.editable ? true : null">
+                          <select *ngSwitchCase="'dropdowndata'" [(ngModel)]="row[column.data]"
+                            [required]="column.required">
+                            <option *ngFor="let option of column.inputConfig.ddrData"
+                              [value]="option[column.inputConfig.id]">
+                              {{ option[column.inputConfig.viewValue] }}
+                            </option>
+                          </select>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngIf="!column.inputConfig">
+                        {{ row[column.data] }}
+                      </ng-container>
+                    </span>
+                  </div>
+                </td>
+              </ng-container>
+              <td class="mat-cell" *ngIf="dtOptions.actions && dtOptions.actions.icons">
+                <div class="d-flex">
+                  <span *ngIf="dtOptions.actions.icons.edit" title="Edit" (click)="editRow(row)">
+                    <mat-icon>Edit</mat-icon>
+                  </span>
+                  <span *ngIf="dtOptions.actions.icons.delete" title="Delete" (click)="deleteRow(row)">
+                    <mat-icon>Delete</mat-icon>
+                  </span>
+                  <span *ngIf="dtOptions.actions.icons.discard" title="Discard" (click)="discardRow(row)">
+                    <mat-icon>Discard</mat-icon>
+                  </span>
+                  <span *ngIf="dtOptions.actions.icons.save" title="Save" (click)="saveRow(row)">
+                    <mat-icon>save</mat-icon>
+                  </span>
+                </div>
+              </td>
+            </tr>
+            <tr class="data-row" *ngIf="row.expanded">
+              <td class="mat-cell" *ngIf="dtOptions.expandable"></td>
+              <ng-container *ngFor="let predRow of getNestedData(row)">
+                <td class="mat-cell" *ngFor="let column of dtOptions.columns">
+                  <div class="d-flex ">
+                    <span>
+                      <ng-container *ngIf="column.inputConfig">
+                        <ng-container [ngSwitch]="column.inputConfig.type">
+                          <input *ngSwitchCase="'text'" type="text" [(ngModel)]="predRow[column.data]"
+                            [required]="column.required" [attr.disabled]="!column.inputConfig.editable ? true : null">
+                          <select *ngSwitchCase="'dropdowndata'" [(ngModel)]="predRow[column.data]"
+                            [required]="column.required">
+                            <option *ngFor="let option of column.inputConfig.ddrData"
+                              [value]="option[column.inputConfig.id]">
+                              {{ option[column.inputConfig.viewValue] }}
+                            </option>
+                          </select>
+                        </ng-container>
+                      </ng-container>
+                      <ng-container *ngIf="!column.inputConfig">
+                        {{ predRow[column.data] }}
+                      </ng-container>
+                    </span>
+                  </div>
+                </td>
+                <td class="mat-cell" *ngIf="dtOptions.actions && dtOptions.actions.icons">
+                  <div class="d-flex">
+                    <span *ngIf="dtOptions.actions.icons.edit" title="Edit" (click)="editRow(predRow)">
+                      <mat-icon>Edit</mat-icon>
+                    </span>
+                    <span *ngIf="dtOptions.actions.icons.delete" title="Delete" (click)="deleteRow(predRow)">
+                      <mat-icon>Delete</mat-icon>
+                    </span>
+                    <span *ngIf="dtOptions.actions.icons.discard" title="Discard" (click)="discardRow(predRow)">
+                      <mat-icon>Discard</mat-icon>
+                    </span>
+                    <span *ngIf="dtOptions.actions.icons.save" title="Save" (click)="saveRow(predRow)">
+                      <mat-icon>save</mat-icon>
+                    </span>
+                  </div>
+                </td>
+              </ng-container>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

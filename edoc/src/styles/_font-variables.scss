@@ -1,0 +1,23 @@
+@font-face {
+    font-family: "CircularStd-book";
+    src: url("../assets/fonts/CircularStd-Book.otf");
+}
+
+@font-face {
+    font-family: "CircularStd-medium";
+    src: url("../assets/fonts/CircularStd-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Digital-num";
+    src: url("../assets/fonts/DS-DIGI.TTF");
+}
+@font-face {
+    font-family: "Digital-num-bold";
+    src: url("../assets/fonts/DS-DIGIB.TTF");
+}
+
+$CircularStd-book: CircularStd-book;
+$CircularStd-medium: CircularStd-medium;
+$Digital-num: Digital-num;
+$DigitalBold-num: Digital-num-bold;

@@ -1,0 +1,325 @@
+<div class="table-container">
+    <article class="table-header">
+        <ng-content select=".header"></ng-content>
+    </article>
+<!-- 
+    <mat-card class="search-header" *ngIf="!dtOptions?.hideSearch">
+        <mat-card-header>
+            <mat-card-title>What are you looking for ?</mat-card-title>
+            <div class="search-container">
+                <div class="search-box">
+                    <button matPrefix mat-icon-button aria-label="Clear">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                    <input matInput type="text" [placeholder]="'Search for ' + searchPlaceholder +'...'" #searchInput
+                        (keyup.enter)="onSearch(searchInput)" (keyup)="searchValue = searchInput.value">
+                    <button *ngIf="searchInput.value" matPrefix mat-icon-button aria-label="Clear"
+                        (click)="searchInput.value = '';reset()">
+                        <mat-icon color="warn">clear</mat-icon>
+                    </button>
+                </div>
+                <button mat-mini-fab color="basic" class="mini-btn"
+                    aria-label="Example icon button with a filter list icon">
+                    <mat-icon>keyboard_double_arrow_left</mat-icon>
+                </button>
+                <button mat-raised-button color="primary" class="search-btn"
+                    (click)="onSearch(searchInput)">SEARCH</button>
+            </div>
+        </mat-card-header>
+    </mat-card> -->
+    <div class="table-search table-header-item" *ngIf="!dtOptions?.hideSearch">
+        <!-- <mat-card-header> -->
+            <div class="search-section">
+ 
+                <input matInput type="text"  #searchInput (keyup.enter)="onSearch(searchInput)" (keyup)="searchValue = searchInput.value">
+               
+                    <mat-icon color="warn" *ngIf="searchInput.value" matPrefix mat-icon-button aria-label="Clear"
+                    (click)="searchInput.value = '';reset()">clear</mat-icon>
+               
+                <mat-icon matSuffix (click)="onSearch(searchInput)">search</mat-icon>
+            </div>
+        <!-- </mat-card-header> -->
+        </div>
+    <ng-container [formGroup]="inlineForm">
+        <!-- <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar> -->
+        <div class="table-wrapper mat-elevation-z10" #tableContent [ngStyle]="dtOptions?.tableStyle">
+            <table mat-table [dataSource]="dataSource" formArrayName="tableRows" class="mat-elevation-z8"
+                (matSortChange)="sortTable($event, false)" multiTemplateDataRows matSort sticky="true">
+                <ng-container *ngFor="let dtCol of dtOptions?.columns" [matColumnDef]="dtCol.data || 'Actions'">
+                    <ng-template [ngIf]="dtCol.data === 'checkbox'">
+                        <th mat-header-cell *matHeaderCellDef>
+                            <mat-checkbox *ngIf="dataSource?.data?.length > 0" color="primary"
+                                (change)="$event ? masterToggle() : null"
+                                [checked]="selection.hasValue() && isAllSelected()"
+                                [indeterminate]="selection.hasValue() && !isAllSelected()">
+                            </mat-checkbox>
+                        </th>
+                    </ng-template>
+                    <th mat-header-cell *matHeaderCellDef  mat-sort-header class="table-header-cell" 
+                        [attr.data-keyValue]="dtCol.data" [disabled]="dtOptions?.disableSort || dtCol.disableSort"  [ngClass]="{trimText : dtCol.class && dtCol.class.trimText}">
+                        <div class="table-header-items" [ngStyle]="dtCol.headerStyles">
+                            {{ dtCol?.display }}<span class="required">{{dtCol?.required ? '*' : ''}}</span>
+                            <ng-container *ngIf="dtCol.display!== 'Actions' && dtOptions?.columnFilter">
+                                <mat-icon #clickMenuTrigger="matMenuTrigger" [matMenuTriggerFor]="menu"
+                                    class="cur-p">filter_alt</mat-icon>
+                                <mat-menu #menu="matMenu" (click)="$event.stopPropagation()">
+                                    <div (click)="$event.stopPropagation()" class="mat-menu-content">
+                                        <form [formGroup]="filterForm">
+                                            <div class="filter__form">
+                                                <div class="form-group">
+                                                    <ng-container>
+                                                        <mat-form-field>
+                                                            <mat-label>{{dtCol?.display}}</mat-label>
+                                                            <mat-select #options multiple
+                                                                [formControlName]="dtCol?.data">
+                                                                <mat-option
+                                                                    *ngFor="let filterName of filterSelectObj[dtCol?.data]['options']"
+                                                                    [value]="filterName[dtCol.data]">{{filterName[dtCol.data]}}</mat-option>
+                                                            </mat-select>
+                                                        </mat-form-field>
+                                                    </ng-container>
+
+                                                    <div class="d-flex justify-content-between">
+                                                        <button color="warn" mat-raised-button (click)="reset()"> Reset
+                                                        </button>
+                                                        <button color="primary" mat-raised-button
+                                                            (click)="applyFilter(options?.value, dtCol)">
+                                                            Apply </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </mat-menu>
+                            </ng-container>
+                        </div>
+                    </th>
+                    <td mat-cell [attr.title]="dtCol.class && dtCol.class.trimText ? element[dtCol.data] : ''"
+                        [ngClass]="{trimText : dtCol.class && dtCol.class.trimText}" [ngClass]="dtCol.classes"
+                        *matCellDef="let element; index as i; dataIndex as dI" [ngStyle]="dtCol?.dataStyles"
+                        [formGroupName]="dI">
+                        <div  (click)="trigCell(element, dtCol?.data, element, dI)" [ngStyle]="dtCol.tSpanDataStyles" style="align-items: center;
+                        display: inline-flex;">
+                            <span *ngIf="dtCol?.data === 'checkbox'">
+                                <mat-checkbox (click)="$event.stopPropagation()"
+                                    (change)="$event ? selChkboxToggle(element) : null"
+                                    [hidden]="dtOptions.isChecked(element)"
+                                    [checked]="selection.isSelected(element)"></mat-checkbox>
+                            </span>
+                            <span *ngIf="!tableRows.controls[dI]?.value.isEditable || dtCol?.inputConfig?.editable"
+                                [title]="tableRows.controls[dI]?.value[dtCol?.data]">
+                                {{ dtCol?.inputConfig?.type == 'date' ? (tableRows.controls[dI]?.value[dtCol?.data] | date:'dd-MMM-yy') :
+                                tableRows.controls[dI]?.value[dtCol?.data]
+                                }}
+                            </span>
+                            <span *ngIf="dtCol?.data && !!(dtCol?.data.match('dispBtn_'))">
+                                <button [style.background-color]="dtCol.btnColour" mat-raised-button class="btn-table"
+                                    [color]="dtCol?.btnColor" (click)="expandedElement = element"
+                                    [disabled]="dtCol.chkDisable ? (dtCol.chkDisableFunc ? dtCol.chkDisableFunc(element) : dtCol.func(element)) : false">
+                                    {{dtCol.btnText ? dtCol.btnText : dtCol.func(element)}}</button>
+                            </span>
+                            <span *ngIf="dtCol?.data && !!(dtCol?.data.match('taglink'))">
+                                <img src="../../../assets/svg/taglink.svg" class="tag-link" />
+                            </span>
+                            <span *ngIf="dtCol?.data && !!(dtCol?.data.match('tagimg_1'))">
+                                <img src="../../../assets/svg/Equipment.svg" class="tag-img" />
+                            </span>
+                            <span *ngIf="dtCol?.data && !!(dtCol?.data.match('tagimg_2'))">
+                                <img src="../../../assets/svg/piping.svg" class="tag-img" />
+                            </span>
+                            <span *ngIf="dtCol?.data && !!(dtCol?.data.match('tagimg_3'))">
+                                <img src="../../../assets/svg/instruments.svg" class="tag-img" />
+                            </span>
+                            <span *ngIf="dtCol?.data && !!(dtCol?.data.match('taglink'))">
+                                <img src="../../../assets/svg/taglink.svg" class="tag-link" />
+                            </span>
+                            <span *ngIf="dtCol?.data && !!(dtCol?.data.match('tagimg_1'))">
+                                <img src="../../../assets/svg/Equipment.svg" class="tag-img" />
+                            </span>
+                            <span *ngIf="dtCol?.data && !!(dtCol?.data.match('tagimg_2'))">
+                                <img src="../../../assets/svg/piping.svg" class="tag-img" />
+                            </span>
+                            <span *ngIf="dtCol?.data && !!(dtCol?.data.match('tagimg_3'))">
+                                <img src="../../../assets/svg/instruments.svg" class="tag-img" />
+                            </span>
+                            <span *ngIf="dtCol.data && dtCol.data.match('innerHtml_')"
+                            [innerHTML]="dsr.bypassSecurityTrustHtml(dtCol.func(element))">
+                            </span>
+                            <span *ngIf="dtCol?.data == 'expandable'"
+                                [class.slide-disabled]="dtOptions.chkDisableExpandable && dtOptions.chkDisableExpandable(element)">
+                                <span mat-icon-button *ngIf="expandedElement != element"
+                                    [class.expanded]="expandedElement == element"
+                                    (click)="trigSlideBtn(element, dI); expandedElement = element">
+                                    <!-- <mat-icon>arrow_right</mat-icon> -->
+                                    <mat-icon class="icon-ex cur-p">add</mat-icon>
+                                </span>
+                                <span mat-icon-button *ngIf="expandedElement == element"
+                                    [class.expanded]="expandedElement == undefined"
+                                    (click)="trigSlideBtn(element, dI); expandedElement = undefined">
+                                    <!-- <mat-icon>arrow_drop_down</mat-icon> -->
+                                    <mat-icon class="icon-ex cur-p">remove</mat-icon>
+                                </span>
+                            </span>
+
+                            <!-- Add condition which should not display while edit the field, by default it take a blank input otherwise -->
+                            <div
+                                *ngIf="dtCol.display != 'Actions' && dtCol?.data !== 'checkbox' && dtCol?.data !== 'expandable' && dtCol?.data !== 'dispBtn' && dtCol?.data && !!dtCol?.data.match('dispBtn_') != true">
+                                <div [ngClass]="{'row-data': tableRows.controls[dI]?.value.isEditable}"
+                                    class="inlinetable-ng-grid ">
+                                    <ng-container
+                                        *ngIf="tableRows.controls[dI]?.value.isEditable && !dtCol?.inputConfig?.editable">
+                                        <mat-form-field
+                                            *ngIf="dtCol?.inputConfig?.type != 'dropdown' && dtCol?.inputConfig?.type !== 'date' && dtCol?.inputConfig?.type !== 'dropdowndata'"
+                                            [ngStyle]="dtCol?.inputStyles"
+                                            [appearance]="dtCol?.inputConfig?.appearance || ''">
+                                            <mat-label>{{dtCol?.inputConfig?.label}}</mat-label>
+                                            <input matInput [type]=" dtCol?.inputConfig?.type || 'text'"
+                                                [formControlName]="dtCol?.data" [placeholder]="dtCol?.inputConfig?.placeholder" [value]="element[dtCol?.data]">
+                                            <mat-error
+                                                *ngIf="(tableRows.controls[dI].touched || tableRows.controls[dI]?.value.isSubmitted) && tableRows.controls[dI].controls[dtCol.data].errors?.required">
+                                                {{dtCol?.display}} is required!
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field
+                                            *ngIf="dtCol?.inputConfig?.type != 'dropdown' && dtCol?.inputConfig?.type === 'date'&& dtCol?.inputConfig?.type !== 'dropdowndata'"
+                                            [ngStyle]="dtCol?.inputStyles"
+                                            [appearance]="dtCol?.inputConfig?.appearance || ''">
+                                            <mat-label>{{dtCol?.inputConfig?.label}}</mat-label>
+                                            <input matInput [matDatepicker]="picker" [formControlName]="dtCol?.data"
+                                                [value]="element[dtCol?.data]">
+                                            <mat-datepicker-toggle matSuffix [for]="picker">
+                                                <mat-icon matDatepickerToggleIcon>
+                                                    <img class="dt__picker_img"
+                                                        src="../../../../../assets/svg/calendar.svg">
+                                                </mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                            <mat-error
+                                                *ngIf="(tableRows.controls[dI].touched || tableRows.controls[dI]?.value.isSubmitted) && tableRows.controls[dI].controls[dtCol.data].errors?.required">
+                                                {{dtCol?.display}} is required!
+                                            </mat-error>
+                                        </mat-form-field>
+                                        <mat-form-field *ngIf="dtCol?.inputConfig?.type === 'dropdowndata'"
+                                        [ngStyle]="dtCol?.inputStyles"
+                                        [appearance]="dtCol?.inputConfig?.appearance || ''">
+                                        <mat-label>{{dtCol?.inputConfig?.label}}</mat-label>
+                                        <mat-select multiple (filtered)="filteredDropDownValues($event)" [formControlName]="dtCol?.data" (selectionChange)="setDropDownValuesMultiple($event, tableRows.controls[dI]?.value, dI, dtCol?.inputConfig?.patchItems, dtOptions.setDropDown)">
+                                            <mat-option *ngFor="let ddrItem of dtCol?.inputConfig?.ddrData"
+                                                [value]="ddrItem[dtCol?.inputConfig.viewValue]" [id]="ddrItem">
+                                                {{ddrItem[dtCol?.inputConfig.viewValue]}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <mat-error
+                                            *ngIf="(tableRows.controls[dI].touched || tableRows.controls[dI]?.value.isSubmitted) && tableRows.controls[dI].controls[dtCol.data].errors?.required">
+                                            {{dtCol?.display}} is required!
+                                        </mat-error>
+                                    </mat-form-field>
+                                        <mat-form-field *ngIf="dtCol?.inputConfig?.type === 'dropdown'"
+                                            [ngStyle]="dtCol?.inputStyles"
+                                            [appearance]="dtCol?.inputConfig?.appearance || ''">
+                                            <mat-label>{{dtCol?.inputConfig?.label}}</mat-label>
+                                                <!-- <mat-select (filtered)="filteredDropDownValues($event)" [formControlName]="dtCol?.data" (selectionChange)="setDropDownValues($event, tableRows.controls[dI]?.value, dI, dtCol?.inputConfig?.patchItems, dtOptions.setDropDown)">
+                                                <input *ngIf="dtCol?.searchable" #searchSelectInput class="inside-search-box" placeholder="Search" matInput (keyup)="keyUpSearch($event,dtCol?.inputConfig.viewValue)" [value]="fields[dtCol?.inputConfig.viewValue]" style="padding: 16px;">
+                                                <mat-option *ngFor="let ddrItem of dtCol?.inputConfig?.ddrData | search: fields:dtCol?.inputConfig.viewValue"
+                                                    [value]="ddrItem[dtCol?.inputConfig.viewValue]" [id]="ddrItem">
+                                                    {{ddrItem[dtCol?.inputConfig.viewValue]}}
+                                                </mat-option>
+                                            </mat-select> -->
+                                            <mat-select (openedChange)="openedChange($event)" placeholder="Search"
+                                            [formControlName]="dtCol?.data"
+                                            (selectionChange)="setDropDownValues($event, tableRows.controls[dI]?.value, dI, dtCol?.inputConfig?.patchItems,dtOptions.setDropDown)"
+                                            (closed)="clearSearch(dtCol?.inputConfig.viewValue)">
+                                            <mat-select-trigger>
+                                                {{tableRows.controls[dI]?.value[dtCol?.data]}}
+                                            </mat-select-trigger>
+                                            <mat-optgroup class="select-input-optgroup">
+                                                <div class="search-input">
+                                                    <input #search autocomplete="off" placeholder="Search"
+                                                        (keyup)="keyUpSearch($event,dtCol?.inputConfig.viewValue)"
+                                                        [value]="fields[dtCol?.inputConfig.viewValue]"
+                                                        aria-label="Search" matInput>
+                                                    <mat-icon class="clear" *ngIf="search.value" matSuffix title="clear"
+                                                        (click)="clearSearch(dtCol?.inputConfig.viewValue)">close</mat-icon>
+                                                </div>
+                                            </mat-optgroup>
+                                            <mat-optgroup
+                                                *ngIf="(dtCol?.inputConfig?.ddrData | search: fields:dtCol?.inputConfig.viewValue)?.length === 0">
+                                                <div>No results found! </div>
+                                            </mat-optgroup>
+                                            <mat-option
+                                                *ngFor="let ddrItem of dtCol?.inputConfig?.ddrData | search: fields:dtCol?.inputConfig.viewValue"
+                                                [value]="ddrItem[dtCol?.inputConfig.viewValue]" [id]="ddrItem">
+                                                {{ddrItem[dtCol?.inputConfig.viewValue]}}
+                                            </mat-option>
+
+                                        </mat-select>
+                                            <mat-error
+                                            *ngIf="(tableRows.controls[dI].touched || tableRows.controls[dI]?.value.isSubmitted) && tableRows.controls[dI].controls[dtCol.data].errors?.required">
+                                            {{dtCol?.display}} is required!
+                                        </mat-error>
+                                        </mat-form-field>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <span *ngIf="dtCol.icons?.edit && !tableRows.controls[dI]?.value.isEditable" title="Edit">
+                                <span class="material-icons-outlined edit"
+                                    (click)="trigEditRow(tableRows.controls[dI]?.value, dI, dtOptions.setDropDown)">
+                                    <mat-icon class="txt-edit">edit</mat-icon>
+                                </span>
+                            </span>
+                            <span *ngIf="dtCol.icons?.delete && !tableRows.controls[dI]?.value.isEditable"
+                                title="Delete">
+                                <span class="material-icons-outlined delete" (click)="openDeleteDialog(element, dI)">
+                                    <mat-icon class="txt-delete">delete_forever</mat-icon>
+                                </span>
+                            </span>
+                            <!-- <span *ngIf="dtCol.icons?.discard && tableRows.controls[dI]?.value.isNew && !tableRows.controls[dI]?.value.saved" title="cancel new"
+                                (click)="cancelRow(element, dI)">
+                                <span class="material-icons-outlined cancel">
+                                    do_not_disturb
+                                </span>
+                            </span> -->
+                            <span *ngIf="dtCol.icons?.discard && tableRows.controls[dI]?.value.isEditable"
+                                title="Cancel" (click)="cancelRow(element, dI)">
+                                <span class="material-icons-outlined discard">
+                                    <mat-icon class="txt-cancle">remove_circle</mat-icon>
+                                </span>
+                            </span>
+                            <span type="submit" *ngIf="dtCol.icons?.edit && tableRows.controls[dI]?.value.isEditable"
+                                title="Save" (click)="trigSave(tableRows.controls[dI]?.value, dI)">
+                                <span class="material-icons-outlined save">
+                                    <mat-icon class="txt-success">save</mat-icon>
+                                </span>
+                            </span>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                <ng-container matColumnDef="expandedDetail">
+                    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                        <div class="row-element-detail"
+                            [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                            <div class="row-detail-container" #rowDetailContainer></div>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="columnsToDisplay ; sticky: true"></tr>
+                <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+                    [class.example-expanded-row]="expandedElement === element">
+                </tr>
+                <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+                <tr class="mat-row" *matNoDataRow>
+                    <td class="mat-cell" colspan="999">No data matching the filter "{{searchValue}}"</td>
+                </tr>
+            </table>
+        </div>
+
+        <ng-container *ngIf="dtOptions?.pagination">
+            <mat-paginator [pageSizeOptions]="dataTableOptions.pageSizeOptions"
+                aria-label="Select page of users"></mat-paginator>
+        </ng-container>
+    </ng-container>
+
+</div>

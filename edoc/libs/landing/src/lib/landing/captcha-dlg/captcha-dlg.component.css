@@ -1,0 +1,34 @@
+.captcha {
+  background-color: lightgray;
+  /* background: repeating-linear-gradient(
+      141deg,
+      transparent,
+      #917f7f00 5px,
+      hsl(0deg 12% 15% / 36%) 0,
+      hsl(0deg 13% 62% / 6%) 10px
+    )
+    hsla(0, 0%, 70%, 0.06); */
+  width: 100%;
+  text-align: center;
+  background-image: url(https://codingnepalweb.com/demos/custom-captcha-in-javascript/captcha-bg.png);
+  user-select: none;
+}
+
+.captcha-text {
+  padding: 5px;
+  letter-spacing: 26px;
+  font-size: 2rem; 
+  color: #919191;
+  transform: skew(10deg, 7deg);
+}
+
+.form-container {
+  height: 200px;
+  width: 250px;
+  background-color: #7b807f;
+  background-image: url(https://www.transparenttextures.com/patterns/light-toast.png);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}

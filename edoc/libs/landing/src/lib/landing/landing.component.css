@@ -1,0 +1,353 @@
+@font-face {
+  font-family: CircularStdMedium;
+  src: url(../../assets/fonts/CircularStd-Medium.otf);
+}
+
+* {
+  /* font-family: 'CircularStd-book'; */
+}
+
+.main-body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+.body-container {
+  display: flex;
+  flex-direction: column;
+  /* background-image: url(../../assets/images/landing-background.png);
+    height: 100%;
+    background-size: cover;
+    background-position: right center;
+    background-repeat: no-repeat; */
+}
+
+.img-tenr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 25px;
+}
+
+.img-tenr img {
+  height: 39px;
+  width: 110px;
+}
+
+.login-header {
+  /* padding: 15px 100px; */
+  /* background-color: #ffffff; */
+  background-color: transparent;
+  color: #26282a;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 1px 7px 0 rgba(0, 0, 0, 0.53);
+}
+
+.login-body {
+  justify-content: center;
+  display: flex;
+}
+
+.login-box {
+  box-sizing: border-box;
+  box-shadow: 0 2px 4px 0 rgba(181, 181, 181, 0.7);
+  width: 360px;
+  right: 10px;
+  min-height: 490px;
+  z-index: 1;
+  padding: 0 5px;
+  border-top: 1px solid #f1f1f5;
+}
+
+.login-logo {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+  padding-top: 25px;
+  padding-bottom: 25px;
+  height: auto;
+  line-height: 0;
+}
+
+/* .challenge {
+    padding: 0 24px;
+    margin: 0 auto;
+    max-width: 320px;
+    max-width: 18.82353rem;
+} */
+
+.challenge .challenge-heading {
+  display: block;
+  margin: 14px 0 14px;
+  font-size: 20px;
+  text-align: center;
+  line-height: 23px;
+}
+
+.challenge_workflow {
+  display: flex;
+  justify-content: center;
+}
+
+.btn {
+  padding: 0.5px 24px 34.5px;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  border: solid 2px #1a73e8;
+  background-color: #ffffff;
+  font-size: 0.94118rem;
+  height: 2.35294rem;
+  cursor: pointer;
+  margin: 13px 5px;
+  font-size: 15px;
+  color: #1a73e8;
+}
+
+.btn-free {
+  padding: 0.5px 24px 34.5px;
+  border-radius: 5px;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+  border: solid 2px #fff;
+  background-color: #1a73e8;
+  font-size: 0.94118rem;
+  height: 2.35294rem;
+  cursor: pointer;
+  margin: 13px 5px;
+  font-size: 15px;
+  color: #fff;
+}
+
+.btn-mr {
+  margin: 0 87px 0px 21px;
+}
+
+.btn-free:hover {
+  background-color: #ffffff;
+  color: #2a2a2a;
+  border: solid 2px #1a73e8;
+}
+
+.btn:hover {
+  background-color: #1a73e8;
+  color: #fff;
+  border: solid 2px #ffffff;
+}
+
+.login-footer {
+  text-align: center;
+  padding: 6px 0;
+  font-size: 0.58824em;
+  position: fixed;
+  bottom: 0;
+  background: #fff;
+  color: #26282a;
+  z-index: 1;
+  width: 100%;
+}
+
+.workflow {
+  width: 50%;
+  margin: 50px 50px;
+}
+
+.body-content {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+}
+
+.container-left {
+    width: 70%;
+    height: 80%;
+}
+
+.home-page {
+    width: 70%;
+    height: 80%;
+    background-size: cover !important;
+    background-position: 50% !important;
+    background-repeat: no-repeat !important;    
+}
+
+.container-right {
+    width: 400px;
+    margin-left: 2.5%;
+    margin-right: 2.5%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* border: 2px solid #007BF1; */
+    padding: 7px 40px;
+    box-sizing: border-box;
+    background-color: #fff;
+    color: #26282a;
+}
+
+.factory-flavours {
+  display: flex;
+  justify-content: flex-end;
+  margin: 5% 2%;
+  font-size: 50px;
+  line-height: 65px;
+  font-weight: 600;
+}
+
+
+
+.title-txt1 {
+  display: flex;
+  justify-content: center;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 25px;
+  letter-spacing: 0.05em;
+  color: #000000;
+}
+
+.landing-frm {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  margin: 20px 0;
+}
+
+.getstarted-frm-input {
+  min-height: 75px;
+  position: relative;
+}
+
+.getstarted-frm-btn {
+  margin-bottom: 0px;
+}
+
+.getstarted-input {
+  border: 2px solid rgba(100, 149, 237, 0.7);
+  box-sizing: border-box;
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.1));
+  height: 35px;
+  padding: 5px 10px;
+  padding-right: 105px;
+  width: 290px;
+}
+
+.form-container{
+  position: relative;
+}
+
+#domain {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  color: #7e7e7e;
+}
+
+.getstarted-btn {
+  background: #429ff6;
+  padding: 15px 0;
+  border: 0;
+  width: 100%;
+}
+
+.getstarted-txt {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 20px;
+  color: #ffffff;
+}
+
+.title-txt-container {
+  width: 100%;
+}
+
+.title-txt2 {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.05em;
+  color: #000000;
+  margin-top: 0;
+}
+
+.title-txt3 {
+  font-family: CircularStdMedium;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 23px;
+  line-height: 25px;
+  letter-spacing: 0.05em;
+  color: #000000;
+  margin-bottom: 70px;
+  text-align: center;
+}
+
+.title-txt4 {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: 0.05em;
+  color: #000000;
+  margin-bottom: 5px;
+}
+
+.title-txt5 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: 0.05em;
+  color: #000000;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.title-txt6 {
+  font-style: normal;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: 0.05em;
+  color: #000000;
+  margin-bottom: 5px;
+}
+
+.title-txt7 {
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 15px;
+  letter-spacing: 0.05em;
+  color: #000000;
+  text-align: center;
+}
+
+.link-txt {
+    color: #007BF1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.error-msg{
+  min-height: 27px;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+
+    .container-left {
+        display: none !important;
+    }
+
+    .col-sm-offset-2 {
+        margin-left: 24.66666667%;
+    }
+
+    .col-sm-8 {
+        float: left;
+    }
+}

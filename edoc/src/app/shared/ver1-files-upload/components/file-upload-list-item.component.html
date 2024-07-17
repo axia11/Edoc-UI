@@ -1,0 +1,24 @@
+<!-- <div class="doc-no-blk"> -->
+  <!-- <mat-form-field>
+      <input type="text" maxlength="30" placeholder="Doc No." #docNoRef matInput [formControl]="docNoCtrl" (blur)="updateDocNo($event)" required>
+      <mat-error *ngIf="docNoCtrl.errors?.required">Doc No. is required!</mat-error>
+  </mat-form-field> -->
+<!-- </div> -->
+<file-upload-icon [file]="file.file"></file-upload-icon>
+<div class="file-info">
+  <span [title]="file.file.name" class="file-name">{{ file.file.name }}</span>
+</div>
+<div class="file-buttons">
+  <!-- <span title="Update Doc No."  (click)="updateFile(file)">
+      <mat-icon class="txt-success">save</mat-icon>
+  </span> -->
+  <span title="Download File" *ngIf="!showUpload" (click)="downloadFile(file)">
+      <mat-icon class="txt-primary" style="transform: rotate(180deg)">publish</mat-icon>
+  </span>
+  <!-- <span title="Upload File" *ngIf="showUpload" (click)="uploadFile(file)">
+      <mat-icon class="txt-success">publish</mat-icon>
+  </span> -->
+  <span title="Remove File" class="remove-btn" (click)="removeFile(file)" *ngIf="!isView">
+      <mat-icon class="txt-err">delete_forever</mat-icon>
+  </span>
+</div>

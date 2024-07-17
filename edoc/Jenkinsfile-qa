@@ -1,0 +1,43 @@
+pipeline{
+    agent{label 'build-node'}
+
+    
+    stages{
+        stage("Git Checkout"){
+            steps{
+                git branch: 'Development', credentialsId: 'axia-github-token', url: 'https://github.com/axia11/Edoc-UI.git'
+                echo "Cloned latest commits from dev branch to the slave agent"
+            }
+        }
+        stage("Install Node Module"){
+             steps{
+                 sh "sudo chmod 777 $WORKSPACE/edoc/"
+        
+                 // Add the step to remove package-lock.json
+                 sh "rm -f $WORKSPACE/edoc/package-lock.json"
+        
+                 sh "cd $WORKSPACE/edoc/ && npm i"
+                 echo "Installed node modules in the blunet directory"
+            }
+        }
+        stage("Build Core"){
+            steps{
+                sh "cd $WORKSPACE/edoc/ && sudo ng b -c=qa1"
+                echo "Compilation of core app is done"
+            }
+        }
+        stage("Push Core to S3 QA1"){
+            steps{
+                sh "cd $WORKSPACE/edoc/dist/ && aws s3 sync blunet s3://qa.edocx.ai"
+                echo "Chunk files of core have been synced to the s3 bucket"
+            }
+        }
+        stage("Clear cache in Core CFD"){
+            steps{
+                sh "sudo chmod 700 $WORKSPACE/edoc/invalidations-coreqa1.sh"
+                sh "$WORKSPACE/edoc/invalidations-coreqa1.sh"
+                echo "Completed Invalidation & cleared cache in core CFD"
+            }
+        }
+    } 
+} 

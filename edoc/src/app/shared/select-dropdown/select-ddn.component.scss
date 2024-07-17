@@ -1,0 +1,80 @@
+/**
+ * Copyright (c) 2018 Bithost GmbH All Rights Reserved.
+ *
+ * Use of this source code is governed by an MIT-style license that can be
+ * found in the LICENSE file at https://angular.io/license
+ */
+
+@import '../../../styles/color-variables';
+
+$mat-menu-side-padding: 16px !default;
+$clear-button-width: 20px;
+$multiple-check-width: 33px;
+
+.mat-select-search-hidden {
+  visibility: hidden;
+}
+.mat-select-search-inner {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  z-index: 100;
+  font-size: inherit;
+  /*
+    compensate effects of .mat-datepicker-content
+    (see https://github.com/angular/material2/blob/master/src/lib/datepicker/datepicker-content.scss#L27)
+    TODO: implement proper theming (https://github.com/bithost-gmbh/ngx-mat-select-search/issues/34)
+  */
+  box-shadow: none;
+  border-radius: 0;
+  &.mat-select-search-inner-multiple {
+    width: 100%;
+  }
+}
+
+::ng-deep .mat-select-search-panel {
+  /* allow absolute positioning relative to outer options container */
+  transform: none !important;
+  overflow-x: hidden;
+}
+
+.mat-select-search-input {
+  padding: $mat-menu-side-padding;
+  padding-right: $mat-menu-side-padding + $clear-button-width;
+  box-sizing: border-box;
+}
+.mat-select-search-no-entries-found {
+  padding: $mat-menu-side-padding;
+}
+.mat-select-search-clear {
+  position: absolute;
+  right: 4px;
+  top: 5px;
+}
+// /deep/ .cdk-overlay-pane-select-search {
+//   /* correct offsetY so that the selected option is at the position of the select box when opening */
+//   // margin-top: -50px;
+// }
+
+.add-value-btn {
+  position: relative;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  line-height: 24px;
+  & > div {
+    width: calc(100% - 43px);
+    overflow: hidden;
+  }
+  button {
+    position: absolute;
+    top: 10px;
+    right: 6px;
+    font-size: 0.85em;
+    padding: 5px 10px;
+    line-height: initial !important;
+    min-width: initial !important;
+  }
+}
