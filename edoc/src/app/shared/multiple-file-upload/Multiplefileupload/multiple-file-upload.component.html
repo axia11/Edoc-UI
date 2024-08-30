@@ -1,0 +1,38 @@
+<!-- <div class="file-upload-container">
+    <input #inputRef type="file" class="files-input" [multiple]="multiple" [accept]="accept"
+        (change)="onFileChange($event)">
+
+    <div *ngIf="selectedFiles.length > 0" class="selected-files">
+        <ul>
+            <li *ngFor="let file of selectedFiles; let i = index">
+                {{ file.name }}
+                <button (click)="removeFile(i)">Remove</button>
+            </li>
+        </ul>
+    </div>
+</div> -->
+<!-- <ng-template #defaultTemplate let-isFileDragDropAvailable="isFileDragDropAvailable"> -->
+<div class="file-upload-container">
+    <div>
+        <label for="fileUpload" class="file-upload-label" (drop)="onDrop($event)" (dragover)="onDragOver($event)"
+            (dragleave)="onDragLeave($event)">
+            <span>Drag and drop <br />
+                files or click here</span>
+            <input #inputRef id="fileUpload" type="file" class="files-input" [multiple]="multiple" [accept]="accept"
+                (change)="onFileChange($event)">
+        </label>
+
+        <div *ngIf="selectedFiles.length > 0" class="selected-files">
+            <ul>
+                <li *ngFor="let file of selectedFiles; let i = index">
+                    <div>
+                        <img [src]="'../../../assets/svg/' + getFileTypes(file.name) + '.svg'" width="30" height="30" />
+                        <mat-icon class="remove-button" (click)="removeFile(i)">clear</mat-icon>
+                    </div>
+                    <div class="file-name">{{ file.name }}</div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- </ng-template> -->

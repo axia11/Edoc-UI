@@ -1,7 +1,37 @@
-<mat-toolbar class="main-mat-toolbar" [ngClass]="{'': sidenavStatus.opened}">
-    <div fxFlex fxLayoutAlign="space-between" class="inner-tool-bar">
-        <div class="title-logo">
-            <img src="../../assets/menu-icons/edoc-logo.svg" alt="Logo" class="menu-sot" style="width:40px;">
-        </div>
-    </div>
+<mat-toolbar class="main-mat-toolbar" [ngClass]="{'': sidenavStatus.opened}" fxFlex fxLayout="row" fxLayout.xs="row"
+  fxLayoutAlign="space-between center">
+  <div class="title-logo">
+  </div>
+  <div class="search-section">
+    <input type="text" placeholder="Search" (input)="onSearch($event.target.value)">
+    <!-- <mat-icon matPrefix mat-icon-button aria-label="Clear" class="clear-icon">
+        clear
+      </mat-icon> -->
+    <mat-icon matSuffix>search</mat-icon>
+  </div>
+
+  <div class="title-side">
+    <mat-icon matBadge="{{notificationCount}}">notifications_none</mat-icon>
+    <ngx-avatar size="30" value="HM" mdePopoverTriggerOn='click' [mdePopoverTriggerFor]="appPopover"></ngx-avatar>
+  </div>
 </mat-toolbar>
+
+<mde-popover #appPopover="mdePopover" mdePopoverArrowColor="#929292" mdePopoverArrowOffsetX="125"
+  mdePopoverPositionY="above" mdePopoverOffsetX="-22" mdePopoverOffsetY="-55" [mdePopoverCloseOnClick]="false">
+  <div class="page-border">
+    <div class="page-master">
+      <div class="profile-info-container">
+        <ngx-avatar size="60" class="example-header-image" value="HM"></ngx-avatar>
+        <div>
+        </div>
+        <div class="acc_name">firstName</div>
+        <div class="acc_mail">email</div>
+        <div class="acc_button"> Manage your Account </div>
+        <div class="under_line_1"></div>
+        <div class="sign-out-div">
+          <a class="acc_sign_out_button">Sign out <mat-icon style="font-size: 15px;">exit_to_app</mat-icon></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</mde-popover>

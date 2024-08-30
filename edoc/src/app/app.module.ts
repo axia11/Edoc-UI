@@ -16,13 +16,40 @@ import { SharedModule } from './shared/shared.module';
 import { CommonService } from './shared/_services/common.service';
 import { DataService } from './shared/_services/data.services';
 import { httpInterceptorProviders } from './shared/http-interceptors';
+import { MenuBarComponent } from './menu/menu-bar.component';
+import { SpinnerFileComponent } from './categories/spinner-folder/spinner-file.component';
+import { ErrMsgComponent } from './shared/_components/errMsg.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { HandleErrorService } from './shared/http-interceptors/error-handle';
+import { CreateCategoriesComponent } from './menu/create-categories/create-categories.component';
+import { CreateFoldersComponent } from './menu/create-folder/create-folders.component';
+// import { CookieService } from 'ngx-cookie-service';
 const routes: Routes = [
+  {
+    path: 'activites',
+    // canActivate: [IsAuthGuard],
+    loadChildren: () =>
+      import('../app/activites/activites.module').then(m => m.ActivitesModule)
+  },
+
+  {
+    path: 'uploaddocx',
+    loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule), data: {
+      breadcrumb: { skip: true, alias: '' }
+    },
+  },
   { path: '', component: LandingComponent, pathMatch: 'full' },
+
 ]
 @NgModule({
   declarations: [
     AppComponent,
     TitleBarComponent,
+    MenuBarComponent,
+    SpinnerFileComponent,
+    ErrMsgComponent,
+    CreateCategoriesComponent,
+    CreateFoldersComponent
   ],
   imports: [
     BrowserModule,
@@ -30,6 +57,7 @@ const routes: Routes = [
     MatIconModule,
     HttpClientModule,
     MaterialModule,
+    MatTabsModule,
     SharedModule,
     HighchartsChartModule,
     AvatarModule,
@@ -37,8 +65,10 @@ const routes: Routes = [
     MdePopoverModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  entryComponents: [SpinnerFileComponent],
   providers: [
     CommonService,
+    HandleErrorService,
     DatePipe,
     httpInterceptorProviders,
     DataService,

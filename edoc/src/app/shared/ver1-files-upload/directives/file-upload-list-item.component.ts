@@ -56,12 +56,16 @@ export class FileUploadListItemComponent implements OnInit {
   }
 
   openDelDialog(file): void {
-    this.dialog.open(ConfirmDeleteComponent, {
-      width: '500px',
-      data: {
-        fn: this.deleteFile.bind(this, file)
-      }
-    });
+    const message = `Are you sure you want to delete ?`;
+    const dialogData = {
+      title: 'Delete ?',
+      message: message,
+      fn: this.deleteFile.bind(this, file)
+    };
+    const dialogRef = this.dialog.open(ConfirmDeleteComponent, {
+      width: '480px',
+      data: dialogData,
+    });   
   }
 
   deleteFile(file) {

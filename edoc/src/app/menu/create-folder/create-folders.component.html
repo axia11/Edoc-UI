@@ -1,0 +1,73 @@
+<div class="page-border">
+    <div class="header-titleside justify-content-between">
+        <div class="title-header d-flex">
+            <div class="subtitle">{{foldername}}</div>
+        </div>
+        <mat-icon [mat-dialog-close]="false" tabindex="-1" class="close-button cur-p">clear</mat-icon>
+    </div>
+    <div class="page-master tree-structure">
+        <div class="side-ng-grid">
+            <form [formGroup]="headerForm" (ngSubmit)="submitForm()">
+                <div class="m-flex m-flex-1">
+
+                    <div class="m-flex-item">
+                        <mat-label class="label-name">Select the file<span class="required">*</span></mat-label>
+                        <mat-form-field *ngIf="isNewFolder">
+                            <input matInput type="text" formControlName="ParentId" [value]="selectedNodePath"
+                                (click)="showTree()" class="cur-p" readonly>
+                        </mat-form-field>
+                        <mat-form-field *ngIf="!isNewFolder" class="disable">
+                            <input matInput type="text" formControlName="ParentId" [value]="selectedNodePath" readonly>
+                        </mat-form-field>
+                    </div>
+                    <div class="m-flex-item">
+                        <mat-label class="label-name">Name<span class="required">*</span></mat-label>
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="DocName" autocomplete="off" required>
+                            <mat-error *ngIf="headerForm.controls.DocName.errors?.required">
+                                Folder Name is required!
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="btn-group pt-2 w-100 "
+                    style="border-top: 1.5px solid #d9d9d9; justify-content: flex-start;">
+                    <button mat-raised-button color="primary">Save</button>
+                    <button mat-raised-button [mat-dialog-close]="false" tabindex="-1" color="tiritary">Discard</button>
+                </div>
+            </form>
+
+            <div *ngIf="isTreeVisible" class="tree-demo-container">
+                <mat-tree class="example-tree" [dataSource]="nestedDataSource" [treeControl]="nestedTreeControl">
+                    <mat-tree-node *matTreeNodeDef="let node">
+                        <div class="mat-tree-node">
+                            <div style="width: 40px;"></div>
+                            <div class="d-flex tree-node-container">
+                                <mat-icon style="font-size:20px; margin-right: 5px;">folder</mat-icon>
+                                <div (click)="selectNode(node)" class="cur-p">{{ node.DocName }}</div>
+                                <!-- <mat-icon class="icon-on-hover cur-p" (click)="addNewChild()">add</mat-icon> -->
+                            </div>
+                        </div>
+                    </mat-tree-node>
+                    <mat-nested-tree-node *matTreeNodeDef="let node; when: hasNestedChild">
+                        <div class="mat-tree-node">
+                            <button mat-icon-button (click)="toggleNode(node)">
+                                <mat-icon>{{ nestedTreeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'
+                                    }}</mat-icon>
+                            </button>
+                            <div class="d-flex tree-node-container">
+                                <mat-icon style="font-size:20px; margin-right: 5px;">folder</mat-icon>
+                                <div (click)="selectNode(node)" class="cur-p">{{ node.DocName }}</div>
+                                <!-- <mat-icon class="icon-on-hover cur-p" (click)="addNewChild()">add</mat-icon> -->
+                            </div>
+                        </div>
+                        <div class="nested-node" [class.example-tree-invisible]="!nestedTreeControl.isExpanded(node)">
+                            <ng-container matTreeNodeOutlet></ng-container>
+                        </div>
+                    </mat-nested-tree-node>
+                </mat-tree>
+            </div>
+
+        </div>
+    </div>
+</div>

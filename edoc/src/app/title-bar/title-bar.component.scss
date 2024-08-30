@@ -1,0 +1,25 @@
+// @import "../../../../../../tenr/apps/core/src/app/shared/styles/axia_global_style_July_2021.scss";
+@import "https://fonts.googleapis.com/icon?family=Material+Icons&display=block";
+@import "../../styles/color-variables";
+@import "../../styles/font-variables";
+
+.main-mat-toolbar {
+    color: black;
+    height: 55px !important;
+    top: 0;
+    z-index: auto;
+    background-color: #fafafc;
+    padding: 10px 25px;
+    border-bottom: 1px solid #d2d2d7;
+}
+
+.ps {
+    position: static !important;
+}
+
+.title-side {
+    display: inline-flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    gap: 20px;
+}

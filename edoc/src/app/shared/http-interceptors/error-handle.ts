@@ -1,5 +1,5 @@
-import { environment } from 'src/environments/environment';
-import { ErrMsgComponent } from './../_components/errMsg.component';
+import { environment } from '../../../../src/environments/environment';
+import { ErrMsgComponent } from '../_components/errMsg.component';
 import { HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError, Subject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';

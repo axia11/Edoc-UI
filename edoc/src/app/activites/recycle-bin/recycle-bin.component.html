@@ -1,0 +1,13 @@
+<div class="emp-screen" *ngIf="emptyfiles">
+    <div>
+        <h3 class="title">Your recycle bin is Empty</h3>
+        <img src="../../../assets/images/empty-bin.png" width="200" height="200" />
+    </div>
+</div>
+<div *ngIf="!emptyfiles">
+    <div class="btn-group btn-group-right w-100 mb-4">
+        <button mat-raised-button color="secondary" (click)="openDeleteDialog(row)">Delete Permenatly</button>
+        <button mat-raised-button color="primary" (click)="restoreFile($event)">Restore</button>
+    </div>
+    <app-ver3-data-table *ngIf="dtOptions" [length]="dtOptions?.length" [dtOptions]="dtOptions"></app-ver3-data-table>
+</div>

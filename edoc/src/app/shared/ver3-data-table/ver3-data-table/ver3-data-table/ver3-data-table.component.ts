@@ -338,11 +338,15 @@ export class Ver3DataTableComponent implements OnInit {
   }
 
   openDialog(element): void {
+    const message = `Are you sure you want to delete ?`;
+    const dialogData = {
+      title: 'Delete ?',
+      message: message,
+      fn: this.trigDelete.bind(this, element)
+    };
     const dialogRef = this.dialog.open(ConfirmDeleteComponent, {
-      width: '620px',
-      data: {
-        fn: this.trigDelete.bind(this, element)
-      }
+      width: '480px',
+      data: dialogData,
     });
   }
 

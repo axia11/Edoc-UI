@@ -70,8 +70,8 @@ export class LandingComponent implements OnInit {
 
   ngOnInit(): void {
     this.currentUrl = window.location.href;
-    this.lastVisitedRoute = localStorage.lastVisitedRoute || '/axiahome/dashboard';
-    // this.redirectLucy();
+    this.lastVisitedRoute = localStorage.lastVisitedRoute || '/activites';
+    this.redirectLucy();
     // this.regService.getAllclientURLS().subscribe(data => {
     //   this.clientList = data.response
     // })
@@ -121,7 +121,7 @@ export class LandingComponent implements OnInit {
     let domainName = this.domainNameForm.value.trim().split('.');
     let createDomain =
       domainName.length == 1
-        ? domainName + '.axiasmart.com'
+        ? domainName + '.eDocx.ai'
         : domainName.join('.');
     this.isSubmitted = true;
     if (this.domainNameForm.valid) {

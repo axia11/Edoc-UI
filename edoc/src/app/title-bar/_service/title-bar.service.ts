@@ -6,7 +6,13 @@ import { BehaviorSubject, Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class TitleBarService {
+  private searchSubject = new BehaviorSubject<string>('');
+  search$ = this.searchSubject.asObservable();
 
+  setSearchTerm(term: string): void {
+    this.searchSubject.next(term);
+  }
+  
   updatePlant = new BehaviorSubject<any>(false);
   isSidenavOpen = new BehaviorSubject<any>(true);
 

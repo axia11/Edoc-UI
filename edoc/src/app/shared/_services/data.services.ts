@@ -88,7 +88,7 @@ export class DataService {
     // console.log(currMTModId, currMODId);
     return this.http.get(`${environment.apiUrl}/account/getTabs/${localStorage.userId}?MTModId=${currMTModId}&MODId=${currMODId}`)
   }
-  getScreens(MODId):Observable<any>{
+  getScreens(MODId): Observable<any> {
     const currMODId = MODId;
     return this.http.get(`${environment.apiUrl}/account/getSreens/${currMODId}?RLId=[1]`)
   }
@@ -492,14 +492,14 @@ export class DataService {
     worksheet.addRow([]);
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-      fs.saveAs(blob,reportName + '.xlsx');
+      fs.saveAs(blob, reportName + '.xlsx');
     })
 
   }
 
   public async exportAsExcelFile(workbookData: any[], excelFileName: string) {
     const workbook = new ExcelJS.Workbook();
-    const hwidths = [30, 25, 30, 30, 30, 30, 30, 25, 30, 30, 30, 30, 30,30,30,30,30,30];
+    const hwidths = [30, 25, 30, 30, 30, 30, 30, 25, 30, 30, 30, 30, 30, 30, 30, 30, 30, 30];
     workbookData.forEach(({ workSheet, rows }) => {
       const sheet = workbook.addWorksheet(workSheet);
       const uniqueHeaders = [
@@ -513,30 +513,30 @@ export class DataService {
       }
       let headerRow1 = sheet.addRow(uniqueHeaders);
       headerRow1.eachCell((cell, number) => {
-       cell.fill = {
-         type: 'pattern',
-         pattern: 'solid',
-         fgColor: { argb: '00B050' },
-         bgColor: { argb: '' }
-       }
-       cell.font = {
-         name: 'MS PGothic',
-         //bold: true,
-         color: { argb: 'FFFFFF' },
-         size: 12,
- 
-       }
-     })
+        cell.fill = {
+          type: 'pattern',
+          pattern: 'solid',
+          fgColor: { argb: '00B050' },
+          bgColor: { argb: '' }
+        }
+        cell.font = {
+          name: 'MS PGothic',
+          //bold: true,
+          color: { argb: 'FFFFFF' },
+          size: 12,
+
+        }
+      })
       rows.forEach((jsonRow, i) => {
         let cellValues = { ...jsonRow };
 
-        uniqueHeaders.forEach((header:any, j) => {
+        uniqueHeaders.forEach((header: any, j) => {
           if (Array.isArray(jsonRow[header])) {
             cellValues[header] = "";
           }
         });
         sheet.addRow(cellValues);
-        uniqueHeaders.forEach((header:any, j) => {
+        uniqueHeaders.forEach((header: any, j) => {
           if (Array.isArray(jsonRow[header])) {
             const jsonDropdown = jsonRow[header];
             sheet.getCell(
@@ -572,14 +572,14 @@ export class DataService {
 
   private saveAsExcelFile(buffer: any, fileName: string): void {
     const EXCEL_TYPE =
-  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-const EXCEL_EXTENSION = ".xlsx";
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    const EXCEL_EXTENSION = ".xlsx";
     const data: Blob = new Blob([buffer], {
       type: EXCEL_TYPE
     });
     FileSaver.saveAs(
       data,
-      fileName + " Import "  + EXCEL_EXTENSION
+      fileName + " Import " + EXCEL_EXTENSION
     );
   }
 }

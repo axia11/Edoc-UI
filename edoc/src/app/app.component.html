@@ -1,18 +1,43 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 <section class="body-content">
-  <app-title-bar (openSideNav)="toggleSideNav($event)" [sidenavStatus]="sidenav">
-  </app-title-bar>
-  <mat-sidenav-container autosize [hasBackdrop]="false">
 
+  <mat-sidenav-container autosize [hasBackdrop]="false">
     <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="mac-screen">
-      <!-- <app-menu></app-menu> -->
+      <app-menu-bar style="height: 100%;"></app-menu-bar>
     </mat-sidenav>
     <mat-sidenav-content #scrollContainer (scroll)="onActivate($event)" autosize>
-      <div>
+      <app-title-bar (openSideNav)="toggleSideNav($event)" [sidenavStatus]="sidenav"
+        style="position: sticky;top: 0;z-index: 999;">
+      </app-title-bar>
+      <div [ngClass]="margintoTopBar(isSidenavOpen)" *ngIf="showTopBar" class="po-sty">
+        <div class="flex-container" fxLayout="row" fxLayout.xs="row" fxLayoutAlign="center space-between">
+
+          <div class="col-md-6">
+            <ol fxLayout="row " *ngIf="breadcrumbs[0]?.showbreadcrumb || breadcrumbs[1]?.showbreadcrumb"
+              class="breadcrumb-ol">
+              <li fxLayout="row" fxLayoutAlign="space-around center"
+                *ngFor="let breadcrumb of breadcrumbs; let info = info; let first = first; let i = index; let last = last">
+                <a fxFlexAlign="center" routerLink="{{ breadcrumb.routeLink }}" [class.active-breadcrumb]="last"
+                  [class.disabled-breadcrumb]=" breadcrumb.label === 'Details'">
+                  {{ breadcrumb.label }}
+                </a>
+                <mat-icon *ngIf="!last">keyboard_arrow_right</mat-icon>
+              </li>
+
+            </ol>
+          </div>
+          <div class="col-md-6">
+            <!-- <div class="fs-4 text-color" *ngIf="currentPath == '/dashboard'">
+                {{ clientName }}
+              </div> -->
+          </div>
+
+        </div>
+      </div>
+      <div class="page-land">
         <router-outlet></router-outlet>
       </div>
     </mat-sidenav-content>
-
   </mat-sidenav-container>
 </section>
 

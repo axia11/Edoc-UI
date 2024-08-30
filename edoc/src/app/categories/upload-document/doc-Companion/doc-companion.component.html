@@ -1,0 +1,24 @@
+<div class="page-master">
+    <form>
+        <edoc-multiple-file-upload (filesSelected)="onFilesSelected($event)"></edoc-multiple-file-upload>
+        <div class="btn-group btn-group-left">
+            <button mat-raised-button color="primary">Upload</button>
+            <button mat-raised-button color="secondary">Cancel</button>
+        </div>
+    </form>
+</div>
+
+<!-- if(this.files.length == 0 ){
+    this.sb.open('please upload a file', 'bg-red');
+    return;
+  }
+  var sendData= this.headerForm.getRawValue()
+  let DocData = {
+    ...sendData,
+    file: this.files, // Array of file objects
+  };
+ this.apiservice.uploadDocRevision(DocData).subscribe(res=>{
+  if(res.Success==true){
+          this.sb.open('File Uploaded Successfully', 'bg-green');}
+          this.cm.notifyParentComponent();
+ }) -->

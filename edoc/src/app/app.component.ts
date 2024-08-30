@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, ComponentFactoryResolver, Inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -8,6 +8,14 @@ import { SetTokenService } from 'libs/common-services/src';
 import { Title } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { DOCUMENT } from '@angular/common';
+import { SpinnerFileComponent } from './categories/spinner-folder/spinner-file.component';
+import { CommonService } from './shared/_services/common.service';
+import { DataService } from './shared/_services/data.services';
+import { HandleErrorService } from './shared/http-interceptors/error-handle';
+import { InitialService } from './_services/initial.service';
+import { environment } from 'src/environments/environment';
+import { ErrMsgComponent } from './shared/_components/errMsg.component';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -16,47 +24,48 @@ import { DOCUMENT } from '@angular/common';
 export class AppComponent implements OnInit {
   currentScrollPosition = window.pageYOffset;
   @ViewChild('sidenav') sidenav: MatSidenav;
-  // @ViewChild(SpinnerFileComponent) spinner: SpinnerFileComponent
+  @ViewChild(SpinnerFileComponent) spinner: SpinnerFileComponent
   apiLoads = false;
+  breadcrumbs: any;
 
   accepted: boolean = false;
   $isSidenavOpen: Subscription;
   opened: boolean = true;
   showTopBar = true;
   title = 'blunet';
-  breadcrumbs: any;
   isSidenavOpen: any = true;
   currentPath: string;
   constructor(
     private dialog: MatDialog,
-    // public initService: InitialService,
-    // private cs: CommonService,
+    public initService: InitialService,
+    private cs: CommonService,
     private titleService: Title,
-    // private es: HandleErrorService,
+    private es: HandleErrorService,
     private sts: SetTokenService,
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumbService: BreadcrumbService,
     // private cnbs: ComlNameOfBusService,
-    // public ds: DataService,
+    public ds: DataService,
+    private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(DOCUMENT) private _document: Document,
     public dashboardService: TitleBarService,
   ) {
     this.route.queryParams.subscribe(params => {
       if (params.userId && params.token) {
-        // window.localStorage.setItem('userId', params.userId);
-        // window.localStorage.setItem('token', params.token);
-        // window.localStorage.setItem('firstName', params.firstName);
-        // window.localStorage.setItem('clientName', params.clientName);
-        // window.localStorage.setItem('PLId', params.PLId);
-        // window.localStorage.setItem('prodClientId', params.prodClientId);
-        // window.localStorage.setItem('baseUrl', params.baseUrl);
-        // window.localStorage.setItem('clientId', params.clientId);
-        // window.localStorage.setItem('productId', params.productId);
-        // window.localStorage.setItem('userCategoryId', params.userCategoryId);
-        // window.localStorage.setItem('accountURL', params.accountURL);
-        // window.localStorage.setItem('planTimeline', params.planTimeline);
-        // window.localStorage.setItem('EId', params.EId);
+        window.localStorage.setItem('userId', params.userId);
+        window.localStorage.setItem('token', params.token);
+        window.localStorage.setItem('firstName', params.firstName);
+        window.localStorage.setItem('clientName', params.clientName);
+        window.localStorage.setItem('PLId', params.PLId);
+        window.localStorage.setItem('prodClientId', params.prodClientId);
+        window.localStorage.setItem('baseUrl', params.baseUrl);
+        window.localStorage.setItem('clientId', params.clientId);
+        window.localStorage.setItem('productId', params.productId);
+        window.localStorage.setItem('userCategoryId', params.userCategoryId);
+        window.localStorage.setItem('accountURL', params.accountURL);
+        window.localStorage.setItem('planTimeline', params.planTimeline);
+        window.localStorage.setItem('EId', params.EId);
         this.router.navigate([]);
       }
     });
@@ -89,44 +98,43 @@ export class AppComponent implements OnInit {
     //   //   this.isWarehouse = isWarehouse;
     //   // });
 
-    //   this.breadcrumbService.breadcrumbs$.subscribe(breadCrumb => {
-    //     this.breadcrumbs = breadCrumb;
-    //     // console.log(breadCrumb[0], 'breadCrumb');
-    //     this.titleService.setTitle(`Axia Smart | ${breadCrumb[0]?.label || ''}`);
-    //   });
-    //   this.route.queryParams.subscribe(params => {
-    //     this.initService.baseUrl = environment.production
-    //       ? window.location.origin
-    //       : environment.baseUrl;
-    //     this.showTopBar = window.location.pathname.length > 1;
-    //     this.opened = window.location.pathname.length > 1;
-    //     if (window.location.pathname.length > 1) {
-    //       this.getClientInfo();
-    //     }
-    //   });
+    this.breadcrumbService.breadcrumbs$.subscribe(breadCrumb => {
+      this.breadcrumbs = breadCrumb;
+      // console.log(breadCrumb[0], 'breadCrumb');
+      this.titleService.setTitle(`eDocx | ${breadCrumb[0]?.label || ''}`);
+    });
+    this.route.queryParams.subscribe(params => {
+      this.initService.baseUrl = environment.production
+        ? window.location.origin
+        : environment.baseUrl;
+      this.showTopBar = window.location.pathname.length > 1;
+      this.opened = window.location.pathname.length > 1;
+      if (window.location.pathname.length > 1) {
+        // this.getClientInfo();
+      }
+    });
 
-    //   this.ds.apiLoads.subscribe(res => {
-    //     if (!this.apiLoads && res) {
-    //       setTimeout(() => {
-    //         this.spinner.attachSpinner();
-    //       }, 0);
-    //     } else if (!res) {
-    //       setTimeout(() => {
-    //         this.spinner.detachSpinner();
-    //       }, 0);
-    //     }
-    //     this.apiLoads = res;
-    //   });
+    this.ds.apiLoads.subscribe(res => {
+      if (!this.apiLoads && res) {
+        setTimeout(() => {
+          this.spinner.attachSpinner();
+        }, 0);
+      } else if (!res) {
+        setTimeout(() => {
+          this.spinner.detachSpinner();
+        }, 0);
+      }
+      this.apiLoads = res;
+    });
 
-    //   // this.router.events.subscribe(this.checkRouterEvent);
-    //   this.es.errorMsg.subscribe(err => {
-    //     this.dialog.open(ErrMsgComponent, {
-    //       width: '500px',
-    //       data: {
-    //         message: err
-    //       }
-    //     });
-    //   });
+    this.es.errorMsg.subscribe(err => {
+      this.dialog.open(ErrMsgComponent, {
+        width: '500px',
+        data: {
+          message: err
+        }
+      });
+    });
 
     this.dashboardService.isSidenavOpen.subscribe(status => {
       // console.log(status);
@@ -140,12 +148,12 @@ export class AppComponent implements OnInit {
       if (evt instanceof NavigationStart) {
         // this.sidenav.close();
         this.apiLoads = false;
-        // this.spinner.attachSpinner();
+        this.spinner.attachSpinner();
       }
 
       if (evt instanceof NavigationEnd) {
         this.apiLoads = false;
-        // this.spinner.detachSpinner();
+        this.spinner.detachSpinner();
       }
       this.currentPath = location.pathname;
     });
@@ -172,6 +180,19 @@ export class AppComponent implements OnInit {
     }
     else {
       return 'margin-top-0';
+    }
+  }
+
+  // getClientInfo() {
+  //   this.cnbs.getAll().subscribe((clientData: any) => {
+  //     localStorage.setItem('clientData', JSON.stringify(clientData));
+  //   })
+  // }
+  checkRouterEvent(rEvt: Event): void {
+    if (rEvt instanceof NavigationEnd ||
+      rEvt instanceof NavigationCancel ||
+      rEvt instanceof NavigationError) {
+      window.scrollTo(0, 0);
     }
   }
 
