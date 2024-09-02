@@ -3,13 +3,14 @@
 
 mat-sidenav {
     border-right: none;
-    background-color: rgba(0, 0, 0, 0.04);
+    background-color: rgba(0, 0, 0, .04);
 }
 
 mat-sidenav-container {
     height: 117.6vh;
     z-index: auto;
-    background-color: #f2f3f500;
+    background-color: #F5F5F7;
+
     @media only screen and (min-width: 1366px) {
         height: 91vh !important;
     }
@@ -18,9 +19,11 @@ mat-sidenav-container {
 mat-sidenav-content {
     z-index: auto;
 }
-.page-land{
+
+.page-land {
     padding: 20px 0px 20px 20px;
 }
+
 .mat-drawer-content::-webkit-scrollbar {
     width: 0px;
 }
@@ -38,6 +41,7 @@ mat-sidenav-content {
 
 .mac-screen::ng-deep {
     .mat-drawer-inner-container {
+
         //Scroll css added by Nilam
         &::-webkit-scrollbar {
             background-color: transparent;

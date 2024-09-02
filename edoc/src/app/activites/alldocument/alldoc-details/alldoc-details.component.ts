@@ -11,6 +11,7 @@ import { UploadDocumentService } from 'src/app/categories/upload-document/_servi
 import { GoblalDocPreviewComponent } from 'src/app/shared/goblal-doc-preview/goblal-doc-preview.component';
 import { TitleBarService } from 'src/app/title-bar/_service/title-bar.service';
 import { GoblalDocPreviewService } from 'src/app/shared/goblal-doc-preview/_service/goblal-doc-preview.service';
+import { RevisionHistoryService } from 'src/app/categories/upload-document/revision-history/_service/revision-history.service';
 @Component({
   selector: 'app-alldoc-details',
   templateUrl: './alldoc-details.component.html',
@@ -37,6 +38,7 @@ export class AlldocDetailsComponent implements OnInit {
     { label: 'Open version history', imgSrc: '../../assets/menu-icons/versionhistory.svg' },
   ];
   URL: any;
+  pdfURL: any;
 
   toggleDropdown(index: number) {
     this.openDropdownIndex = this.openDropdownIndex === index ? null : index;
@@ -68,8 +70,8 @@ export class AlldocDetailsComponent implements OnInit {
       this.openDeleteDialog(row);
     } else if (option.label === 'View details') {
       this.viewdetails(row)
-    }else if (option.label === 'Open version history') {
-      this.viewdetails(row)
+    } else if (option.label === 'Open version history') {
+      this.viewrevhistory(row)
     } else if (option.label === 'Share') {
       this.shareurl(row)
     } else if (option.label === 'Rename') {
@@ -80,7 +82,7 @@ export class AlldocDetailsComponent implements OnInit {
 
 
   headerForm = this.fb.group({
-    ShareId: [] 
+    ShareId: [null]
   })
 
 
@@ -90,6 +92,7 @@ export class AlldocDetailsComponent implements OnInit {
     private dialog: MatDialog,
     private sb: SnackbarService,
     public uploadservice: UploadDocumentService,
+    public revhistoryservice: RevisionHistoryService,
     private fb: FormBuilder,
     private previewservice: GoblalDocPreviewService
 
@@ -158,6 +161,7 @@ export class AlldocDetailsComponent implements OnInit {
       if (url) {
         const fileName = url.split('.com/').pop();
         this.previewservice.preViewDoc(fileName).subscribe(data => {
+          this.pdfURL = data.response || '';
           const dialogRef = this.dialog.open(GoblalDocPreviewComponent, {
             data: {
               pdfURL: data.response,
@@ -237,8 +241,15 @@ export class AlldocDetailsComponent implements OnInit {
     this.uploadservice.open(data);
   }
 
+  viewrevhistory(row: any) {
+    const data = { rowData: row, };
+    this.revhistoryservice.open(data);
+  }
+
   shareurl(row: any): void {
-    this.headerForm.get('ShareId')?.setValue(row.fileurl);
+    this.previewservice.preViewDoc(row.filename).subscribe(data => {
+      this.headerForm.get('ShareId').setValue(data.response)
+    })
     const dialogRef = this.dialog.open(this.callAPIDialog, {
       data: {
         rowData: row,

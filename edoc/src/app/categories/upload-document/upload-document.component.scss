@@ -9,7 +9,7 @@
     align-items: end;
     display: flex;
     justify-content: end;
-   
+
 }
 
 .overlay-1 {
@@ -21,7 +21,7 @@
     border: 1px solid #EBEBEB;
     overflow: hidden;
     animation-name: Overlay-motion-slideInRight;
-    animation-duration: 0.5s; 
+    animation-duration: 0.5s;
     animation-timing-function: ease-out;
     animation-fill-mode: forwards;
 }

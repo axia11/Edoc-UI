@@ -1,22 +1,17 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { DocTitleService } from '../doc-title/_service/doc-title.service';
-import { SnackbarService } from 'src/app/shared/_services/snackbar.service';
+import { RevisionHistoryService } from './_service/revision-history.service';
 import { Ver3DataTableComponent } from 'src/app/shared/ver3-data-table/ver3-data-table/ver3-data-table/ver3-data-table.component';
 
 @Component({
-  selector: 'app-doc-companion',
-  templateUrl: './doc-companion.component.html',
-  styleUrls: ['./doc-companion.component.scss']
+  selector: 'app-revision-history',
+  templateUrl: './revision-history.component.html',
+  styleUrls: ['./revision-history.component.scss']
 })
-export class DocCompanionComponent implements OnInit {
+export class RevisionHistoryComponent implements OnInit {
   dtOptions;
   @ViewChild(Ver3DataTableComponent) table: Ver3DataTableComponent;
-  emptyfiles: boolean = false;
-
-  files: File[] = [];
   constructor(
-    private sb: SnackbarService,
-    private apiservice: DocTitleService
+    private apiservice: RevisionHistoryService,
   ) { }
 
   ngOnInit(): void {
@@ -25,7 +20,7 @@ export class DocCompanionComponent implements OnInit {
 
 
   loadTable() {
-    this.apiservice.getAll().subscribe(data => {
+    this.apiservice.getallrevhistory().subscribe(data => {
       this.dtOptions = {
         data: data.response.rows,
         columns: [
@@ -69,24 +64,7 @@ export class DocCompanionComponent implements OnInit {
     };
   }
 
-  onFilesSelected(selectedFiles: File[]): void {
-    this.files = selectedFiles;
-  }
-
-  additionaldocs() {
-    if (this.files.length == 0) {
-      this.sb.open('please upload a file', 'bg-red');
-      return;
-    }
-    const DocData = {
-      EDDId: this.apiservice.data.rowData.EDDId,
-      file: this.files
-    };
-    this.apiservice.companiondoc(DocData).subscribe(res => {
-      if (res.Success == true) {
-        this.sb.open('File Uploaded Successfully', 'bg-green');
-      }
-      // this.cm.notifyParentComponent();
-    })
+  closeOverlay() {
+    this.apiservice.close();
   }
 }

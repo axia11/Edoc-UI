@@ -14,4 +14,8 @@ export class GoblalDocPreviewService {
   preViewDoc(query) :Observable<any> {
     return this.ds.get(`/docUpload/previewDoc?fileName=${query}` );
   }
+
+  downloadAttachment(query) :Observable<any> {
+    return this.ds.get(`/docUpload/DownloadDoc?fileName=${query}` );
+  }
 }

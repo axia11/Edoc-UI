@@ -123,6 +123,7 @@ export class DocTitleComponent implements OnInit {
           return;
         }
         sendData.EDDId = this.apiservice.data.rowData.EDDId;
+        sendData.Parentpath = this.selectedNodePath;
         if (this.files.value.length > 0 && this.files.value[0]) {
           let DocData = Object.assign({},
             sendData,

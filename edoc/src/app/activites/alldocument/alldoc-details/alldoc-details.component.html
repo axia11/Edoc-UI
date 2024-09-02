@@ -75,31 +75,32 @@
 
 <ng-template #callAPIDialog>
     <div mat-dialog-content>
-      <div class="page-master">
-        <div class="title-header mb-3" style="border-bottom: 1px solid #d9d9d9;">
-          <h3 class="title">Share</h3>
-        </div>
-        <form [formGroup]="headerForm">
-          <div class="side-ng-grid">
-            <div class="m-flex m-flex-1">
-              <div class="m-flex-item">
-                <mat-label class="label-name">Shared Link</mat-label>
-                <div class="search-section">
-                  <input matInput type="text" formControlName="ShareId" autocomplete="off" readonly />
-                  <mat-icon (click)="copyText()">filter_none</mat-icon>
-                </div>
-                <mat-error class="copySuccess m-3" *ngIf="copySuccess"><span
-                  class="link"><mat-icon>check_circle</mat-icon>Link copied.</span> Anyone with the link can
-                edit.</mat-error>
-              </div>
+        <div class="page-master">
+            <div class="title-header mb-3" style="border-bottom: 1px solid #d9d9d9;">
+                <h3 class="title">Share</h3>
             </div>
-          </div>
-        </form>
-        <div class="title-header d-flex align-items-start mt-5">
-          <img src="../../../../../../../../assets/svg/Vectorshareglobal.svg"style="margin-right: 5px;">
-          <h3 style="font-size: 1em; color: #8b8f99;">This content is publicly available to anyone with the link.</h3>
+            <form [formGroup]="headerForm">
+                <div class="side-ng-grid">
+                    <div class="m-flex m-flex-1">
+                        <div class="m-flex-item">
+                            <mat-label class="label-name">Shared Link</mat-label>
+                            <div class="search-section">
+                                <input matInput type="text" formControlName="ShareId" autocomplete="off" readonly />
+                                <mat-icon (click)="copyText()">filter_none</mat-icon>
+                            </div>
+                            <mat-error class="copySuccess m-3" *ngIf="copySuccess"><span
+                                    class="link"><mat-icon>check_circle</mat-icon>Link copied.</span> Anyone with the
+                                link can
+                                edit.</mat-error>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="title-header d-flex align-items-start mt-5">
+                <img src="../../../assets/svg/Vectorshareglobal.svg" style="margin-right: 5px;">
+                <h3 style="font-size: 1em; color: #8b8f99;">This content is publicly available to anyone with the link.
+                </h3>
+            </div>
         </div>
-  
-      </div>
     </div>
-  </ng-template>
+</ng-template>

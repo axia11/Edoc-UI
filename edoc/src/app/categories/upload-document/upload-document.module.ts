@@ -10,10 +10,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { FileUploadModule } from 'src/app/shared/ver1-files-upload/file-upload.module';
 import { DocCompanionComponent } from './doc-Companion/doc-companion.component';
+import { RevisionHistoryComponent } from './revision-history/revision-history.component';
 
 
 @NgModule({
-  declarations: [UploadDocumentComponent, DocTitleComponent, DocCompanionComponent],
+  declarations: [UploadDocumentComponent, DocTitleComponent, DocCompanionComponent, RevisionHistoryComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -36,7 +37,7 @@ import { DocCompanionComponent } from './doc-Companion/doc-companion.component';
         children: [
           {
             path: 'title', component: DocTitleComponent,
-             data: {
+            data: {
               breadcrumb: {
                 label: 'title',
               }
