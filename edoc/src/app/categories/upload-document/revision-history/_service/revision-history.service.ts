@@ -37,6 +37,6 @@ export class RevisionHistoryService {
 
 
   getallrevhistory(): Observable<any> {
-    return this.ds.getAll(`/docUpload/getRevisionData/${this.data.rowData.EDHId}`);
+    return this.ds.getAll(`/docUpload/getRevisionHistory/${this.data.rowData.EDHId}`);
   }
 }

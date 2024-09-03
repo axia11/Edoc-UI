@@ -79,7 +79,7 @@ export class DocCompanionComponent implements OnInit {
       return;
     }
     const DocData = {
-      EDDId: this.apiservice.data.rowData.EDDId,
+      EDDId: this.apiservice.EDDId,
       file: this.files
     };
     this.apiservice.companiondoc(DocData).subscribe(res => {

@@ -43,7 +43,7 @@ export class DocTitleService {
   }
 
   getone(): Observable<any> {
-    return this.ds.get(`/docUpload/getRevisionData/${+this.data.rowData.EDDId}`);
+    return this.ds.get(`/docUpload/getRevisionData/${+this.data.rowData.EDHId}`);
   }
 
   companiondoc(sendData): Observable<any> {

@@ -84,7 +84,7 @@ export class DocTitleComponent implements OnInit {
       if (res.response != null) {
         this.getOneData = true
       }
-      // this.apiservice.DocdId = +res.response.DocdId;
+      this.apiservice.EDDId = +res.response.EDDId;
       this.isEdit = true
       this.isNewFolder = false;
       // const file = new File(
@@ -98,9 +98,9 @@ export class DocTitleComponent implements OnInit {
       //   name: res.response.filename,
       //   extension: res.response.extension,
       // }]);
-      this.headerForm.get('Parentpath').setValue(res.response.PreparedBy);
-      this.headerForm.patchValue(res.response)
-      this.revNumber = res.response.RevNo
+      this.headerForm.get('Parentpath').setValue(res.response.header.parentPath);
+      this.headerForm.patchValue(res.response.detail)
+      this.revNumber = res.response.detail.RevNo
       this.headerForm.disable()
     })
   }

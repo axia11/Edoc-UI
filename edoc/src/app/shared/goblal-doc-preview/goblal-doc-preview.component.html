@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-between p-3 align-item-center">
   <div class="perview-header">
-    <mat-icon *ngIf="prefix =='pdf'" style="color: #fff;" class="icons">picture_as_pdf</mat-icon>
-    <mat-icon *ngIf="prefix !='pdf'" style="color: #fff;" class="icons">photo_library</mat-icon>
+    <img class="menu-img" src="../../../assets/svg/{{iconFile}}.svg" alt="no image" width="30" height="30"
+      style="margin-right: 10px;" />
     <div>
       <h3>{{DocName}}</h3>
       <p>Uploaded on {{UploadDate}},by {{UploadBy}}</p>
@@ -10,7 +10,7 @@
   <div class="btn-group btn-group-left align-item-center">
     <button mat-raised-button (click)="download()" color="secondary">Download</button>
     <button mat-raised-button color="primary" (click)="shareurl()">Share</button>
-    <mat-icon class="cur-p close-button" style="color: #fff;" (click)="closeDialog()">clear</mat-icon>
+    <mat-icon class="cur-p close-button" (click)="closeDialog()">clear</mat-icon>
   </div>
 </div>
 <iframe [src]="pdfURL" style="width: 100%; height: 500px;" frameborder="0"></iframe>

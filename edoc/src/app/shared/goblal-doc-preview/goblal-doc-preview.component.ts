@@ -14,7 +14,7 @@ export class GoblalDocPreviewComponent implements OnInit {
   DocName: any;
   UploadBy: any;
   UploadDate: any;
-  prefix: any;
+  iconFile: any;
   URL: any;
   Docname: any;
   copySuccess = false;
@@ -38,14 +38,37 @@ export class GoblalDocPreviewComponent implements OnInit {
     this.Docname = this.data.fileName
     this.UploadBy = this.data.UploadBy
     this.UploadDate = this.data.UploadDate
-    this.prefix = this.data.realName.split('.').pop();
+    this.assignIconFile()
     this.URL = this.data.pdfURL.split(".com/").pop();
     this.apiService.preViewDoc(this.Docname).subscribe(data => {
       this.headerForm.get('ShareId').patchValue(data.response)
 
     })
   }
-
+  assignIconFile() {
+    const fileExtension = this.data.realName.split('.').pop().toLowerCase();
+    switch (fileExtension) {
+      case 'pdf':
+        this.iconFile = 'pdf-file';
+        break;
+      case 'jpg':
+      case 'jpeg':
+        this.iconFile = 'jpg-file';
+        break;
+      case 'png':
+        this.iconFile = 'png-file';
+        break;
+      case 'xlsx':
+        this.iconFile = 'excel-file';
+        break;
+      case 'svg':
+        this.iconFile = 'svg-file';
+        break;
+      default:
+        this.iconFile = 'doc-file';
+        break;
+    }
+  }
   closeDialog(): void {
     this.dialogRef.close();
   }

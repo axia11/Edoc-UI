@@ -22,14 +22,14 @@ export class RevisionHistoryComponent implements OnInit {
   loadTable() {
     this.apiservice.getallrevhistory().subscribe(data => {
       this.dtOptions = {
-        data: data.response.rows,
+        data: data.response,
         columns: [
-          {
-            display: 'files-1', data: 'innerHtml_4', func: this.setBgBorder(), classes: 'trimText', headerStyles: { 'justify-content': 'center' }, headingStyles: { 'width': '70px' }, tSpanDataStyles: { 'justify-content': 'center' }
-          },
-          { display: 'Name ', data: 'Name', applyFilter: true, classes: 'trimText', },
-          { display: 'Rev no', data: 'revno', classes: 'trimText', applyFilter: true, },
-          { display: 'Updated By', data: 'updatedBy', classes: 'trimText', applyFilter: true, },
+          // {
+          //   display: 'files-1', data: 'innerHtml_4', func: this.setBgBorder(), classes: 'trimText', headerStyles: { 'justify-content': 'center' }, headingStyles: { 'width': '70px' }, tSpanDataStyles: { 'justify-content': 'center' }
+          // },
+          { display: 'Name ', data: 'DocumentId', applyFilter: true, classes: 'trimText', },
+          { display: 'Rev no', data: 'RevNo', classes: 'trimText', applyFilter: true, },
+          { display: 'Updated By', data: 'createdBy', classes: 'trimText', applyFilter: true, },
           { display: 'Activites', data: 'parentpath', classes: 'trimText', applyFilter: true, },
         ],
         length: data.response.count,
@@ -38,7 +38,7 @@ export class RevisionHistoryComponent implements OnInit {
         tableSpacer: false,
         checkbox: false,
         enableMasterToggle: true,
-        tableStyle: { 'max-height': 'calc(100vh - 370px)' },
+        tableStyle: { 'max-height': 'calc(100vh - 70px )' },
         component: this
       };
     });
