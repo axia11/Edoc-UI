@@ -1,10 +1,11 @@
 <div class="page-master">
     <edoc-multiple-file-upload (filesSelected)="onFilesSelected($event)"></edoc-multiple-file-upload>
+
     <div class="btn-group btn-group-left mt-3">
         <button mat-raised-button (click)="additionaldocs()" color="primary">Upload</button>
-        <button mat-raised-button color="secondary">Cancel</button>
+        <button mat-raised-button color="secondary" (click)="close()">Cancel</button>
     </div>
 
-    <app-ver3-data-table *ngIf="dtOptions" [length]="dtOptions?.length" [dtOptions]="dtOptions"></app-ver3-data-table>
+    <app-ver3-data-table *ngIf="dtOptions" [length]="dtOptions?.length" [dtOptions]="dtOptions" (cellClicked)="cellClicked($event)"></app-ver3-data-table>
 
 </div>

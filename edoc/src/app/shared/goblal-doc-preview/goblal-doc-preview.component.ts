@@ -3,6 +3,7 @@ import { FormBuilder } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { GoblalDocPreviewService } from './_service/goblal-doc-preview.service';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-goblal-doc-preview',
@@ -19,6 +20,7 @@ export class GoblalDocPreviewComponent implements OnInit {
   Docname: any;
   copySuccess = false;
   @ViewChild('callAPIDialog') callAPIDialog: TemplateRef<any>;
+  fileContent: string;
 
   constructor(
     public dialogRef: MatDialogRef<GoblalDocPreviewComponent>,
@@ -26,14 +28,14 @@ export class GoblalDocPreviewComponent implements OnInit {
     private dsr: DomSanitizer,
     private dialog: MatDialog,
     private fb: FormBuilder,
-    private apiService: GoblalDocPreviewService
+    private apiService: GoblalDocPreviewService,
+    private http: HttpClient
   ) { }
   headerForm = this.fb.group({
-    ShareId: [null] // Set initial value
+    ShareId: [null]
   })
   ngOnInit(): void {
     this.pdfURL = this.dsr.bypassSecurityTrustResourceUrl(this.data.pdfURL);
-    // console.log(this.data, 'dialog data');
     this.DocName = this.data.realName
     this.Docname = this.data.fileName
     this.UploadBy = this.data.UploadBy
@@ -69,6 +71,7 @@ export class GoblalDocPreviewComponent implements OnInit {
         break;
     }
   }
+
   closeDialog(): void {
     this.dialogRef.close();
   }

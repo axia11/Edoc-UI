@@ -5,6 +5,7 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { DocTitleService } from './_service/doc-title.service';
 import { SnackbarService } from 'src/app/shared/_services/snackbar.service';
 import { FileUploadControl } from 'src/app/shared/ver1-files-upload/public_api';
+import { UploadDocumentService } from '../_service/upload-document.service';
 
 @Component({
   selector: 'app-doc-title',
@@ -35,6 +36,7 @@ export class DocTitleComponent implements OnInit {
     private el: ElementRef,
     private fb: FormBuilder,
     private apiservice: DocTitleService,
+    private mainservice: UploadDocumentService,
     private sb: SnackbarService,
   ) { }
 
@@ -84,7 +86,7 @@ export class DocTitleComponent implements OnInit {
       if (res.response != null) {
         this.getOneData = true
       }
-      this.apiservice.EDDId = +res.response.EDDId;
+      this.apiservice.EDDId = +res.response.detail.EDDId;
       this.isEdit = true
       this.isNewFolder = false;
       // const file = new File(
@@ -111,7 +113,7 @@ export class DocTitleComponent implements OnInit {
       if (this.headerForm.pristine) {
         return;
       }
-      const rowData = this.apiservice.data.rowData;
+      const rowData = this.apiservice.data?.rowData;
       if (rowData && rowData.EDDId > 0) {
         if (this.files.value.length === 0) {
           this.sb.open('Please upload a file', 'bg-red');
@@ -123,7 +125,7 @@ export class DocTitleComponent implements OnInit {
           return;
         }
         sendData.EDDId = this.apiservice.data.rowData.EDDId;
-        sendData.Parentpath = this.selectedNodePath;
+        sendData.Parentpath = this.apiservice.data.rowData.parentPath;
         if (this.files.value.length > 0 && this.files.value[0]) {
           let DocData = Object.assign({},
             sendData,
@@ -133,6 +135,8 @@ export class DocTitleComponent implements OnInit {
             if (res.Success) {
               this.sb.open('Updated Successfully', 'bg-green');
             }
+            this.headerForm.disable();
+            this.isEdit = true
           });
         }
       } else {
@@ -150,6 +154,8 @@ export class DocTitleComponent implements OnInit {
           if (res.Success) {
             this.sb.open('File Uploaded Successfully', 'bg-green');
           }
+          this.headerForm.disable();
+          this.isEdit = true
         });
       }
     }
@@ -158,7 +164,7 @@ export class DocTitleComponent implements OnInit {
 
   close() {
     this.headerForm.reset();
-    this.apiservice.data.rowData.EDDId = 0
+    this.mainservice.close()
   }
 
   enableEdit() {

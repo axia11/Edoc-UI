@@ -37,7 +37,7 @@ export class DocTitleService {
     files.append('file', sendData[0].file, sendData[0].file.name);
     sendData['RevNo'] = encodeURIComponent(sendData.RevNo);
     sendData['PreparedBy'] = encodeURIComponent(sendData.PreparedBy);
-    let query = `EDHId=${sendData.EDHId}&EDGId=${sendData.EDGId}&RevNo=${sendData.RevNo}&Orgsize=${sendData.Orgsize}&Sheets=${sendData.Sheets}&PreparedBy=${sendData.PreparedBy}&Notes=${sendData.Notes}&Destination=${sendData.Destination}&IssueCode=${sendData.IssueCode}&Isconfidential=${sendData.Isconfidential}&IsInternalIssue=${sendData.IsInternalIssue}&Islockverison=${sendData.Islockverison}&CreatedBy=1&DocumentTitle=${sendData.DocumentTitle}&DocumentId=${sendData.DocumentId}Parentpath=${sendData.Parentpath}`;
+    let query = `EDHId=${sendData.EDHId}&EDGId=${sendData.EDGId}&RevNo=${sendData.RevNo}&Orgsize=${sendData.Orgsize}&Sheets=${sendData.Sheets}&PreparedBy=${sendData.PreparedBy}&Notes=${sendData.Notes}&Destination=${sendData.Destination}&IssueCode=${sendData.IssueCode}&Isconfidential=${sendData.Isconfidential}&IsInternalIssue=${sendData.IsInternalIssue}&Islockverison=${sendData.Islockverison}&CreatedBy=1&DocumentTitle=${sendData.DocumentTitle}&DocumentId=${sendData.DocumentId}&Parentpath=${sendData.Parentpath}`;
     debugger
     return this.ds.addAttachment(`/docUpload/UpdateUploadDoc?${query}`, files);
   }
@@ -54,6 +54,6 @@ export class DocTitleService {
   }
 
   getAll(): Observable<any> {
-    return this.ds.getAll(`/edoc/getAllRecycleData`);
+    return this.ds.getAll(`/docUpload/getCompanionDoc/${+this.data.rowData.EDHId}`);
   }
 }
