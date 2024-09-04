@@ -1,0 +1,16 @@
+<div class="overlay">
+    <div class="overlay-1">
+        <div class="header-titleside justify-content-between">
+            <div class="title-header d-flex align-items-center">
+                <img src="../../../../assets/svg/revision-history.svg" alt="" width="30" height="30"
+                    style="margin-right: 10px;">
+                <h1 class="title mt-2">Revision History</h1>
+            </div>
+            <mat-icon class="cur-p close-button" (click)="closeOverlay()">clear</mat-icon>
+        </div>
+        <div class="page-master">
+            <app-ver3-data-table *ngIf="dtOptions" [length]="dtOptions?.length"
+                [dtOptions]="dtOptions"></app-ver3-data-table>
+        </div>
+    </div>
+</div>

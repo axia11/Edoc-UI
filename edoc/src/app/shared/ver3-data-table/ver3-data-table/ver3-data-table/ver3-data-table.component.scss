@@ -23,8 +23,7 @@
     table {
         min-width: 100%;
         border-collapse: collapse;
-        // font-family: 'Montserrat', sans-serif;
-
+        white-space: nowrap;
     }
 
     .row-hover mat-icon {
@@ -37,8 +36,8 @@
 
 
     .mat-header-cell {
-        font-size: 14px;
-        padding: 5px;
+        font-size: 16px;
+        padding: 10px 12px !important;
         font-weight: 500;
         font-family: CircularStd-medium !important;
         // background-color: #f4f4f4;
@@ -50,7 +49,7 @@
 
     .mat-cell {
 
-        padding: 5px;
+        padding: 6px 8px 6px 12px;
         color: #40545e;
         border: none;
         // @media screen and (max-width: 768px) {
@@ -89,9 +88,8 @@
             // border: 1px solid #f2f2f2;
             // border-right: none;
             // border-top: none;
-            background: #ffffff;
-            color: #364148 !important;
-            border-bottom: 1px solid #f3f2f1;
+            color: #1f1f1f !important;
+            border: none;
             // border: none;
             // border: none;
             // font-size: 0.98vw;
@@ -133,10 +131,9 @@
 
         td span {
             display: inline-block;
-            font-size: 14px;
+            font-size: 16px;
             max-width: 100%;
             font-weight: 100;
-            color: #282C33;
             font-family: CircularStd-book !important;
 
             @media screen and (max-width: 768px) {
@@ -234,21 +231,24 @@
     }
 
     tr.mat-header-row {
-        height: 40px;
-        top: 0px;
+        height: 46px;
+        top: 0;
         position: sticky;
         z-index: 100;
-        // box-shadow: 0 .6px 3.6px rgba(0, 0, 0, .13), 0 .2px .9px rgba(0, 0, 0, .1), 0 -16px 0 16px #f3f2f1;
+        background-color: #fff;
+        border-bottom: 1px solid #d2d2d7;
     }
 
     tr.mat-row {
-
-        height: 35px;
+        height: 46px;
+        min-height: 46px;
+        max-height: 46px;
+        overflow: hidden;
+        border-bottom: 1px solid rgba(224, 224, 224, 0.12);
         animation-name: css-1;
         animation-duration: 0.367s;
         animation-timing-function: cubic-bezier(0.1, 0.25, 0.75, 0.9);
         animation-fill-mode: both;
-        border-bottom: 1px solid #f3f2f1;
 
         &:last-child {
             // border-bottom: none !important;
@@ -693,8 +693,7 @@
     & .mat-checkbox-background,
     .mat-checkbox-frame {
         border-radius: 100% !important;
-        // border-style: none;
-        border-color: #cccccc !important;
+        border-color: #e0e0e0 !important;
         // &:hover{
         //    border-style: solid;
         // }
@@ -702,8 +701,8 @@
 }
 
 ::ng-deep.mat-checkbox-inner-container {
-    height: 16px !important;
-    width: 16px !important;
+    height: 18px !important;
+    width: 18px !important;
 }
 
 ::ng-deep.mat-checkbox-checked .mat-checkbox-checkmark {
@@ -719,7 +718,8 @@
 }
 
 ::ng-deep.mat-checkbox-checked.mat-accent .mat-checkbox-background {
-    background-color: $primary !important;
+    background-color: #364148 !important;
+    outline: 1px solid #fff;
 }
 
 .row-highlight {
@@ -799,4 +799,4 @@
 
 .tag-link {
     width: 12px;
-  }
+}

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Input, OnInit, Renderer2 } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { TitleBarService } from './_service/title-bar.service';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 })
 export class TitleBarComponent implements OnInit {
   @Input() sidenavStatus: MatSidenav;
+  notificationCount = 5;
   public pageTitle: any = {
     title: ''
   }
@@ -19,6 +21,7 @@ export class TitleBarComponent implements OnInit {
     private route: ActivatedRoute,
     public router: Router,
     private renderer: Renderer2,
+    private apiservice: TitleBarService
     // public sb: SnackbarService,
   ) { }
 
@@ -66,4 +69,7 @@ export class TitleBarComponent implements OnInit {
     );
   }
 
+  onSearch(term: string): void {
+    this.apiservice.setSearchTerm(term);
+  }
 }

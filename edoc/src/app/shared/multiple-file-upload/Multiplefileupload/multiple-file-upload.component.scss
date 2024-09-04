@@ -1,0 +1,124 @@
+// .file-upload-container {
+//   display: flex;
+//   flex-direction: column;
+//   gap: 10px;
+// }
+
+// .selected-files {
+//   margin-top: 10px;
+// }
+
+// .selected-files ul {
+//   list-style-type: none;
+//   padding: 0;
+// }
+
+// .selected-files li {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   padding: 5px 0;
+// }
+
+// .selected-files button {
+//   background-color: #ff0000;
+//   color: #ffffff;
+//   border: none;
+//   cursor: pointer;
+// }
+
+// .selected-files button:hover {
+//   background-color: #cc0000;
+// }
+
+
+
+
+.file-upload-container {
+  font-family: "CircularStd-book";
+  font-weight: 100;
+  border: 1px solid #616161;
+  border-radius: 8px;
+  padding: 5px;
+  text-align: center;
+  max-height: 180px;
+  overflow: auto;
+  min-height: 180px;
+  display: inline-block;
+  place-content: center;
+  width: 100%;
+
+  &::-webkit-scrollbar {
+    background-color: rgba(151, 158, 168, 0.8);
+    width: 0px;
+    height: 0px;
+    border-radius: 8px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      width: 0px;
+      height: 0px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: rgba(151, 158, 168, 0.8);
+      border-radius: 8px;
+
+      &:hover {
+        background: grey;
+      }
+    }
+  }
+}
+
+.file-upload-label {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.file-upload-label span {
+
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.files-input {
+  display: none;
+  /* Hide the actual file input */
+}
+
+.selected-files {
+  // margin-top: 10px;
+}
+
+.selected-files ul {
+  list-style-type: none;
+  padding: 0;
+  grid-template-columns: auto;
+  display: inline-grid;
+  grid-gap: 5px;
+}
+
+.selected-files li {
+  padding: 5px;
+  background-color: #f9f9f9;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 120px;
+}
+
+.selected-files li .file-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "CircularStd-book";
+  font-size: 13px;
+  color: #007bff;
+}
+
+.selected-files li .remove-button {}
+
+.selected-files li .remove-button:hover {
+  // background-color: #c0392b;
+}

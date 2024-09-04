@@ -1,13 +1,11 @@
-<!-- <mat-toolbar color="primary">Confirm Delete</mat-toolbar> -->
-<div class="d-flex p-3" style="background: rgba(0, 0, 0, 0.65); justify-content: center;">
-  <img src="../../../assets/images/delete-alert.svg" style="width: 50px;">
-  <div>
-    <div mat-dialog-content>
-      <div style="padding-left: 10px; color: #fff; font-size: 20px;">Data will be deleted. Are you sure to proceed</div>
-    </div>
-    <div class="btn-group w-100 mt-3" style="justify-content: center;">
-      <button color="primary" mat-raised-button (click)="delRecord()">Proceed</button>
-      <button mat-raised-button [mat-dialog-close]="false" tabindex="-1" color="tiritary">Return</button>
-    </div>
+<div class="page-master">
+  <div class="title-header mb-3 d-flex justify-content-between" style="border-bottom: 1px solid #d9d9d9;">
+    <h3 class="title">{{title}}</h3>
+    <mat-icon class="cur-p close-button" [mat-dialog-close]="false" tabindex="-1">clear</mat-icon>
+  </div>
+  <div style="font-size: 17px;">{{message}}</div>
+  <div class="btn-groups btn-groups-right w-100 pt-4 mt-5">
+    <button mat-raised-button color="secondary" (click)="delRecord()">Delete</button>
+    <button mat-raised-button color="primary" [mat-dialog-close]="false" tabindex="-1">Cancel</button>
   </div>
 </div>

@@ -1,0 +1,54 @@
+<div class="table-main">
+    <div class="table-Wrap">
+        <table>
+            <thead>
+                <tr class="main-sha">
+                    <th style="width: 70px;text-align: center;">
+                        <img class="menu-img" src="../../assets/svg/doc-file.svg" alt="no image" width="25"
+                            height="25" />
+                    </th>
+                    <th resizeable style="width: 250px;">Name</th>
+                    <th resizeable>Created by</th>
+                    <th>Activity</th>
+                </tr>
+            </thead>
+            <tbody id="table-data">
+                <tr *ngFor="let item of tableData; let i = index;" class="text-rows">
+                    <td style="text-align: center;">
+                        <img class="menu-img" src="../../assets/svg/main-cate.svg" alt="no image" width="30"
+                            height="30" />
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-between align-items-center icon-header">
+                            <div>
+                                <span class="link" (click)="openFolder(item)">{{ item.category }}</span>
+                            </div>
+                            <div class="button-group">
+                                <mat-icon (click)="toggleDropdown(i)" class="cur-p option-icons">more_horiz</mat-icon>
+                                <div class="dropdown-menu" [class.show]="openDropdownIndex === i">
+                                    <a *ngFor="let option of options" (click)="selectOption(option, item)">
+                                        <img [src]="option.imgSrc" alt="{{ option.label }}" width="18" height="18"
+                                            style="margin-right: 10px;" />
+                                        {{ option.label }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ item.createdBy }}</td>
+                    <td class="activites">
+                        <div>Estefanie Portillo marked-up this file </div>
+                        <div class="child-1">2hours ago</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="emp-screen" *ngIf="emptyfiles">
+    <div>
+        <h3 class="title">Categories is empty</h3>
+        <img src="../../../assets/images/empty-bin.png" width="200" height="200" />
+    </div>
+</div>

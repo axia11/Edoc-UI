@@ -11,13 +11,12 @@
     overflow: hidden;
     display: inline-flex;
     background: #fafafa;
-    padding: 10px;
+    padding: 5px 12px 5px 5px;
     min-height: 120px;
     border: 1px solid #92b0b3;
-    border-radius: 3px;
+    border-radius: 8px;
     position: relative;
-    width: 250px;
-    margin: 5px;
+    text-align: center;
 }
 
 :host(.dragover) {

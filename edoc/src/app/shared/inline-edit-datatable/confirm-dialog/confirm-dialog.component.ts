@@ -12,7 +12,6 @@ export class ConfirmDialogComponent implements OnInit {
 
   constructor(public dialogRef: MatDialogRef<ConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
-    // Update view with given values
     this.title = data.dialogData.title;
     this.message = data.dialogData.message;
   }
@@ -21,13 +20,11 @@ export class ConfirmDialogComponent implements OnInit {
   }
 
   onConfirm(): void {
-    // Close the dialog, return true
     this.dialogRef.close(true);
     this.data.fn();
   }
 
   onDismiss(): void {
-    // Close the dialog, return false
     this.dialogRef.close(false);
   }
 

@@ -1,0 +1,28 @@
+<div class="overlay">
+    <div class="overlay-1">
+        <div class="header-titleside justify-content-between">
+            <div class="title-header d-flex align-items-center">
+                <img src="../../../assets/svg/doc-details.svg" alt="" width="30" height="30"
+                    style="margin-right: 10px;">
+                <h1 class="title mt-2">Document Management</h1>
+            </div>
+            <mat-icon class="cur-p close-button" (click)="closeOverlay()">clear</mat-icon>
+        </div>
+        <div>
+            <mat-list class="d-flex poptabs">
+                <mat-list-item [class.SelectedTab]="SelectedTab === 0" (click)="SelectedTab = 0">
+                    <div>Title</div>
+                </mat-list-item>
+                <mat-list-item [class.SelectedTab]="SelectedTab === 1" (click)="SelectedTab = 1">
+                    <div>Companion docs</div>
+                </mat-list-item>
+            </mat-list>
+            <div *ngIf="SelectedTab === 0">
+                <app-doc-title></app-doc-title>
+            </div>
+            <div *ngIf="SelectedTab === 1">
+                <app-doc-companion></app-doc-companion>
+            </div>
+        </div>
+    </div>
+</div>

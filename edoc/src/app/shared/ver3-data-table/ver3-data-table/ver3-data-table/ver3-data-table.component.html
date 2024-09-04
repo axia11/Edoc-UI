@@ -50,8 +50,9 @@
                                 [attr.title]="dtCol.attrTitleHeader ? dtCol.titleName : ''"
                                 [ngStyle]="dtCol.headingStyles">
                                 <div class="table-header-data" [ngStyle]="dtCol.headerStyles">
-                                    <ng-container *ngIf="dtCol.display === 'efficiency_1'">
-                                        <img src="../../../../../assets/svg/efficiency_1.svg" class="tag-img" />
+                                    <ng-container *ngIf="dtCol.display === 'files-1'">
+                                        <img class="menu-img" src="../../assets/svg/doc-file.svg" alt="no image"
+                                            width="25" height="25" />
                                     </ng-container>
                                     <ng-container *ngIf="dtCol.display === 'efficiency_2'">
                                         <img src="../../../../../assets/svg/efficiency_2.svg" class="tag-img" />
@@ -59,7 +60,7 @@
                                     <!-- Add more ng-containers for other images as needed -->
 
                                     <ng-container
-                                        *ngIf="dtCol.display !== 'efficiency_1' && dtCol.display !== 'efficiency_2'">
+                                        *ngIf="dtCol.display !== 'files-1' && dtCol.display !== 'efficiency_2'">
                                         <span>{{ dtCol.display }}</span>
                                     </ng-container>
 

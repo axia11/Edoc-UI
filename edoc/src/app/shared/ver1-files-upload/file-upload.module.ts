@@ -9,7 +9,6 @@ import { NgModule, Injector } from '@angular/core';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
-import { FileUploadComponent } from './components/file-upload.component';
 import { FileUploadListItemComponent } from './components/file-upload-list-item.component';
 import { FileUploadIconComponent } from './components/file-upload-icon.component';
 import { FileUploadAttributeComponent } from './components/file-upload-attr.component';
@@ -17,6 +16,7 @@ import { FileUploadAttributeComponent } from './components/file-upload-attr.comp
 import { FileSizeValidator, FilesLimitValidator, FilesAcceptValidator } from './directives/validators.directive';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { FileUploadComponent } from './components/file-upload.component';
 
 
 export { FileUploadControl } from './helpers/control.class';

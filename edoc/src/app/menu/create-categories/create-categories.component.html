@@ -1,0 +1,30 @@
+<div class="page-border">
+    <div class="header-titleside justify-content-between">
+        <div class="title-header d-flex">
+            <div class="subtitle">{{catename}}</div>
+        </div>
+        <mat-icon [mat-dialog-close]="false" tabindex="-1" class="close-button cur-p">clear</mat-icon>
+    </div>
+    <div class="page-master">
+        <div class="side-ng-grid">
+            <form [formGroup]="headerForm" (ngSubmit)="submitForm()">
+                <div class="m-flex m-flex-1">
+                    <div class="m-flex-item">
+                        <mat-label class="label-name">Name<span class="required">*</span></mat-label>
+                        <mat-form-field>
+                            <input matInput type="text" formControlName="GroupName" autocomplete="off" required>
+                            <mat-error *ngIf="headerForm.controls.DocName.errors?.required">
+                                Categories is required!
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="btn-group pt-2 w-100 "
+                    style="border-top: 1.5px solid #d9d9d9; justify-content: flex-start;">
+                    <button mat-raised-button color="primary">Save</button>
+                    <button mat-raised-button [mat-dialog-close]="false" tabindex="-1" color="tiritary">Discard</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

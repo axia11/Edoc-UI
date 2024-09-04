@@ -1,0 +1,79 @@
+iframe {
+    height: 103dvh !important;
+    width: 115vw !important;
+    max-width: unset !important;
+    max-height: unset !important;
+    min-height: unset !important;
+
+    @media screen and (min-width: 1366px) {
+      width: 1600px !important;
+      height: 95vh !important;
+    }
+  }
+  
+  .align-item-center {
+    align-items: center;
+  }
+  
+  .perview-header {
+    line-height: 15px;
+    display: flex;
+    align-items: center;
+  
+    .icons {
+      padding: 5px;
+      background-color: #82AD34;
+      border-radius: 5px;
+      margin-right: 5px;
+    }
+  
+    h3 {
+      font-size: 18px;
+      font-weight: 500;
+      margin: 0;
+      // color: #fff;
+      font-family: CircularStd-book !important;
+    }
+  
+    p {
+      font-size: 11px;
+      margin: 0;
+      // color: #fff;
+      font-family: CircularStd-book !important;
+    }
+  }
+  
+  .search-section {
+    border: 1.5px solid #82AD34 !important;
+  
+    mat-icon {
+      background: #82AD34;
+      width: 75px !important;
+      height: 35px !important;
+      color: #fff;
+      margin: 0 !important;
+      font-size: 18px !important;
+      border-top-right-radius: 3px;
+      border-bottom-right-radius: 3px;
+    }
+  }
+  
+  .copySuccess {
+    color: #000;
+    padding: 3px;
+    background-color: #DFF6DD;
+    border-radius: 3px;
+    display: flex;
+    word-spacing: 0.5px;
+    .link {
+      font-weight: 550;
+      font-family: 'CircularStd-medium';
+      font-size: 14px;
+      align-items: flex-start;
+      align-items: center;
+      display: inline-flex;
+      mat-icon{
+        color: #107C10;
+      }
+    }
+  }

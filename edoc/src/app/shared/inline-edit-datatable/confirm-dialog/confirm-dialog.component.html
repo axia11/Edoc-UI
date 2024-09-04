@@ -1,12 +1,13 @@
-<h1 mat-dialog-title>
-    {{title}}
-</h1>
-
-<div mat-dialog-content>
-    <p>{{message}}</p>
+<div class="header-titleside justify-content-between">
+    <div class="title-header d-flex">
+        <h1 class="title mt-2"> {{title}}</h1>
+    </div>
+    <mat-icon class="cur-p close-button" (click)="onDismiss()">clear</mat-icon>
 </div>
-
-<div mat-dialog-actions class="mat-dialog-actions">
-    <button mat-button class="cancel" (click)="onDismiss()">Cancel</button>
-    <button mat-raised-button color="warn" (click)="onConfirm()">Delete</button>
+<div class="page-master">
+    <div class="mb-5" style="font-size: 17px;">{{message}}</div>
+    <div class="btn-group btn-group-right w-100 pt-4 mt-5">
+        <button mat-raised-button class="primary" (click)="onDismiss()">Cancel</button>
+        <button mat-raised-button color="secondary" (click)="onConfirm()">Delete</button>
+    </div>
 </div>

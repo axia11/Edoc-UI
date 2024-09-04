@@ -1,0 +1,35 @@
+:host {
+    &:last-child .bar {
+        display: none;
+    }
+}
+ 
+.wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+ 
+.content {
+    flex: 1;
+}
+ 
+.bar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    margin: 0 -16px 0 16px;
+    justify-self: flex-end;
+    border-left: 2px solid transparent;
+    border-right: 2px solid transparent;
+    background: blueviolet;
+    background-clip: content-box;
+    cursor: col-resize;
+    opacity: 0;
+    transition: opacity .3s;
+ 
+    &:hover,
+    &:active {
+        opacity: 1;
+    }
+}

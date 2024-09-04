@@ -17,13 +17,20 @@ import { TestComponentComponent } from './test-component/test-component.componen
 import { DataMatrixModule } from './data-matrix/data-matrix.module';
 import { DataTableModule } from './ver1-data-table/ver1-data-table.module';
 import { AccessControlDirective } from './_directives/access-control.directive';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MultiplefileuploadModule } from './multiple-file-upload/multiple-file-upload.module';
+import { GoblalDocPreviewModule } from './goblal-doc-preview/goblal-doc-preview.module';
+import { ResizeableTableModule } from './resizeable-table/resizeable-table.module';
+
 @NgModule({
   declarations: [TestComponentComponent,AccessControlDirective],
   imports: [
     CommonModule,
     Ver3DataTableModule,
     Ver4DataTableModule,
+    GoblalDocPreviewModule,
     MaterialModule,
+    MatDialogModule,
     MatIconModule,
     MatButtonModule,
     InlineEditDatatableModule,
@@ -31,21 +38,24 @@ import { AccessControlDirective } from './_directives/access-control.directive';
     FormsModule,
     ReactiveFormsModule,
     DataMatrixModule,
+    ResizeableTableModule,
     DataTableModule
   ],
   exports: [
     MaterialModule,
-    // MatMomentDateModule,
+    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     SelectDdnModule,
     MdePopoverModule,
-    // ChartsModule,
     Ver3DataTableModule,
+    MultiplefileuploadModule,
+    GoblalDocPreviewModule,
     Ver4DataTableModule,
     InlineEditDatatableModule,
     DataTableModule,
     DataMatrixModule,
+    ResizeableTableModule,
     AccessControlDirective
   ],
   providers: [

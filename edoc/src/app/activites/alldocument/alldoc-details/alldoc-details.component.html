@@ -1,0 +1,106 @@
+<!-- <ol fxLayout="row" class="breadcrumb-ol" *ngIf="breadcrumbPaths.length > 0">
+    <ng-container *ngFor="let path of breadcrumbPaths; let i = index">
+        <li fxLayout="row" fxLayoutAlign="start center" (click)="goBack(i)">
+            {{ path }}
+        </li>
+        <mat-icon *ngIf="i < breadcrumbPaths.length - 1">keyboard_arrow_right</mat-icon>
+    </ng-container>
+</ol> -->
+
+
+<div class="table-main">
+    <div class="table-Wrap">
+        <table>
+            <thead>
+                <tr class="main-sha">
+                    <th style="width: 70px; text-align: center;">
+                        <img class="menu-img" src="../../assets/svg/doc-file.svg" alt="no image" width="25"
+                            height="25" />
+                    </th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Rev</th>
+                    <th>Issue Code</th>
+                    <th>Updated by</th>
+                    <th>Activity</th>
+                </tr>
+            </thead>
+            <tbody id="table-data">
+                <tr *ngFor="let item of currentData; let i = index" class="text-rows">
+                    <td style="text-align: center;">
+                        <img class="menu-img" src="../../../assets/svg/{{item.iconFile}}.svg" alt="no image" width="30"
+                            height="30" />
+                    </td>
+                    <td>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <span class="link" (click)="openFolder(i)">{{ item.name }}</span>
+                            </div>
+                            <div class="button-group">
+                                <mat-icon (click)="toggleDropdown(i, item.IsDoc)" class="cur-p">more_horiz</mat-icon>
+                                <div class="dropdown-menu" [class.show]="openDropdownIndex === i">
+                                    <a *ngFor="let option of getFilteredOptions(item.IsDoc)"
+                                        (click)="selectOption(option, item)">
+                                        <img [src]="option.imgSrc" alt="{{ option.label }}" width="18" height="18"
+                                            style="margin-right: 10px;" />
+                                        {{ option.label }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>{{ item.Description }}</td>
+                    <td>{{ item.rev }}</td>
+                    <td>{{ item.issuecode }}</td>
+                    <td>{{ item.createdBy }}</td>
+                    <td class="activites">
+                        <div>Estefanie Portillo marked-up this file </div>
+                        <div class="child-1">2 hours ago</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+<div class="emp-screen" *ngIf="emptyfiles">
+    <div>
+        <h3 class="title">This Folder is Empty</h3>
+        <img src="../../../assets/images/empty-files.png" width="200" height="200" />
+    </div>
+</div>
+
+
+<ng-template #callAPIDialog>
+    <div mat-dialog-content>
+        <div class="page-master">
+            <div class="title-header mb-3" style="border-bottom: 1px solid #d9d9d9;">
+                <h3 class="title">Share</h3>
+            </div>
+            <form [formGroup]="headerForm">
+                <div class="side-ng-grid">
+                    <div class="m-flex m-flex-1">
+                        <div class="m-flex-item">
+                            <mat-label class="label-name">Shared Link</mat-label>
+                            <div class="search-section">
+                                <input matInput type="text" formControlName="ShareId" autocomplete="off" readonly />
+                                <mat-icon (click)="copyText()">filter_none</mat-icon>
+                            </div>
+                            <mat-error class="copySuccess m-3" *ngIf="copySuccess"><span
+                                    class="link"><mat-icon>check_circle</mat-icon>Link copied.</span> Anyone with the
+                                link can
+                                edit.</mat-error>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="title-header d-flex align-items-start mt-5">
+                <img src="../../../assets/svg/Vectorshareglobal.svg" style="margin-right: 5px;">
+                <h3 style="font-size: 1em; color: #8b8f99;">This content is publicly available to anyone with the link.
+                </h3>
+            </div>
+        </div>
+    </div>
+</ng-template>

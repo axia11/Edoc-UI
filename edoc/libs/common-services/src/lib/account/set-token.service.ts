@@ -12,7 +12,7 @@ export class SetTokenService {
   ) { }
 
   setToken(apiUrl, token) {
-    return this.http.post(`${apiUrl}/account/setToken`, {}, {
+    return this.http.post(`${apiUrl}/account/insertToken`, {}, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Authorization': `bearer ${token}`

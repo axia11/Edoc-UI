@@ -8,7 +8,7 @@ import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
       <div style="padding-left: 10px; color: red; font-size: 1.15em;overflow-wrap: break-word;" [innerHtml]="data.message"></div>
     </div>
     <div mat-dialog-actions>
-      <button mat-raised-button color="cancel" [mat-dialog-close]="false">Close</button>
+      <button mat-raised-button color="secondary" [mat-dialog-close]="false">Close</button>
     </div>
 `
 })
