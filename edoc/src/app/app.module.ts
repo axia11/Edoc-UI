@@ -23,11 +23,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { HandleErrorService } from './shared/http-interceptors/error-handle';
 import { CreateCategoriesComponent } from './menu/create-categories/create-categories.component';
 import { CreateFoldersComponent } from './menu/create-folder/create-folders.component';
+import { IsAuthGuard } from './_guards/isAuth.guard';
 // import { CookieService } from 'ngx-cookie-service';
 const routes: Routes = [
   {
     path: 'activites',
-    // canActivate: [IsAuthGuard],
+    canActivate: [IsAuthGuard],
     loadChildren: () =>
       import('../app/activites/activites.module').then(m => m.ActivitesModule)
   },
@@ -72,6 +73,7 @@ const routes: Routes = [
     DatePipe,
     httpInterceptorProviders,
     DataService,
+    IsAuthGuard,
   ],
   bootstrap: [AppComponent]
 })

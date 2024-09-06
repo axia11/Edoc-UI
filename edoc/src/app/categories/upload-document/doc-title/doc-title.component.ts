@@ -36,7 +36,6 @@ export class DocTitleComponent implements OnInit {
     private el: ElementRef,
     private fb: FormBuilder,
     private apiservice: DocTitleService,
-    private mainservice: UploadDocumentService,
     private sb: SnackbarService,
   ) { }
 
@@ -163,8 +162,8 @@ export class DocTitleComponent implements OnInit {
 
 
   close() {
-    this.headerForm.reset();
-    this.mainservice.close()
+    // this.headerForm.reset();
+    // this.mainservice.close()
   }
 
   enableEdit() {

@@ -22,7 +22,6 @@ export class DocCompanionComponent implements OnInit {
   constructor(
     private sb: SnackbarService,
     private apiservice: DocTitleService,
-    private mainservice: UploadDocumentService,
     private previewservice: GoblalDocPreviewService,
     public dialog: MatDialog
   ) { }
@@ -130,6 +129,6 @@ export class DocCompanionComponent implements OnInit {
   }
 
   close(){
-    this.mainservice.close()
+    // this.mainservice.close()
   }
 }

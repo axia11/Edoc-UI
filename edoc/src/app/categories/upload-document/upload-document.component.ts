@@ -12,7 +12,7 @@ export class UploadDocumentComponent implements OnInit {
 
   @Input() data: any;
   constructor(
-    private apiservice: UploadDocumentService
+    public apiservice: UploadDocumentService
   ) { }
 
   ngOnInit(): void {

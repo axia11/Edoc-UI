@@ -35,6 +35,7 @@ export class AppComponent implements OnInit {
   title = 'blunet';
   isSidenavOpen: any = true;
   currentPath: string;
+  token: any;
   constructor(
     private dialog: MatDialog,
     public initService: InitialService,
@@ -51,7 +52,9 @@ export class AppComponent implements OnInit {
     @Inject(DOCUMENT) private _document: Document,
     public dashboardService: TitleBarService,
   ) {
+    debugger
     this.route.queryParams.subscribe(params => {
+      this.token = params['Authorization'];
       if (params.userId && params.token) {
         window.localStorage.setItem('userId', params.userId);
         window.localStorage.setItem('token', params.token);
@@ -69,6 +72,7 @@ export class AppComponent implements OnInit {
         this.router.navigate([]);
       }
     });
+
     document.addEventListener("visibilitychange", () => {
       if (document.hidden) {
         //Idle time will start if the user in the  tab and without perform any action
