@@ -86,6 +86,8 @@ export class RecycleBinComponent implements OnInit {
   restoreFile(): void {
     this.table.selection.selected
     if (this.table.selection.selected.length > 0) {
+      this.apiService.EDHId.splice(0, this.apiService.EDHId.length);
+      this.apiService.EDGId.splice(0, this.apiService.EDGId.length);
       for (var i = 0; i < this.table.selection.selected.length; i++) {
         this.table.selection.selected[i].EDHId != undefined ? this.apiService.EDHId.push(this.table.selection.selected[i].EDHId) : this.apiService.EDHId.push(0)
         this.table.selection.selected[i].EDGId != undefined ? this.apiService.EDGId.push(this.table.selection.selected[i].EDGId) : this.apiService.EDGId.push(0)
