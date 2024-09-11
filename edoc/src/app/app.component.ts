@@ -54,17 +54,17 @@ export class AppComponent implements OnInit {
   ) {
     debugger
     this.route.queryParams.subscribe(params => {
-      this.token = params['Authorization'];
       if (params.userId && params.token) {
+        debugger
         window.localStorage.setItem('userId', params.userId);
         window.localStorage.setItem('token', params.token);
-        window.localStorage.setItem('firstName', params.firstName);
-        window.localStorage.setItem('clientName', params.clientName);
+        window.localStorage.setItem('username', params.username);
+        window.localStorage.setItem('clientname', params.clientname);
         window.localStorage.setItem('PLId', params.PLId);
-        window.localStorage.setItem('prodClientId', params.prodClientId);
-        window.localStorage.setItem('baseUrl', params.baseUrl);
-        window.localStorage.setItem('clientId', params.clientId);
-        window.localStorage.setItem('productId', params.productId);
+        window.localStorage.setItem('PCLId', params.PCLId);
+        window.localStorage.setItem('url', params.url);
+        window.localStorage.setItem('CLId', params.CLId);
+        window.localStorage.setItem('ProductId', params.ProductId);
         window.localStorage.setItem('userCategoryId', params.userCategoryId);
         window.localStorage.setItem('accountURL', params.accountURL);
         window.localStorage.setItem('planTimeline', params.planTimeline);

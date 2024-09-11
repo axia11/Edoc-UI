@@ -26,12 +26,12 @@ export class IsAuthGuard implements CanActivate {
     if (!!route.queryParams.token) {
       localStorage.setItem('token', route.queryParams.token);
       window.localStorage.setItem('userId', route.queryParams.userId);
-      window.localStorage.setItem('firstName', route.queryParams.firstName);
-      window.localStorage.setItem('clientName', route.queryParams.clientName);
-      window.localStorage.setItem('prodClientId', route.queryParams.prodClientId);
-      window.localStorage.setItem('baseUrl', route.queryParams.baseUrl);
-      window.localStorage.setItem('clientId', route.queryParams.clientId);
-      window.localStorage.setItem('productId', route.queryParams.productId);
+      window.localStorage.setItem('username', route.queryParams.username);
+      window.localStorage.setItem('clientname', route.queryParams.clientname);
+      window.localStorage.setItem('PCLId', route.queryParams.PCLId);
+      window.localStorage.setItem('url', route.queryParams.url);
+      window.localStorage.setItem('CLId', route.queryParams.CLId);
+      window.localStorage.setItem('ProductId', route.queryParams.ProductId);
       window.localStorage.setItem('userCategoryId', route.queryParams.userCategoryId);
     }
     if (!!localStorage.token) {
