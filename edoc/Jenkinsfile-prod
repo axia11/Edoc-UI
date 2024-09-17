@@ -5,7 +5,7 @@ pipeline{
     stages{
         stage("Git Checkout"){
             steps{
-                git branch: 'Master',git credentialsId: 'axia-github-token', url: 'https://github.com/axia11/Edoc-UI.git'
+                git branch: 'Master', credentialsId: 'axia-github-token', url: 'https://github.com/axia11/Edoc-UI.git'
                 echo "cloned latest commits"
             }
         }
