@@ -21,15 +21,33 @@
   <div class="page-border">
     <div class="page-master">
       <div class="profile-info-container">
-        <ngx-avatar size="60" class="example-header-image" value="HM"></ngx-avatar>
+        <ngx-avatar size="40" class="example-header-image" [src]="urlPath || ''" [name]="userFullName"></ngx-avatar>
         <div>
         </div>
-        <div class="acc_name">firstName</div>
-        <div class="acc_mail">email</div>
-        <div class="acc_button"> Manage your Account </div>
+        <div class="acc_name">{{firstName}} {{lastName}}</div>
+        <div class="acc_mail">{{email}}</div>
+        <div class="acc_button" (click)="userRoute('/profile')"> Manage your Account </div>
+        <!-- <div class="acc_notificaion">
+          <div class="toggle-button">
+            <input class="check-box" [checked]="EmailPermission" type="checkbox" id="toggle-button-checkbox"
+              (change)="changeNotify($event.target.checked)">
+            <label class="toggle-button-switch" for="toggle-button-checkbox"></label>
+            <div class="toggle-button-text">
+              <div class="toggle-button-text-on">ON</div>
+              <div class="toggle-button-text-off">OFF</div>
+            </div>
+          </div>
+          <div class="acc_txt_notify">Turn on notifications <br>Email delivery</div>
+        </div> -->
         <div class="under_line_1"></div>
         <div class="sign-out-div">
-          <a class="acc_sign_out_button">Sign out <mat-icon style="font-size: 15px;">exit_to_app</mat-icon></a>
+          <a class="acc_sign_out_button" (click)="signOut()">Sign out <mat-icon
+              style="font-size: 15px;">exit_to_app</mat-icon></a>
+
+        </div>
+        <div class="under_line_2"></div>
+        <div class="acc_terms">
+          <a class="acc_terms_text">Privacy Policy</a> . <a class="acc_terms_text">Terms of Service</a>
         </div>
       </div>
     </div>

@@ -19,6 +19,9 @@
                         <mat-form-field *ngIf="!isNewFolder" class="disable">
                             <input matInput type="text" formControlName="ParentId" [value]="selectedNodePath" readonly>
                         </mat-form-field>
+                        <mat-error *ngIf="headerForm.controls.ParentId.errors?.required">
+                            Folder Name is required!
+                        </mat-error>
                     </div>
                     <div class="m-flex-item">
                         <mat-label class="label-name">Name<span class="required">*</span></mat-label>
