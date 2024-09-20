@@ -48,11 +48,11 @@ export class TitleBarComponent implements OnInit {
         window.localStorage.setItem('userId', params.userId);
         window.localStorage.setItem('token', params.token);
         window.localStorage.setItem('firstName', params.firstName);
-        window.localStorage.setItem('clientName', params.clientName);
-        window.localStorage.setItem('prodClientId', params.prodClientId);
-        window.localStorage.setItem('baseUrl', params.baseUrl);
-        window.localStorage.setItem('clientId', params.clientId);
-        window.localStorage.setItem('productId', params.productId);
+        window.localStorage.setItem('clientname', params.clientname);
+        window.localStorage.setItem('PCLId', params.PCLId);
+        window.localStorage.setItem('url', params.url);
+        window.localStorage.setItem('CLId', params.CLId);
+        window.localStorage.setItem('ProductId', params.ProductId);
         window.localStorage.setItem('userCategoryId', params.userCategoryId);
         // window.localStorage.setItem('PackId', JSON.stringify(packIdArray));
         // this.getALLPlant();
