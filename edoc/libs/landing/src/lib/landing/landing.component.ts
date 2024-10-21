@@ -71,7 +71,7 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
     this.currentUrl = window.location.href;
     this.lastVisitedRoute = localStorage.lastVisitedRoute || '/activites';
-    // this.redirectLucy();
+    this.redirectLucy();
     // this.regService.getAllclientURLS().subscribe(data => {
     //   this.clientList = data.response
     // })

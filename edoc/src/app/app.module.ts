@@ -28,19 +28,19 @@ import { IsAuthGuard } from './_guards/isAuth.guard';
 const routes: Routes = [
   {
     path: 'activites',
-    // canActivate: [IsAuthGuard],
+    canActivate: [IsAuthGuard],
     loadChildren: () =>
       import('../app/activites/activites.module').then(m => m.ActivitesModule)
   },
   {
     path: 'profiles',
-    // canActivate: [IsAuthGuard],
+    canActivate: [IsAuthGuard],
     loadChildren: () =>
       import('../app/profiles/profiles.module').then(m => m.ProfilesModule)
   },
   {
     path: 'uploaddocx',
-    // canActivate: [IsAuthGuard],
+    canActivate: [IsAuthGuard],
     loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule), data: {
       breadcrumb: { skip: true, alias: '' }
     },
