@@ -12,22 +12,20 @@
 
   <div class="title-side">
     <mat-icon matBadge="{{notificationCount}}">notifications_none</mat-icon>
-    <ngx-avatar size="30" value="HM" mdePopoverTriggerOn='click' [mdePopoverTriggerFor]="appPopover"></ngx-avatar>
+    <ngx-avatar size="35" [src]="urlPath" [name]="!urlPath ? userName : ''" mdePopoverTriggerOn='click'
+    [mdePopoverTriggerFor]="appPopover" class="cur-p">
+  </ngx-avatar>
   </div>
 </mat-toolbar>
 
 <mde-popover #appPopover="mdePopover" mdePopoverArrowColor="#929292" mdePopoverArrowOffsetX="125"
-  mdePopoverPositionY="above" mdePopoverOffsetX="-22" mdePopoverOffsetY="-55" [mdePopoverCloseOnClick]="false">
-  <div class="page-border">
-    <div class="page-master">
-      <div class="profile-info-container">
-        <ngx-avatar size="40" class="example-header-image" [src]="urlPath || ''" [name]="userFullName"></ngx-avatar>
-        <div>
-        </div>
-        <div class="acc_name">{{firstName}} {{lastName}}</div>
-        <div class="acc_mail">{{email}}</div>
-        <div class="acc_button" (click)="userRoute('/profile')"> Manage your Account </div>
-        <!-- <div class="acc_notificaion">
+  mdePopoverPositionY="above" mdePopoverOffsetX="10" mdePopoverOffsetY="-40" [mdePopoverCloseOnClick]="false">
+  <div class="button-group">
+    <div class="dropdown-menus">
+      <!-- <ngx-avatar size="40" class="example-header-image" [src]="urlPath || ''" [name]="userFullName"></ngx-avatar>
+       <div class="acc_name">{{firstName}} {{lastName}}</div>
+      <div class="acc_mail">{{email}}</div> -->
+      <!-- <div class="acc_notificaion">
           <div class="toggle-button">
             <input class="check-box" [checked]="EmailPermission" type="checkbox" id="toggle-button-checkbox"
               (change)="changeNotify($event.target.checked)">
@@ -39,17 +37,12 @@
           </div>
           <div class="acc_txt_notify">Turn on notifications <br>Email delivery</div>
         </div> -->
-        <div class="under_line_1"></div>
-        <div class="sign-out-div">
-          <a class="acc_sign_out_button" (click)="signOut()">Sign out <mat-icon
-              style="font-size: 15px;">exit_to_app</mat-icon></a>
-
-        </div>
-        <div class="under_line_2"></div>
-        <div class="acc_terms">
-          <a class="acc_terms_text">Privacy Policy</a> . <a class="acc_terms_text">Terms of Service</a>
-        </div>
-      </div>
+      <a (click)="userRoute('/profiles')">Account Management</a>
+      <a>Contact Support</a>
+      <a href="https://blunetworld.com/legal-terms-use/" target="_blank">Term of use</a>
+      <a href="https://blunetworld.com/legal-privacy-statement/" target="_blank">Privacy Policy</a>
+      <a (click)="signOut()">Log out</a>
     </div>
   </div>
+
 </mde-popover>

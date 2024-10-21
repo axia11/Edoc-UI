@@ -1,5 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { DataService } from 'src/app/shared/_services/data.services';
+import { environment } from 'src/environments/environment';
 // import { DataService } from 'src/app/shared/_services/data.services';
 
 @Injectable({
@@ -12,18 +15,19 @@ export class TitleBarService {
   setSearchTerm(term: string): void {
     this.searchSubject.next(term);
   }
-  
+
   updatePlant = new BehaviorSubject<any>(false);
   isSidenavOpen = new BehaviorSubject<any>(true);
 
-  constructor() { }
+  constructor(
+    private ds: DataService,
+    private httpObj: HttpClient
+
+  ) { }
+
   disablePlantMenu = false;
   defaultRLId;
   path = '/cob/';
-
-  // getAllPlantsdata(prodClientId): Observable<any> {
-  //   return this.ds.get(`/mst/plt/ls/getAllPlantss/${prodClientId}`);
-  // }
 
   getUpdatePlant(status) {
     this.updatePlant.next(status);
@@ -33,32 +37,17 @@ export class TitleBarService {
     this.isSidenavOpen.next(status);
   }
 
-  // getAllUnreadNotifications(): Observable<any> {
-  //   return this.ds.get(`/workflows/getAllUnreadNotifications/${localStorage.userId}`);
-  // }
 
-  // updateEmailNotificationPermission(value): Observable<any> {
-  //   var data = {
-  //     "userId":localStorage.userId,
-  //     "EmailNotificationFlag":value,
-  //     "updatedBy":localStorage.userId
-  // }
-  //   return this.ds.update(`/workflows/updateEmailPermission/`,data);
-  // }
-
-  // updateNotificationStatus(NHId): Observable<any> {
-  //   var data = {
-  //     "Status":1,
-  //     "updatedBy":localStorage.userId
-  // }
-  //   return this.ds.update(`/workflows/updateNotificationStatus/${NHId}`,data);
-  // }
-
-  // updateisDefault(data): Observable<any> {
-  //   const sendData = data
-  //   sendData.userid = localStorage.getItem('userId')
-  //   return this.ds.update(`${this.path}updateDefault/`,sendData);
-  // }
-
-
+  updateProfileData(): Observable<any> {
+    const userId = localStorage.getItem('userId');
+    const body = {
+      termsacceptstat: true
+    };
+    return this.httpObj.put(`${environment.lucyApiUrl}/user/updateUserData/${userId}`, body);
+  }
+  logout(data): Observable<any> {
+    const sendData = data;
+    const userId = localStorage.getItem('userId');
+    return this.ds.add(`/account/logout/${userId}`, sendData);
+  }
 }

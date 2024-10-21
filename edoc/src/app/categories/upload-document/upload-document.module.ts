@@ -56,6 +56,7 @@ import { CommonModule } from '@angular/common';
 
     ])
   ],
+  exports: [UploadDocumentComponent, DocTitleComponent, DocCompanionComponent, RevisionHistoryComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class UploadDocumentModule { }

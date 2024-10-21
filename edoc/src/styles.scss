@@ -210,197 +210,6 @@ mat-icon {
     }
 }
 
-// For profile popup
-.profile-info-container {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    // background: #ffffff;
-    // border: 1px solid transparent;
-    color: #0e1012;
-    // box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-    // outline: none;
-    // overflow: auto;
-    min-width: 296px;
-    // border-radius: 8px;
-}
-
-.profile-info-container::before {
-    position: absolute;
-    content: "";
-    top: -10px;
-    right: 10px;
-    z-index: 999;
-    fill-opacity: 1;
-    /* margin-top: -5px; */
-    transform: rotate(0deg);
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-bottom: 10px solid #ffff;
-
-}
-
-
-.profile-img-container {
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: inline-block;
-    position: relative;
-    cursor: pointer;
-    margin: 0 5px;
-}
-
-.profile-img {
-    height: 35px;
-    width: 35px;
-    border-radius: 50%;
-    top: -2px;
-    /* position: relative; */
-    /* transform: scale(0.5); */
-    // margin: 0 5px 0 0px;
-    // vertical-align: top;
-}
-
-.example-header-image {
-    // background-size: cover;
-    // background-repeat: no-repeat;
-    /* background-position: -362px -28px; */
-    align-self: center;
-    // border: 1px solid darkgray;
-    margin-top: 20px;
-    // /* vertical-align: top;
-}
-
-.acc_button {
-    align-self: center;
-    background-color: #ffffff;
-    border: 1px solid #dadce0;
-    -webkit-border-radius: 100px;
-    border-radius: 5px;
-    color: #3c4043;
-    display: inline-block;
-    font: 500 14px/16px;
-    letter-spacing: 0.25px;
-    margin: 15px 0 0;
-    max-width: 254px;
-    outline: 0;
-    padding: 8px 16px;
-    text-align: center;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    overflow: hidden;
-
-    &:hover {
-        cursor: pointer;
-        background-color: #f7f8f8;
-    }
-
-    &:active {
-        background-color: #e8e8e9;
-        border-color: transparent;
-        -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
-        box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
-    }
-}
-
-.acc_name {
-    color: #202124;
-    font: 600 16px/22px Google Sans, Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-    letter-spacing: 0.29px;
-    margin: 0;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.acc_mail {
-    color: #0073ff;
-    font: 400 14px/19px Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-    letter-spacing: normal;
-    text-align: center;
-    text-overflow: ellipsis;
-    overflow: hidden;
-}
-
-.acc_sign_out_button {
-    background-color: #ffffff;
-    border: 1px solid #dadce0;
-    -webkit-border-radius: 4px;
-    border-radius: 5px;
-    display: inline-block;
-    font: 600 14px/16px Google Sans, Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-    letter-spacing: 0.15px;
-    margin: 10px;
-    outline: 0;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    white-space: normal;
-    color: black;
-}
-
-.acc_sign_out_button {
-    align-items: center;
-    display: inherit;
-
-    &:hover {
-        cursor: pointer;
-        color: black;
-        background-color: #f7f8f8;
-    }
-
-    a {
-        color: #3c4043;
-        text-decoration: none;
-    }
-
-    &:active {
-        background-color: #e8e8e9;
-        border-color: transparent;
-        -webkit-box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
-        box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3), 0 2px 6px 2px rgba(60, 64, 67, 0.15);
-    }
-}
-
-.acc_terms {
-    text-align: center;
-    margin: 10px 10px;
-
-    .acc_terms_text {
-        color: #5f6368;
-        display: inline-block;
-        font: 400 12px/16px Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
-        outline: 0;
-        padding: 4px 8px;
-        text-decoration: none;
-        text-align: center;
-        white-space: normal;
-
-        &:hover {
-            cursor: pointer;
-            background-color: #f7f8f8;
-        }
-    }
-}
-
-.under_line_1 {
-    border-bottom: 1px solid #e8eaed;
-    width: 100%;
-    margin-top: 10px;
-}
-
-.under_line_2 {
-    border-bottom: 1px solid #e8eaed;
-    width: 100%;
-}
-
-.sign-out-div {
-    display: flex;
-    justify-content: center;
-}
-
 
 .custom-ng-grid {
     box-sizing: border-box;
@@ -1688,7 +1497,7 @@ button {
     &.mat-primary {
         background-color: rgb(31, 31, 31) !important;
         color: white;
-        border-radius: 30px;
+        border-radius: 4px;
         box-shadow: none !important;
 
         /* min-width: $min-btn-width; */
@@ -1706,7 +1515,7 @@ button {
         margin: 0 !important;
         box-shadow: 4px 4px 0 rgba(29, 29, 31, 0.16) !important;
         transition: width 0.3s ease-in-out;
-        border-radius: 30px;
+        border-radius: 4px;
 
         &:hover {
             // background-color: #0f69ff !important;
@@ -1738,7 +1547,7 @@ button {
         font-size: 12px;
         line-height: 14px !important;
         // border: 1px solid #188fff !important;
-        border-radius: 30px;
+        border-radius: 4px;
         box-shadow: 4px 4px 0 rgba(60, 65, 194, .16) !important;
 
         /* min-width: $min-btn-width; */
@@ -1752,7 +1561,7 @@ button {
         background: none;
         color: #1f1f1f !important;
         border: 1px solid #1f1f1f !important;
-        border-radius: 30px;
+        border-radius: 4px;
         box-shadow: none !important;
 
         /* min-width: $min-btn-width; */
@@ -1785,7 +1594,7 @@ button {
         background: none;
         color: #24292f !important;
         border: 1px solid #F0F0F0 !important;
-        border-radius: 30px;
+        border-radius: 4px;
         box-shadow: none !important;
 
         /* min-width: $min-btn-width; */
@@ -1801,7 +1610,7 @@ button {
         background-color: #f6f8fa !important;
         color: #24292f !important;
         border: 1px solid #F0F0F0 !important;
-        border-radius: 30px;
+        border-radius: 4px;
         box-shadow: 0px 1px 0px 0px #1f23280a !important;
 
         &:hover {

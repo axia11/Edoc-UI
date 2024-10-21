@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { AppComponent } from './app.component';
+import { AppComponent, SnackbarsComponent } from './app.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from 'libs/material/src';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,13 +28,19 @@ import { IsAuthGuard } from './_guards/isAuth.guard';
 const routes: Routes = [
   {
     path: 'activites',
-    canActivate: [IsAuthGuard],
+    // canActivate: [IsAuthGuard],
     loadChildren: () =>
       import('../app/activites/activites.module').then(m => m.ActivitesModule)
   },
-
+  {
+    path: 'profiles',
+    // canActivate: [IsAuthGuard],
+    loadChildren: () =>
+      import('../app/profiles/profiles.module').then(m => m.ProfilesModule)
+  },
   {
     path: 'uploaddocx',
+    // canActivate: [IsAuthGuard],
     loadChildren: () => import('./categories/categories.module').then(m => m.CategoriesModule), data: {
       breadcrumb: { skip: true, alias: '' }
     },
@@ -46,6 +52,7 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     TitleBarComponent,
+    SnackbarsComponent,
     MenuBarComponent,
     SpinnerFileComponent,
     ErrMsgComponent,

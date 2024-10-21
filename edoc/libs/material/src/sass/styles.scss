@@ -25,33 +25,12 @@ $dark-theme: mat-dark-theme($dark-primary, $dark-accent, $dark-warn);
 
 // Global styles
 @media screen and (max-width: 1367px) {
-  //  {
-  //   zoom:85%;
-  //  }
-
 
   html {
     zoom: 85%;
-    // height: 100vh;
     display: block;
   }
 
-  .plm-circle {
-    width: 30%;
-    // margin-left: 5px;
-    // margin-top: 20px;
-  }
-
-  // .body-content{
-  //   height: calc(100vh + 17px) !important;
-  // }
-  //   .container{
-  //      @include media-breakpoint-up($breakpoint, $grid-breakpoints) {
-  //     %responsive-container-#{$breakpoint} {
-  //       max-width: 1366px;
-  //     }
-  //   }
-  //  }
 }
 
 .conta {
@@ -245,23 +224,6 @@ input:active {
 }
 
 ///grn -receiving tab
-.flex-item-grc {
-  border-bottom: 1px solid blue;
-  padding: 10px 10px -6px 0;
-  display: flex;
-  justify-content: space-around;
-  max-height: 55px;
-
-  label {
-    width: 100%;
-    font-weight: 600;
-    align-self: center;
-  }
-}
-
-.timepicker-overlay {
-  z-index: 1001 !important;
-}
 
 .mat-dialog-container {
   padding: 0px !important;
@@ -272,11 +234,7 @@ input:active {
   box-shadow: rgba(0, 0, 0, 0.12) 0px 0px 16px, rgba(0, 0, 0, 0.24) 0px 16px 16px;
 
   .mat-toolbar {
-    // margin-top: -24px;
-    // margin-left: -24px;
-    // margin-bottom: 15px;
-    // width: calc(100% + 48px);
-    // font-size: 1.3em;
+
     height: 35px;
   }
 
@@ -297,8 +255,6 @@ input:active {
 }
 
 .cdk-overlay-pane {
-  // margin-left: 15px;
-  // margin-right: 15px;
   max-width: 100% !important;
 }
 
@@ -331,30 +287,6 @@ input:active {
   margin: 0px !important;
 }
 
-// .mat-select-disabled .mat-select-value,
-// .mat-input-element:disabled {
-//   color: #1a73e8;
-// }
-
-// .mat-form-field-appearance-outline .mat-form-field-infix {
-//   /* Original top/bottom value was 1em. */
-//   // padding: 0.7em 0;
-// }
-// /*placeholder styles can be defined here as per the need*/
-// .mat-form-field-type-mat-select .mat-form-field-label {
-//   font-size: 1.02rem;
-// }
-// .mat-form-field-label,
-// .mat-input-element {
-//   position: relative;
-//   // top: -4px;
-//   /* Adjust accordingly to keep placeholder/input text vertically centered. */
-// }
-
-// /* Adjust accordingly to keep <mat-label> text vertically centered. */
-// .mat-form-field-label-wrapper {
-//   // top: -15px;
-// }
 
 .mat-form-field-appearance-outline {
   &.mat-form-field-label {
@@ -362,9 +294,6 @@ input:active {
     margin-top: -5px;
   }
 
-  // &.mat-focused .mat-form-field-outline-thick {
-  //   color: #1a73e8 !important;
-  // }
 
   &.mat-form-field-disabled .mat-form-field-outline {
     color: #00000061 !important;
@@ -395,23 +324,5 @@ input:active {
 .mat-select-disabled .mat-select-value {
   color: rgb(0, 0, 0);
 }
-
-// .mat-form-field-label:not(.mat-empty):not(.mat-form-field-empty) {
-//   mat-label {
-//     color: black;
-//     display: inline-block;
-//     border: 1px solid gray;
-//     border-radius: 3px;
-//     font-size: 0.9876rem;
-//     padding: 5px 4px;
-//     background: white;
-//     font-weight: 600;
-//     padding: 3px 6px 3px 6px;
-//     background: rgb(232, 232, 232);
-//     background: linear-gradient(0deg, rgba(232, 232, 232, 1) 68%, rgba(255, 255, 255, 1) 68%);
-//     min-width: 100px;
-//   }
-// }
-
 
 //Media Queries

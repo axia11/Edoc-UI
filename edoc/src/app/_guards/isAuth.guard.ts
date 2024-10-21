@@ -4,7 +4,6 @@ import { CommonService } from './../shared/_services/common.service';
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateChild, CanActivate } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { MenuBarService } from '../menu/_service/menu-bar.service';
 import { environment } from '../../environments/environment';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -15,7 +14,6 @@ export class IsAuthGuard implements CanActivate {
   constructor(
     private route: Router,
     private cs: CommonService,
-    private ms: MenuBarService,
     private httpObj: HttpClient,
     private dialog: MatDialog,
   ) { }
@@ -28,21 +26,24 @@ export class IsAuthGuard implements CanActivate {
       window.localStorage.setItem('userId', route.queryParams.userId);
       window.localStorage.setItem('username', route.queryParams.username);
       window.localStorage.setItem('clientname', route.queryParams.clientname);
-      window.localStorage.setItem('PCLId', route.queryParams.PCLId);
+      window.localStorage.setItem('prodClientId', route.queryParams.PCLId);
       window.localStorage.setItem('url', route.queryParams.url);
       window.localStorage.setItem('CLId', route.queryParams.CLId);
       window.localStorage.setItem('ProductId', route.queryParams.ProductId);
       window.localStorage.setItem('userCategoryId', route.queryParams.userCategoryId);
+      window.localStorage.setItem('planTimeline', route.queryParams.planTimeline);
+      window.localStorage.setItem('PLId', route.queryParams.PLId);
+
     }
     if (!!localStorage.token) {
       try {
         const isExpired = this.jwt.isTokenExpired(localStorage.token);
         if (isExpired) {
-          return this.logout();
+          // return this.logout();
         }
         return true;
       } catch {
-        return this.logout();
+        // return this.logout();
       }
     } else {
       if (window.location.host.includes('localhost')) {
@@ -65,7 +66,7 @@ export class IsAuthGuard implements CanActivate {
   //     // if(state.url.match(`/user/${localStorage.currUserId}`) !== null){
   //     //   return false;
   //     // }
-  //     // this.ms.getMenu(state.url);
+  //     // this.ms.getMenuList();
   //     return false;
   //   }
   //   return true;
@@ -81,7 +82,7 @@ export class IsAuthGuard implements CanActivate {
 
   logoutUser(): Observable<any> {
     const userId = localStorage.getItem('userId');
-    return this.httpObj.post(`${environment.lucyApiUrl}/gateway/logout/profile/${localStorage.getItem('userId')}`, userId, {
+    return this.httpObj.post(`${environment.apiUrl}/account/logout/${localStorage.getItem('userId')}`, userId, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -100,6 +101,7 @@ export class IsAuthGuard implements CanActivate {
     localStorage.removeItem('firstName');
     localStorage.removeItem('clientName');
     localStorage.removeItem('token');
+    localStorage.removeItem('userCategoryId');
   }
 
 }

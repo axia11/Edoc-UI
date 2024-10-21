@@ -27,6 +27,8 @@ export class TitleBarComponent implements OnInit {
   PackId = new FormControl('');
   ProjectId = new FormControl('');
   userFullName: string;
+  userName: string = localStorage.getItem('firstName');
+
   @ViewChild(MdePopoverTrigger) trigger: MdePopoverTrigger;
 
   public pageTitle: any = {
@@ -49,15 +51,12 @@ export class TitleBarComponent implements OnInit {
         window.localStorage.setItem('token', params.token);
         window.localStorage.setItem('firstName', params.firstName);
         window.localStorage.setItem('clientname', params.clientname);
-        window.localStorage.setItem('PCLId', params.PCLId);
+        window.localStorage.setItem('prodClientId', params.PCLId);
         window.localStorage.setItem('url', params.url);
         window.localStorage.setItem('CLId', params.CLId);
         window.localStorage.setItem('ProductId', params.ProductId);
-        window.localStorage.setItem('userCategoryId', params.userCategoryId);
-        // window.localStorage.setItem('PackId', JSON.stringify(packIdArray));
-        // this.getALLPlant();
-        // this.getALLProjects();
-        // this.getAllUnreadNotifications();
+        // window.localStorage.setItem('userCategoryId', params.userCategoryId);
+        // window.localStorage.setItem('PLId', params.PLId);
       }
       this.getProfileDetails(params.userId).subscribe(res => {
         this.currUserData = res.Result;
@@ -69,7 +68,7 @@ export class TitleBarComponent implements OnInit {
         if (res.Result.profilepath == null) {
           return
         }
-        this.getProfilePhoto(res.Result.profilepath).subscribe(file => {
+        this.getProfileDetails(res.Result.profilepath).subscribe(file => {
           this.loadProfileImage(file);
         })
       }, (error) => {
@@ -161,34 +160,24 @@ export class TitleBarComponent implements OnInit {
     if (localStorage.getItem('userId') == null || localStorage.getItem('userId') == undefined) {
       return;
     } else {
-      this.logout().subscribe(res => {
+      const sendData = localStorage.getItem('userid')
+      this.apiservice.logout(sendData).subscribe(res => {
         // localStorage.clear();
         localStorage.removeItem('firstName');
         localStorage.removeItem('clientName');
         localStorage.removeItem('token');
         localStorage.removeItem('userCategoryId');
-        // localStorage.clear();
         if (res) {
-          window.location.href = `${localStorage.accountURL || environment.baseUrl}/login?prevurl=/cimhome`;
+          window.location.href = `${localStorage.accountURL || environment.baseUrl}/login?baseurl=${window.location.origin}/&prevurl=${window.location.pathname}`;
         }
       })
     }
   }
-  logout(): Observable<any> {
-    const userId = localStorage.getItem('userId');
-    return this.httpObj.post(`${environment.lucyApiUrl}/gateway/logout/profile/${localStorage.getItem('userId')}`, userId, {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json'
-      })
-    })
-  }
   loadProfileImage(file) {
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.urlPath = file.size ? reader.result : '../../../assets/camera1.png';
-    };
-    if (file) {
-      reader.readAsDataURL(file);
+    if (file && file.Result && file.Result.profilepath) {
+      this.urlPath = file.Result.profilepath; // Use the profile path directly
+    } else {
+      this.urlPath = '../../../assets/camera1.png'; // Default image
     }
   }
   userRoute(route) {

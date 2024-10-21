@@ -12,7 +12,6 @@ export class DocTitleService {
   data;
   constructor(
     private ds: DataService,
-    private datepipe: DatePipe
   ) { }
 
   getDropdown(): Observable<any> {
@@ -28,7 +27,6 @@ export class DocTitleService {
     sendData['RevNo'] = encodeURIComponent(sendData.RevNo);
     sendData['PreparedBy'] = encodeURIComponent(sendData.PreparedBy);
     let query = `EDHId=${sendData.EDHId}&EDGId=${sendData.EDGId}&RevNo=${sendData.RevNo}&Orgsize=${sendData.Orgsize}&Sheets=${sendData.Sheets}&PreparedBy=${sendData.PreparedBy}&Notes=${sendData.Notes}&Destination=${sendData.Destination}&IssueCode=${sendData.IssueCode}&Isconfidential=${sendData.Isconfidential}&IsInternalIssue=${sendData.IsInternalIssue}&Islockverison=${sendData.Islockverison}&CreatedBy=1&DocumentTitle=${sendData.DocumentTitle}&DocumentId=${sendData.DocumentId}&Parentpath=${sendData.Parentpath}`;
-    debugger
     return this.ds.addAttachment(`/docUpload/uploadDoc?${query}`, files);
   }
 
@@ -38,7 +36,6 @@ export class DocTitleService {
     sendData['RevNo'] = encodeURIComponent(sendData.RevNo);
     sendData['PreparedBy'] = encodeURIComponent(sendData.PreparedBy);
     let query = `EDHId=${sendData.EDHId}&EDGId=${sendData.EDGId}&RevNo=${sendData.RevNo}&Orgsize=${sendData.Orgsize}&Sheets=${sendData.Sheets}&PreparedBy=${sendData.PreparedBy}&Notes=${sendData.Notes}&Destination=${sendData.Destination}&IssueCode=${sendData.IssueCode}&Isconfidential=${sendData.Isconfidential}&IsInternalIssue=${sendData.IsInternalIssue}&Islockverison=${sendData.Islockverison}&CreatedBy=1&DocumentTitle=${sendData.DocumentTitle}&DocumentId=${sendData.DocumentId}&Parentpath=${sendData.Parentpath}`;
-    debugger
     return this.ds.addAttachment(`/docUpload/UpdateUploadDoc?${query}`, files);
   }
 
