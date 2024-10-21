@@ -1,5 +1,5 @@
-import { environment } from '../../../../src/environments/environment';
-import { ErrMsgComponent } from '../_components/errMsg.component';
+import { environment } from 'src/environments/environment';
+import { ErrMsgComponent } from './../_components/errMsg.component';
 import { HttpErrorResponse, HttpClient, HttpHeaders } from '@angular/common/http';
 import { throwError, Subject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
@@ -15,10 +15,9 @@ export class HandleErrorService {
   constructor(
     private dialog: MatDialog,
     private httpObj: HttpClient,
-    private route: Router,
   ) { }
 
- getCircularReplacer() {
+  getCircularReplacer() {
     const seen = new WeakSet();
     return (key, value) => {
       if (typeof value === "object" && value !== null) {
@@ -30,7 +29,7 @@ export class HandleErrorService {
       return value;
     };
   }
-  
+
   errorHandle(error: HttpErrorResponse) {
     // Function to safely extract error information
     const extractErrorInfo = (error: HttpErrorResponse) => {
@@ -44,20 +43,20 @@ export class HandleErrorService {
         }
       };
     };
-  
+
     // Log relevant error details
     try {
       console.log('Error handler triggered with error:', extractErrorInfo(error));
     } catch (e) {
       console.error('Failed to log error:', e);
     }
-  
+
     if (error === null || error === undefined) {
       console.error('Error object is null or undefined.');
       this.errorMsg.next('An Unexpected Error Occurred.');
       return throwError('An unexpected error occurred.');
     }
-  
+
     if (error.status === 401) {
       this.dialog.open(ErrMsgComponent, {
         width: '500px',
@@ -66,15 +65,20 @@ export class HandleErrorService {
         }
       });
       setTimeout(() => {
-        this.logoutUser().subscribe(res => {
-          if (res) {
-            this.redirectAfterLogout();
-          }
-        }, err => {
-          if (err.status === 400) {
-            this.redirectAfterLogout();
-          }
-        });
+        if (localStorage.userId) {
+          this.logoutUser().subscribe(res => {
+            if (res) {
+              this.redirectAfterLogout();
+            }
+          }, err => {
+            if (err.status === 400) {
+              this.redirectAfterLogout();
+            }
+          });
+        }
+        else {
+          this.redirectAfterLogout();
+        }
       }, 1000);
     } else if (error.status === 0) {
       console.error('An error occurred:', error);
@@ -86,13 +90,13 @@ export class HandleErrorService {
       return throwError(error);
     }
   }
-  
-  
-  
+
+
+
 
   logoutUser(): Observable<any> {
     const userId = localStorage.getItem('userId');
-    return this.httpObj.post(`${environment.lucyApiUrl}/gateway/logout/profile/${localStorage.getItem('userId')}`, userId, {
+    return this.httpObj.post(`${environment.apiUrl}/account/logout/${localStorage.getItem('userId')}`, userId, {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
@@ -111,5 +115,6 @@ export class HandleErrorService {
     localStorage.removeItem('firstName');
     localStorage.removeItem('clientName');
     localStorage.removeItem('token');
+    localStorage.removeItem('userCategoryId');
   }
 }

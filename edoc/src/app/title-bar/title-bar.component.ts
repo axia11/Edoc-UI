@@ -142,20 +142,7 @@ export class TitleBarComponent implements OnInit {
       })
     };
   }
-  getProfilePhoto(profilepath): Observable<any> {
-    return this.httpObj.get(`${environment.lucyApiUrl}/gateway/profile/${profilepath}`, this.httpOptionsImage());
-  }
 
-  httpOptionsImage() {
-    const token = localStorage.getItem('token');
-    return {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        Authorization: `bearer ${token}`
-      }),
-      responseType: 'blob' as 'json'
-    };
-  }
   signOut() {
     if (localStorage.getItem('userId') == null || localStorage.getItem('userId') == undefined) {
       return;
