@@ -1,0 +1,187 @@
+<div class="page-border mb-3">
+    <div class="popup-titleside bg-pro ">
+        <div class="title-header d-flex">
+            <img src="../../../../../assets/svg/profile.svg" style="width: 40px; margin-right: 10px;">
+            <h1 class="title mt-2">Profile</h1>
+        </div>
+    </div>
+    <div class="page-master">
+        <div class="flex-container flex-wrap" fxLayout="row" fxLayout.xs="row" fxLayoutAlign="">
+            <div class="col-xl-4 col-md-4 col-sm-4 col-xxl-4">
+                <div style="text-align: center;">
+                    <div class="img-cont">
+                        <input type="file" #fileInput hidden (change)="updatePhoto($event)" />
+                        <div class="img">
+                            <ngx-avatar size="150" [src]="urlPath || ''" [name]="userName"></ngx-avatar>
+                        </div>
+                        <div class="edit-sec" *ngIf="hideChageBtn">
+                            <mat-icon class="icon-edit" (click)="fileInput.click()" matTooltip="Edit">edit</mat-icon>
+                        </div>
+                        <div class="save-sec" *ngIf="fileInput.value && !hideChageBtn">
+                            <mat-icon class="icon-save" mat-raised-button matTooltip="Save" color="primary"
+                                (click)="saveProfilePhoto()">save</mat-icon>
+                        </div>
+                    </div>
+                    <h1 class="title">{{userName}}</h1>
+                    <h1 class="title">{{emailid}}</h1>
+                </div>
+            </div>
+
+            <div class="col-xl-5 col-md-5 col-sm-5 col-xxl-5">
+                <form [formGroup]="profileForm" (ngSubmit)="saveProfileItem()">
+                    <div class="custom-ng-grid">
+                        <div class="m-flex m-flex-1">
+                            <div class="m-flex-item">
+                                <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                                    <div fxFlex="45%">
+                                        <mat-label class="label-name">First Name <span
+                                                class="required">*</span></mat-label>
+                                        <mat-form-field>
+                                            <input matInput formControlName="firstname" tabindex="-1" required />
+                                            <mat-error *ngIf="profileForm.controls.firstname.errors?.required">
+                                                First Name Required !!!
+                                            </mat-error>
+                                            <mat-error *ngIf="profileForm.controls.firstname.errors?.pattern">
+                                                Characters only allowed !
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div fxFlex="45%">
+                                        <mat-label class="label-name">Last Name <span
+                                                class="required">*</span></mat-label>
+                                        <mat-form-field>
+                                            <input matInput tabindex="-1" pattern="[a-zA-Z]+" formControlName="lastname"
+                                                required />
+                                            <mat-error *ngIf="profileForm.controls.lastname.errors?.required">
+                                                Last Name Required !!!
+                                            </mat-error>
+                                            <mat-error *ngIf="profileForm.controls.lastname.errors?.pattern">
+                                                Characters only allowed !
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-flex-item">
+                                <mat-label class="label-name">Email id<span class="required">*</span></mat-label>
+                                <mat-form-field class="disable">
+                                    <input matInput formControlName="usermail" tabindex="-1" required readonly/>
+                                    <mat-error *ngIf="profileForm.controls.usermail.errors?.required">
+                                        Email Required !!!
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="m-flex-item">
+                                <mat-label class="label-name">Recovery Email id<span
+                                        class="required">*</span></mat-label>
+                                <mat-form-field>
+                                    <input matInput formControlName="altemail" tabindex="-1" required />
+                                    <mat-error *ngIf="profileForm.controls.altemail.errors?.required">
+                                        Alter Email Required !!!
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="m-flex-item">
+                                <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                                    <div fxFlex="30%">
+                                        <mat-label class="label-name">Contact Code <span
+                                                class="required">*</span></mat-label>
+                                        <mat-form-field>
+                                            <mat-select [value]="selectedOption" formControlName="countrycode"
+                                                title="{{ countrycode }}" required #ddnSelect>
+                                                <app-select-ddn ddnId="countrycode" ddnName="code_Number"
+                                                    [ddnSelect]="ddnSelect" [ddnList]="countryCodeList"
+                                                    (filtered)="filterCountry($event)"></app-select-ddn>
+                                                <mat-option *ngFor="let country of filterCountryCodeList"
+                                                    [value]="country.code_Number">{{
+                                                    country.code_Number }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="65%">
+                                        <mat-label class="label-name">Contact Number <span
+                                                class="required">*</span></mat-label>
+                                        <mat-form-field>
+                                            <input matInput max="10" formControlName="contactnumber" required />
+                                            <mat-error *ngIf="profileForm.controls.contactnumber.errors?.required">
+                                                Contact Number Required !!!
+                                            </mat-error>
+                                            <mat-error *ngIf="profileForm.controls.contactnumber.errors?.pattern">
+                                                Please Enter a valid contact number !!!
+                                            </mat-error>
+                                            <mat-hint>e.g. 0123456789</mat-hint>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="m-flex-item">
+                                <div fxLayout="row wrap" fxLayoutAlign="space-between">
+                                    <div fxFlex="30%">
+                                        <mat-label class="label-name">DOB <span class="required">*</span></mat-label>
+                                        <mat-form-field>
+                                            <input matInput [matDatepicker]="finalDeliveryDate" formControlName="dob"
+                                                readonly required />
+                                            <mat-datepicker-toggle matSuffix [for]="finalDeliveryDate">
+                                                <mat-icon matDatepickerToggleIcon>
+                                                    <img class="dt__picker_img"
+                                                        src="../../../assets/svg/calendar.svg" />
+                                                </mat-icon>
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #finalDeliveryDate></mat-datepicker>
+
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div fxFlex="30%">
+                                        <mat-label class="label-name">Gender <span class="required">*</span></mat-label>
+                                        <mat-form-field>
+                                            <mat-select formControlName="gender" required>
+                                                <mat-option *ngFor="let gen of Gender" [value]="gen">
+                                                    {{ gen }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="profileForm.controls.gender.errors?.required">
+                                                Gender Required !!!
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+
+                                    <div fxFlex="30%">
+                                        <mat-label class="label-name">Blood Group <span
+                                                class="required">*</span></mat-label>
+                                        <mat-form-field>
+                                            <mat-select formControlName="bloodgrp" required>
+                                                <mat-option *ngFor="let bg of bGroup" [value]="bg">
+                                                    {{ bg }}
+                                                </mat-option>
+                                            </mat-select>
+                                            <mat-error *ngIf="profileForm.controls.bloodgrp.errors?.required">
+                                                Blood Group Required !!!
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="btn-group btn-group-right">
+                        <button mat-raised-button color="primary" *ngIf="!isEditing"
+                            (click)="enableEditing()">Update</button>
+                        <button mat-raised-button color="primary" *ngIf="isEditing" type="submit">Save
+                            <mat-icon class="white" *ngIf="disableLogin">
+                                <mat-spinner [strokeWidth]="3" [diameter]="20" style="left: 15px;"></mat-spinner>
+                            </mat-icon>
+                        </button>
+                        <button mat-raised-button color="secondary" *ngIf="isEditing" (click)="cancel()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

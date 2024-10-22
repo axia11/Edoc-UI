@@ -7,7 +7,7 @@ export const environment = {
   apiUrl: 'http://localhost:7000/edoc', //before qa1
   redirectUrl: 'http://localhost:4201',   // click sign in button redirect to lucy login
   baseUrl: 'http://localhost:4201',   // sign in - sign up button page redirection
-  lucyApiUrl: 'http://localhost:7003',
+  lucyApiUrl: 'https://javaqa.edocx.ai/Lucy'
 };
 
 /*

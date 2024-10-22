@@ -5,7 +5,6 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { DocTitleService } from './_service/doc-title.service';
 import { SnackbarService } from 'src/app/shared/_services/snackbar.service';
 import { FileUploadControl } from 'src/app/shared/ver1-files-upload/public_api';
-import { UploadDocumentService } from '../_service/upload-document.service';
 
 @Component({
   selector: 'app-doc-title',
@@ -36,7 +35,6 @@ export class DocTitleComponent implements OnInit {
     private el: ElementRef,
     private fb: FormBuilder,
     private apiservice: DocTitleService,
-    private mainservice: UploadDocumentService,
     private sb: SnackbarService,
   ) { }
 
@@ -163,8 +161,8 @@ export class DocTitleComponent implements OnInit {
 
 
   close() {
-    this.headerForm.reset();
-    this.mainservice.close()
+    // this.headerForm.reset();
+    // this.mainservice.close()
   }
 
   enableEdit() {

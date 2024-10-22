@@ -75,83 +75,6 @@ mat-form-field {
     width: 100%;
 }
 
-//Utilities
-.pe-n {
-    pointer-events: none !important;
-}
-
-//Padding
-.pd-10 {
-    padding: 10px;
-}
-
-.pdt-10 {
-    padding-top: 10px;
-}
-
-// Margin - 10 
-.mg-10 {
-    margin: 10px !important;
-}
-
-.mgr-10 {
-    margin-right: 10px !important;
-}
-
-.mgt-10 {
-    margin-top: 10px !important;
-}
-
-// margin 15
-.mgt-15 {
-    margin-top: 15px !important;
-}
-.mgr-15 {
-    margin-right: 15px !important;
-}
-.mgb-15 {
-    margin-bottom: 15px !important;
-}
-.mgl-15 {
-    margin-left: 15px !important;
-}
-
-// margin-20
-.mgt-20 {
-    margin-top: 20px !important;
-}
-.mgr-20 {
-    margin-right: 20px !important;
-}
-.mgl-20 {
-    margin-left: 20px !important;
-}
-.mgb-20 {
-    margin-bottom: 20px !important;
-}
-
-// margin 25
-.mgt-25 {
-    margin-top: 25px !important;
-}
-.mgr-25 {
-    margin-right: 25px !important;
-}
-.mgb-25 {
-    margin-bottom: 25px !important;
-}
-// .mgl-25 {
-//     margin-left: 25px !important;
-// }
-
-//Width
-
-.w-100 {
-    width: 100%;
-}
-.w-250 {
-    width: 250px;
-}
 
 $min-btn-width: 95px !important;
 
@@ -203,6 +126,16 @@ $min-btn-width: 95px !important;
     background: $red !important;
 }
 
+.bg-blacks {
+    background: #393B3C !important;
+    border-radius: 8px !important;
+    border: 1px solid #d0d7de !important;
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 1px 2px 0px !important;
+
+    &:hover {
+        box-shadow: rgba(0, 0, 0, 0.04) 0px 3px 5px !important;
+    }
+}
 //Fonts
 
 .fs-95 {
@@ -255,42 +188,6 @@ $min-btn-width: 95px !important;
 
 .form-field-size {
     font-size: $mat-form-field-size;
-}
-
-// *************** Paddings ***************//
-// TOP-padding
-
-.pt-10 {
-    padding-top: 10px !important;
-}
-
-.pt-30 {
-    padding-top: 10px !important;
-}
-
-.pt-40 {
-    padding-top: 10px !important;
-}
-
-.pt-50 {
-    padding-top: 10px !important;
-}
-
-// Bottom-padding
-.pb-10 {
-    padding-bottom: 10px !important;
-}
-
-.pb-30 {
-    padding-bottom: 10px !important;
-}
-
-.pb-40 {
-    padding-bottom: 10px !important;
-}
-
-.pb-50 {
-    padding-bottom: 10px !important;
 }
 
 //Color

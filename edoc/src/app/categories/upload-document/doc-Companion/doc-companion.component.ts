@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { DocTitleService } from '../doc-title/_service/doc-title.service';
 import { SnackbarService } from 'src/app/shared/_services/snackbar.service';
 import { Ver3DataTableComponent } from 'src/app/shared/ver3-data-table/ver3-data-table/ver3-data-table/ver3-data-table.component';
-import { UploadDocumentService } from '../_service/upload-document.service';
 import { GoblalDocPreviewComponent } from 'src/app/shared/goblal-doc-preview/goblal-doc-preview.component';
 import { GoblalDocPreviewService } from 'src/app/shared/goblal-doc-preview/_service/goblal-doc-preview.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -22,7 +21,6 @@ export class DocCompanionComponent implements OnInit {
   constructor(
     private sb: SnackbarService,
     private apiservice: DocTitleService,
-    private mainservice: UploadDocumentService,
     private previewservice: GoblalDocPreviewService,
     public dialog: MatDialog
   ) { }
@@ -130,6 +128,6 @@ export class DocCompanionComponent implements OnInit {
   }
 
   close(){
-    this.mainservice.close()
+    // this.mainservice.close()
   }
 }

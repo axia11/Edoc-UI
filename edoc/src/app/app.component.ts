@@ -1,7 +1,7 @@
-import { Component, ComponentFactoryResolver, Inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { TitleBarService } from './title-bar/_service/title-bar.service';
 import { BreadcrumbService } from 'xng-breadcrumb';
 import { SetTokenService } from 'libs/common-services/src';
@@ -15,6 +15,8 @@ import { HandleErrorService } from './shared/http-interceptors/error-handle';
 import { InitialService } from './_services/initial.service';
 import { environment } from 'src/environments/environment';
 import { ErrMsgComponent } from './shared/_components/errMsg.component';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -27,27 +29,26 @@ export class AppComponent implements OnInit {
   @ViewChild(SpinnerFileComponent) spinner: SpinnerFileComponent
   apiLoads = false;
   breadcrumbs: any;
-
-  accepted: boolean = false;
   $isSidenavOpen: Subscription;
   opened: boolean = true;
   showTopBar = true;
   title = 'blunet';
   isSidenavOpen: any = true;
   currentPath: string;
+  termsAccepted: boolean = true;
+
   constructor(
     private dialog: MatDialog,
     public initService: InitialService,
-    private cs: CommonService,
     private titleService: Title,
     private es: HandleErrorService,
-    private sts: SetTokenService,
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumbService: BreadcrumbService,
-    // private cnbs: ComlNameOfBusService,
+    private httpObj: HttpClient,
     public ds: DataService,
-    private componentFactoryResolver: ComponentFactoryResolver,
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef,
     @Inject(DOCUMENT) private _document: Document,
     public dashboardService: TitleBarService,
   ) {
@@ -55,52 +56,39 @@ export class AppComponent implements OnInit {
       if (params.userId && params.token) {
         window.localStorage.setItem('userId', params.userId);
         window.localStorage.setItem('token', params.token);
-        window.localStorage.setItem('firstName', params.firstName);
-        window.localStorage.setItem('clientName', params.clientName);
+        window.localStorage.setItem('clientname', params.clientname);
         window.localStorage.setItem('PLId', params.PLId);
-        window.localStorage.setItem('prodClientId', params.prodClientId);
-        window.localStorage.setItem('baseUrl', params.baseUrl);
-        window.localStorage.setItem('clientId', params.clientId);
-        window.localStorage.setItem('productId', params.productId);
-        window.localStorage.setItem('userCategoryId', params.userCategoryId);
-        window.localStorage.setItem('accountURL', params.accountURL);
-        window.localStorage.setItem('planTimeline', params.planTimeline);
-        window.localStorage.setItem('EId', params.EId);
+        window.localStorage.setItem('prodClientId', params.PCLId);
+        window.localStorage.setItem('url', params.url);
+        window.localStorage.setItem('logintime', params.loginTime);
+        window.localStorage.setItem('CLId', params.CLId);
+        window.localStorage.setItem('ProductId', params.ProductId);
+        // window.localStorage.setItem('userCategoryId', params.userCategoryId);
+        // window.localStorage.setItem('planTimeline', params.planTimeline);
+        // window.localStorage.setItem('EId', params.EId);
+        // window.localStorage.setItem('PLId', params.PLId);
         this.router.navigate([]);
       }
     });
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        //Idle time will start if the user in the  tab and without perform any action
-        // console.log("You left this tab");
-        // clearTimeout(this.userActivity);
-        // this.dialog.closeAll();
-      }
-      else {
-        if (localStorage.token) {
-          // this.setUserTimeout();
-          // console.log("You are in this tab");
-        }
-      }
-    });
+
+    // document.addEventListener("visibilitychange", () => {
+    //   if (document.hidden) {
+    //     // clearTimeout(this.userActivity);
+    //     // this.dialog.closeAll();
+    //   }
+    //   else {
+    //     if (localStorage.token) {
+    //       // this.setUserTimeout();
+    //     }
+    //   }
+    // });
 
     this._document.addEventListener("scroll", this.onContentScrolled);
   }
   async ngOnInit() {
-    //   // this.requestSubscription();
-    //   // this.plms.isPlmMenu.subscribe(isPLM => {
-    //   //   this.isPlm = isPLM;
-    //   // });
-
-    //   // this.togglePLMMenu();
-
-    //   // this.plms.isWHMenu.subscribe(isWarehouse => {
-    //   //   this.isWarehouse = isWarehouse;
-    //   // });
-
+    this.fetchUserData();
     this.breadcrumbService.breadcrumbs$.subscribe(breadCrumb => {
       this.breadcrumbs = breadCrumb;
-      // console.log(breadCrumb[0], 'breadCrumb');
       this.titleService.setTitle(`eDocx | ${breadCrumb[0]?.label || ''}`);
     });
     this.route.queryParams.subscribe(params => {
@@ -109,9 +97,9 @@ export class AppComponent implements OnInit {
         : environment.baseUrl;
       this.showTopBar = window.location.pathname.length > 1;
       this.opened = window.location.pathname.length > 1;
-      if (window.location.pathname.length > 1) {
+      // if (window.location.pathname.length > 1) {
         // this.getClientInfo();
-      }
+      // }
     });
 
     this.ds.apiLoads.subscribe(res => {
@@ -137,10 +125,8 @@ export class AppComponent implements OnInit {
     });
 
     this.dashboardService.isSidenavOpen.subscribe(status => {
-      // console.log(status);
       this.isSidenavOpen = status;
     })
-    // this.showTopBar ? this.sidenav.close() : this.sidenav.open()
   }
 
   ngAfterViewInit() {
@@ -188,6 +174,7 @@ export class AppComponent implements OnInit {
   //     localStorage.setItem('clientData', JSON.stringify(clientData));
   //   })
   // }
+  
   checkRouterEvent(rEvt: Event): void {
     if (rEvt instanceof NavigationEnd ||
       rEvt instanceof NavigationCancel ||
@@ -204,8 +191,117 @@ export class AppComponent implements OnInit {
     }
   }
 
-  accept() {
-    this.accepted = true;
+
+  getProfileDetails(): Observable<any> {
+    return this.httpObj.get(`${environment.lucyApiUrl}/user/getUserDetails`, this.httpOptionsBearer());
   }
 
+  httpOptionsBearer() {
+    const token = localStorage.getItem('token');
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Authorization': token
+      })
+    };
+  }
+
+  fetchUserData() {
+    this.getProfileDetails().subscribe(
+      response => {
+        this.termsAccepted = response.Result.termsacceptstat;
+        this.cdr.detectChanges();
+        if (response.Result.altemail === null) {
+          this.showSnackbar();
+        }
+      },
+      error => {
+        console.error('Error fetching user data', error);
+      }
+    );
+  }
+
+  showSnackbar() {
+    const snackBarRef = this.snackBar.openFromComponent(SnackbarsComponent, {
+      duration: undefined,
+      panelClass: ['bg-blacks'],
+      horizontalPosition: 'right',
+      verticalPosition: 'top'
+    });
+  }
+
+  acceptTerms() {
+    this.dashboardService.updateProfileData().subscribe(res => {
+      this.fetchUserData();
+    });
+  }
+
+  declineTerms() {
+    if (localStorage.getItem('userId') == null || localStorage.getItem('userId') == undefined) {
+      return;
+    } else {
+      const sendData = localStorage.getItem('userid')
+      this.dashboardService.logout(sendData).subscribe(res => {
+        localStorage.removeItem('firstName');
+        localStorage.removeItem('clientName');
+        localStorage.removeItem('token');
+        localStorage.removeItem('userCategoryId');
+        if (res) {
+          window.location.href = `${localStorage.accountURL || environment.baseUrl}/login?baseurl=${window.location.origin}/&prevurl=${window.location.pathname}`;
+        }
+      })
+    }
+  }
+}
+
+
+
+// Snackbar Component
+@Component({
+  selector: 'snackbars-component',
+  template: `
+    <div class="custom-snackbar">
+    <img src="../../../../../assets/svg/alert.svg" style="width: 30px;margin-right: 1rem;">
+      <span>Your security information is incomplete!<br/>
+      It is important.<a (click)="navigateToProfile()">Click here</a> to do it now.</span>
+        <mat-icon (click)="close()">cancel</mat-icon>
+    </div>
+  `,
+  styles: [`
+    .custom-snackbar {
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    a{
+      color: #007bff !important;
+      cursor: pointer;
+      &:hover{
+        text-decoration: underline !important;
+      }
+    }
+    .custom-snackbar .mat-icon {
+      color: #ffffff;
+    cursor: pointer;
+    margin-left: 1rem;
+ 
+      &:hover{
+        background: #fff;
+        color:#000;
+        border-radius: 4px;
+
+      }
+    }
+  `]
+})
+export class SnackbarsComponent {
+  constructor(private snackBarRef: MatSnackBar,
+    private router: Router) { }
+  navigateToProfile() {
+    this.router.navigate(['/profile']);
+  }
+  close() {
+    this.snackBarRef.dismiss();
+  }
 }

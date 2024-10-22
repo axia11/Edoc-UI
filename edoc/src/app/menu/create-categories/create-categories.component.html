@@ -13,7 +13,7 @@
                         <mat-label class="label-name">Name<span class="required">*</span></mat-label>
                         <mat-form-field>
                             <input matInput type="text" formControlName="GroupName" autocomplete="off" required>
-                            <mat-error *ngIf="headerForm.controls.DocName.errors?.required">
+                            <mat-error *ngIf="headerForm.controls.GroupName.errors?.required">
                                 Categories is required!
                             </mat-error>
                         </mat-form-field>

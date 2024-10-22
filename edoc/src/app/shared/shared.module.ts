@@ -8,7 +8,7 @@ import { Ver4DataTableModule } from './ver4-data-table/ver4-data-table.module';
 import { MdePopoverModule } from '@material-extended/mde';
 import { CommonService } from './_services/common.service';
 import { InlineEditDatatableModule } from './inline-edit-datatable/inline-edit-datatable.module';
-import { MatMomentDateModule, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
+import {  MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SelectDdnModule } from './select-dropdown/select-ddn.module';
 import { SnackbarService } from './_services/snackbar.service';

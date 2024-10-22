@@ -1,5 +1,32 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
 <section class="body-content">
+  
+  <div *ngIf="!termsAccepted" class="overlay">
+    <div class="page-master">
+      <h4 class="title">
+        By using, accessing or browsing this Service, you are agreeing to be <br /> bound by <a
+          href="https://blunetworld.com/legal-terms-use/" target="_blank">Terms of Use</a> and <a
+          href="https://blunetworld.com/legal-privacy-statement/" target="_blank">Privacy
+          Policy</a> of BLUNET.
+      </h4>
+      <div class="btn-group btn-group-left mt-3">
+        <button mat-raised-button color="primary" (click)="acceptTerms()">I Accept</button>
+        <button mat-raised-button color="secondary" (click)="declineTerms()">I Decline</button>
+      </div>
+    </div>
+    <div class="page-master">
+      <h4 class="title">
+        By using, accessing or browsing this Service, you are agreeing to be <br /> bound by <a href="" target="_blank">
+          License and Service Agreement</a> and<a href="https://blunetworld.com/legal-terms-use/" target="_blank">Terms
+          of Use</a> and <br /> <a href="https://blunetworld.com/legal-privacy-statement/" target="_blank">Privacy
+          Policy</a> provided by BLUNET.
+      </h4>
+      <div class="btn-group btn-group-left mt-3">
+        <button mat-raised-button color="primary" (click)="acceptTerms()">I Accept</button>
+        <button mat-raised-button color="secondary" (click)="declineTerms()">I Decline</button>
+      </div>
+    </div>
+  </div>
 
   <mat-sidenav-container autosize [hasBackdrop]="false">
     <mat-sidenav #sidenav mode="side" [(opened)]="opened" class="mac-screen">
