@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ComponentFactoryResolver, Inject, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { ChangeDetectorRef, Component, ComponentFactoryResolver, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
@@ -40,10 +40,8 @@ export class AppComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     public initService: InitialService,
-    private cs: CommonService,
     private titleService: Title,
     private es: HandleErrorService,
-    private sts: SetTokenService,
     private route: ActivatedRoute,
     private router: Router,
     private breadcrumbService: BreadcrumbService,
@@ -51,7 +49,6 @@ export class AppComponent implements OnInit {
     public ds: DataService,
     private snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef,
-    private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(DOCUMENT) private _document: Document,
     public dashboardService: TitleBarService,
   ) {
@@ -74,20 +71,17 @@ export class AppComponent implements OnInit {
       }
     });
 
-    document.addEventListener("visibilitychange", () => {
-      if (document.hidden) {
-        //Idle time will start if the user in the  tab and without perform any action
-        // console.log("You left this tab");
-        // clearTimeout(this.userActivity);
-        // this.dialog.closeAll();
-      }
-      else {
-        if (localStorage.token) {
-          // this.setUserTimeout();
-          // console.log("You are in this tab");
-        }
-      }
-    });
+    // document.addEventListener("visibilitychange", () => {
+    //   if (document.hidden) {
+    //     // clearTimeout(this.userActivity);
+    //     // this.dialog.closeAll();
+    //   }
+    //   else {
+    //     if (localStorage.token) {
+    //       // this.setUserTimeout();
+    //     }
+    //   }
+    // });
 
     this._document.addEventListener("scroll", this.onContentScrolled);
   }
@@ -103,9 +97,9 @@ export class AppComponent implements OnInit {
         : environment.baseUrl;
       this.showTopBar = window.location.pathname.length > 1;
       this.opened = window.location.pathname.length > 1;
-      if (window.location.pathname.length > 1) {
+      // if (window.location.pathname.length > 1) {
         // this.getClientInfo();
-      }
+      // }
     });
 
     this.ds.apiLoads.subscribe(res => {
@@ -180,6 +174,7 @@ export class AppComponent implements OnInit {
   //     localStorage.setItem('clientData', JSON.stringify(clientData));
   //   })
   // }
+  
   checkRouterEvent(rEvt: Event): void {
     if (rEvt instanceof NavigationEnd ||
       rEvt instanceof NavigationCancel ||

@@ -30,9 +30,9 @@ export class IsAuthGuard implements CanActivate {
       window.localStorage.setItem('url', route.queryParams.url);
       window.localStorage.setItem('CLId', route.queryParams.CLId);
       window.localStorage.setItem('ProductId', route.queryParams.ProductId);
-      window.localStorage.setItem('userCategoryId', route.queryParams.userCategoryId);
-      window.localStorage.setItem('planTimeline', route.queryParams.planTimeline);
-      window.localStorage.setItem('PLId', route.queryParams.PLId);
+      // window.localStorage.setItem('userCategoryId', route.queryParams.userCategoryId);
+      // window.localStorage.setItem('planTimeline', route.queryParams.planTimeline);
+      // window.localStorage.setItem('PLId', route.queryParams.PLId);
 
     }
     if (!!localStorage.token) {

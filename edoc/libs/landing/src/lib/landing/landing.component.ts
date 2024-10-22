@@ -1,7 +1,6 @@
 import { ANIMATION_TYPES, INg2LoadingSpinnerConfig } from 'ng2-loading-spinner';
 import { CaptchaDlgComponent } from './captcha-dlg/captcha-dlg.component';
 import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
-// import { }
 import { environment } from 'src/environments/environment';
 import {
   FormBuilder,
@@ -63,7 +62,7 @@ export class LandingComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog
-  ) // private regService: RegisterService,
+  )
   {}
 
   @ViewChild('callAPIDialog') callAPIDialog: TemplateRef<any>;

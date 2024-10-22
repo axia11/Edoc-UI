@@ -68,9 +68,7 @@ export class TitleBarComponent implements OnInit {
         if (res.Result.profilepath == null) {
           return
         }
-        this.getProfileDetails(res.Result.profilepath).subscribe(file => {
-          this.loadProfileImage(file);
-        })
+        this.loadProfileImage(res);
       }, (error) => {
         if (error.status === 400 || error.status === 401) {
           this.dialog.open(ErrMsgComponent, {
@@ -160,9 +158,9 @@ export class TitleBarComponent implements OnInit {
       })
     }
   }
-  loadProfileImage(file) {
-    if (file && file.Result && file.Result.profilepath) {
-      this.urlPath = file.Result.profilepath; // Use the profile path directly
+  loadProfileImage(res) {
+    if (res && res.Result && res.Result.profilepath) {
+      this.urlPath = res.Result.profilepath; // Use the profile path directly
     } else {
       this.urlPath = '../../../assets/camera1.png'; // Default image
     }
