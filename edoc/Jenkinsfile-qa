@@ -28,7 +28,7 @@ pipeline{
         }
         stage("Push Core to S3 QA1"){
             steps{
-                sh "cd $WORKSPACE/edoc/dist/ && aws s3 sync blunet s3://qa.edocx.ai"
+                sh "cd $WORKSPACE/edoc/dist/apps/ && aws s3 sync blunet s3://qa.edocx.ai"
                 echo "Chunk files of core have been synced to the s3 bucket"
             }
         }
